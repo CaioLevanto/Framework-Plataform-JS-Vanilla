@@ -1,0 +1,46 @@
+#container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.left-content {
+    width: 20vw;
+}
+
+.right-content {
+    width: 60vw;
+    display: flex;
+    justify-content: center;
+}
+
+img {
+    width: 20vw;
+    height: 20vw;
+    background-color: #fff;
+    border-radius: 30%;
+    box-shadow: 0 0 8px 0 rgba(71, 71, 71, 0.5);
+    transition: 250ms;
+}
+
+img:hover {
+    transform: scale(1.05);
+    transition: 150ms;
+    box-shadow: none;
+}
+
+#login-content {
+    width: 50vw;
+    height: 50vh;
+    padding: 3rem;
+    border-radius: 1rem;
+    background-color: #FFF;
+    box-shadow: 0 4px 10px 0 rgba(128, 128, 128, 0.4);
+}
+
+.custom-button-login {
+    flex: left;
+    margin-top: 12px;
+}

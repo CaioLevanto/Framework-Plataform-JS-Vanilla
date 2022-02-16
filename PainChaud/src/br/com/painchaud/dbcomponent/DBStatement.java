@@ -12,10 +12,10 @@ import br.com.painchaud.db.DBUtil;
 
 public class DBStatement extends DBUtil {
 	
-	public List<Object> execSelect(String sql, List<Object> params) {
+	public List<Object> execSelect(String sql, List<Object> whereParameters) {
 		try (Connection conn = getConn()) {
 			try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-				populateParameterStatement(stmt, params);
+				populateParameterStatement(stmt, whereParameters);
 				
 				List<Object> listRowData = new ArrayList<Object>();
 				try (ResultSet rs = stmt.executeQuery()) {
@@ -39,10 +39,14 @@ public class DBStatement extends DBUtil {
 		return null;
 	}
 	
-	public Boolean execUpdate(String sql, List<Object> params) {
+	public Boolean execUpdate(String sql, List<Object> setValueItens, List<Object> whereParameters) {
 		try(Connection conn = getConn()) {
 			try(PreparedStatement stmt = conn.prepareStatement(sql)) {
-				populateParameterStatement(stmt, params);
+				List<Object> allParameters = new ArrayList<Object>();
+				allParameters.addAll(setValueItens);
+				allParameters.addAll(whereParameters);
+				
+				populateParameterStatement(stmt, allParameters);
 				return (stmt.executeUpdate() > 0 ? true : false);
 			} catch (Exception expStmt) {
 				expStmt.printStackTrace();
@@ -53,10 +57,10 @@ public class DBStatement extends DBUtil {
 		return false;
 	}
 
-	public Boolean execDelete(String sql, List<Object> params) {
+	public Boolean execDelete(String sql, List<Object> whereParameters) {
 		try(Connection conn = getConn()) {
 			try(PreparedStatement stmt = conn.prepareStatement(sql)) {
-				populateParameterStatement(stmt, params);
+				populateParameterStatement(stmt, whereParameters);
 				return stmt.execute();
 			} catch (Exception expStmt) {
 				expStmt.printStackTrace();

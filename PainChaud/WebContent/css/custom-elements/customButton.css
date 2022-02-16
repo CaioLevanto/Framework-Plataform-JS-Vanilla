@@ -1,0 +1,24 @@
+.custom-button-login {
+    display: flex;
+    width: 16vw;
+    height: 7vh;
+    text-align: center;
+    border-radius: 0.3rem;
+    align-items: center;
+    font-size: 16px;
+    justify-content: center;
+    transition: 200ms;
+    background-color: #EAE7B9;
+}
+
+.custom-button-login:hover {
+    color: #fff;
+    transition: 200ms;
+    transform: scale(1.05);
+    background-color: #CD8E10;
+    box-shadow: 2px 2px 6px 0px rgba(128, 128, 128, 0.6);
+}
+
+i {
+    margin-right: 10px;
+}

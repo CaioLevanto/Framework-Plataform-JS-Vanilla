@@ -1,0 +1,16 @@
+input { 
+    width: 100%;
+    color: rgb(58, 58, 58);
+    outline: none;
+    border: none;
+    font-size: 18px;
+    font-weight: 100;
+    margin-bottom: 15px;
+    padding: 4px 0px 4px 0px;
+    border-bottom: 1px solid black;
+}
+
+label { 
+    font-weight: 300;
+    font-size: 21px;
+}

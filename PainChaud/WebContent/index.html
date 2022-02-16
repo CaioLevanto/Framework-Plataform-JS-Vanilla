@@ -1,13 +1,40 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+	<script src="https://kit.fontawesome.com/d711faa1fb.js" crossorigin="anonymous"></script>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Pain Chaud</title>
-	<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-	<script src="js/main.js"></script>
+	
+	<link rel="stylesheet" href="css/main.css">
+	<link rel="stylesheet" href="css/login.css">
+	<link rel="stylesheet" href="css/custom-elements/customInput.css">
+	<link rel="stylesheet" href="css/custom-elements/customButton.css">
+
+	<script src="js/index.js"></script>
+	<script src="js/login.js"></script>
+	<script src="js/custom-elements/customInput.js"></script>
+	<script src="js/custom-elements/customButton.js"></script>
 </head>
 <body>
-
+	<body>
+		<div id="container">
+			<div class="left-content">
+				<img src="img/logo.png" alt="Logo Pain chaud">
+			</div>
+			<div class="right-content">
+				<div id="login-content">
+					<div class="content-objects">
+						<custom-input id="user" title="Login:"></custom-input>
+						<custom-input id="password" type="password" title="Senha:"></custom-input>
+					</div>
+					<div class="content-objects">
+						<custom-button icon="fa-solid fa-arrow-right-to-bracket" id="login" title="Entrar"></custom-button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
 </body>
 </html>

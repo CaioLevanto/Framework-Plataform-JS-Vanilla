@@ -1,5 +1,5 @@
 package br.com.painchaud.daointerface;
 
-public interface UsuarioDAOImpl {
+public interface ComandaDAO {
 
 }
