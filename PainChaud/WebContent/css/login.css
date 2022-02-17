@@ -32,15 +32,29 @@ img:hover {
 }
 
 #login-content {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
     width: 50vw;
     height: 50vh;
-    padding: 3rem;
+    padding: 5rem;
     border-radius: 1rem;
     background-color: #FFF;
     box-shadow: 0 4px 10px 0 rgba(128, 128, 128, 0.4);
 }
 
-.custom-button-login {
-    flex: left;
+custom-button {
+    float: left;
     margin-top: 12px;
+    transition: 200ms;
+    background-color: #EAE7B9;
+}
+
+custom-button:hover {
+    color: #fff;
+    transition: 200ms;
+    transform: scale(1.05);
+    background-color: #CD8E10;
+    box-shadow: 2px 2px 6px 0px rgba(128, 128, 128, 0.6);
 }

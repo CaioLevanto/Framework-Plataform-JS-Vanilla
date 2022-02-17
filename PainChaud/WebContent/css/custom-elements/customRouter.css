@@ -1,0 +1,63 @@
+.custom-option {
+    width: 9vh;
+    float: left;
+    display: flex;
+    font-size: 22px;
+    cursor: pointer;
+    margin-right: 10px;
+    border-radius: 2rem;
+    align-content: center;
+    height: calc(9vh - 2px);
+    background-color: #FFF;
+    box-shadow: 0 4px 10px 0 rgb(128 128 128 / 20%);
+    transition: 200ms;
+    padding: 10px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+
+@media screen and (max-width: 1080px) {
+    .custom-option {
+        font-size: 15px;
+    }
+
+    .custom-option:hover,
+    .selected {
+        width: 15vw;
+        transition: 100ms;
+    }
+}
+
+.custom-option:hover,
+.selected {
+    width: 12vw;
+    transition: 100ms;
+}
+
+.selected {
+    background-color: #443C25;
+    color: #FFF;
+}
+
+.custom-option:hover .expand-name,
+.selected .expand-name {
+    display: block;
+    margin: 0 auto;
+}
+
+.custom-option > i {
+    margin: 0 auto;
+}
+
+.selected > i {
+    margin: 0 0 0 8px;
+}
+
+.expand-name {
+    display: none;
+}
+
+.logout {
+    float: right;
+}

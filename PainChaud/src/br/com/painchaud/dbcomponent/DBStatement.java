@@ -76,15 +76,15 @@ public class DBStatement extends DBUtil {
 			int column = 1;
 			for (Object obj : params) {
 				Class<? extends Object> classObj = obj.getClass();
-				if (classObj.equals(String.class)) {
+				if (classObj.isInstance(String.class)) {
 					stmt.setString(column, obj.toString());
-				} else if (classObj.equals(Integer.class)) {
+				} else if (classObj.isInstance(Integer.class)) {
 					stmt.setInt(column, Integer.valueOf(obj.toString()));
-				} else if (classObj.equals(Boolean.class)) {
+				} else if (classObj.isInstance(Boolean.class)) {
 					stmt.setBoolean(column, Boolean.getBoolean(obj.toString()));
-				} else if (classObj.equals(Long.class)) {
+				} else if (classObj.isInstance(Long.class)) {
 					stmt.setLong(column, Long.valueOf(obj.toString()));
-				} else if (classObj.equals(Date.class)) {
+				} else if (classObj.isInstance(Date.class)) {
 					stmt.setDate(column, Date.valueOf(obj.toString()));
 				} else {
 					stmt.setObject(column, obj);

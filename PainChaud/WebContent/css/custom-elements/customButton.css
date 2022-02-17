@@ -1,22 +1,16 @@
-.custom-button-login {
-    display: flex;
+custom-button {
     width: 16vw;
     height: 7vh;
-    text-align: center;
-    border-radius: 0.3rem;
-    align-items: center;
+    display: flex;
     font-size: 16px;
-    justify-content: center;
-    transition: 200ms;
-    background-color: #EAE7B9;
+    border-radius: 0.3rem;
 }
 
-.custom-button-login:hover {
-    color: #fff;
-    transition: 200ms;
-    transform: scale(1.05);
-    background-color: #CD8E10;
-    box-shadow: 2px 2px 6px 0px rgba(128, 128, 128, 0.6);
+custom-button > div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
 }
 
 i {

@@ -1,3 +1,4 @@
+
 * {
     padding: 0;
     margin: 0;
@@ -9,4 +10,20 @@ body, html {
     width: 100vw;
     height: 100vh;
     background-color: #CD8E1069;
+}
+
+header {
+    width: calc(100vw - 60px);
+    padding: 4px;
+    margin: 0 auto;
+    height: 10vh;
+}
+
+main {
+    width: calc(100vw - 60px);
+    height: calc(100vh - 15vh);
+    margin: 4px 30px 30px 30px;
+    border-radius: 0.8rem;
+    background-color: #FFF;
+    box-shadow: 0 4px 10px 0 rgba(128, 128, 128, 0.4);
 }
