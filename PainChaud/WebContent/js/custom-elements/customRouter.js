@@ -1,4 +1,4 @@
-var test = '[{"name": "usuario", "icon": "fa-solid fa-user-plus", "url": "index.html"}, {"name": "produtos", "icon": "fa-solid fa-cart-plus", "url": "index.html"}, {"name": "Sair", "icon": "fa-solid fa-right-from-bracket", "action": "logout"}]';
+var test = '[{"name": "usuario", "icon": "fa-solid fa-user-plus", "url": "index.html", "type": "crud"}, {"name": "produtos", "icon": "fa-solid fa-cart-plus", "url": "index.html", "type": "view"}, {"name": "Sair", "icon": "fa-solid fa-right-from-bracket", "action": "logout", "type": "close"}]';
 
 class customRouterElement extends HTMLElement {
 
@@ -21,15 +21,20 @@ class customRouterElement extends HTMLElement {
     createElement(attr, i) {
         let option = document.createElement('div');
         let className = 'custom-option';
+        let customType = attr['type'];
         let action = attr['action']
         let name = attr['name'];
         let icon = attr['icon'];
         let url = attr['url'];
         
-        
         if (action) {
             className += ' logout';
         }
+        if (!i) {
+            className += ' selected';
+            _createContainer(attr['type'], this);
+        }
+
         option.className = className;
         option.id = i;
         
@@ -39,7 +44,8 @@ class customRouterElement extends HTMLElement {
         if (url) {
             option.setAttribute('url', url);
         }
-
+        
+        option.setAttribute('custom-type', customType);
         if (icon) {
             let i = document.createElement('i');
             i.className = icon;
@@ -55,18 +61,33 @@ class customRouterElement extends HTMLElement {
         }
 
         option.onclick = function() {
-            if (removeSelected(this))
+            if (_removeSelected())
+                _createContainer(false, this);
                 this.classList.add("selected");
-        };
+        }
 
         option.appendChild(expandName);
         this.append(option);
     }
+    
 }
 
 customElements.define('custom-router', customRouterElement);
 
-function removeSelected(obj) {
+function _createContainer(hasType, option) {
+    if (option.hasAttribute("custom-type") || hasType) {
+        if (hasType == 'close') {
+            $("main >").remove();
+        } else {
+            $("main >").remove();
+            
+            $("main").append(document.createElement(
+                'custom-container-' + (hasType ? hasType : option.getAttribute('custom-type'))));
+        }
+    }
+}
+
+function _removeSelected() {
     let opt = $(".custom-option");
     let isSelected = true;
     
@@ -74,11 +95,11 @@ function removeSelected(obj) {
         let listClass = list.classList;
 
         if (listClass.contains("selected")) {
-            if (obj.id == list.id) {
+            if (this.id == list.id) {
                 isSelected = false;
+            } else {
+                listClass.remove("selected");
             }
-
-            listClass.remove("selected");
         }
     });
 

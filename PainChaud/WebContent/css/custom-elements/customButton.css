@@ -3,7 +3,13 @@ custom-button {
     height: 7vh;
     display: flex;
     font-size: 16px;
-    border-radius: 0.3rem;
+    box-shadow: 2px 2px 6px 0px rgba(128, 128, 128, 0.6);
+    letter-spacing: .05rem;
+    border-radius: .3rem;
+    position: relative;
+    transition: .2s all ease-in-out;
+    cursor: pointer;
+    user-select: none;
 }
 
 custom-button > div {
@@ -15,4 +21,47 @@ custom-button > div {
 
 i {
     margin-right: 10px;
+}
+
+.custom-buttom-save,
+.custom-buttom-cancel {
+    width: 40%;
+    height: 50px;
+}
+
+.content-action-button {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-end;
+}
+
+.content-action-button > custom-button {
+    width: 12vw;
+    height: 6vh;
+    margin-top: 15px;
+}
+
+.content-action-button > custom-button:before {
+    display: block;
+    position: absolute;
+    background: transparent;
+    border: none;
+    border-radius: .3rem;
+    transform: translateY(5px) scale(.9);
+    content: '';
+    height: 5px;
+    z-index: -1;
+    bottom: -1%;
+    left: 0;
+    right: 0;
+    transition: .2s all ease-in-out;
+}
+
+.content-action-button > custom-button:hover:before {
+    transform: translateY(8px) scale(.8);
+    opacity: .8;
+}
+
+.content-action-button > custom-button:hover {
+    transform: translateY(-5px)
 }

@@ -5,7 +5,8 @@ class customButtonElement extends HTMLElement {
     }
 
     connectedCallback() {
-        this.createElement();
+        if (!this.children?.length)
+                this.createElement();
     }
 
     createElement() {

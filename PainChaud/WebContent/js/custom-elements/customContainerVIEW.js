@@ -1,3 +1,9 @@
+import * as Product from './pages/productPage.js';
+
+const typePage = {
+    "product": {1: Product.getHeader(), 2: Product.getGrid()}
+}
+
 class customContainerVIEWElement extends HTMLElement {
 
     constructor() {
@@ -10,15 +16,23 @@ class customContainerVIEWElement extends HTMLElement {
 
     createElement() {
         let section = document.createElement('div');
-        section.className = "section-custom-view";
+        section.id = "section-custom-view";
 
-        let sectionLeft = document.createElement('div');
-        sectionLeft.className = "section-custom-header";
-        section.appendChild(sectionLeft);
+        let sectionHeader = document.createElement('div');
+        sectionHeader.id = "section-custom-header";
 
-        let sectionRight = document.createElement('div');
-        sectionRight.className = "section-custom-main";
-        section.appendChild(sectionRight);
+        sectionHeader.appendChild(typePage['product'][1]);
+        section.appendChild(sectionHeader);
+
+        let sectionBorder = document.createElement('div');
+        sectionBorder.id = "section-custom-border";
+        section.appendChild(sectionBorder);
+
+        let sectionMain = document.createElement('div');
+        sectionMain.id = "section-custom-main";
+
+        sectionMain.appendChild(typePage['product'][2]);
+        section.appendChild(sectionMain);
 
         this.append(section);
     }

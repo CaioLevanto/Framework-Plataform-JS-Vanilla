@@ -3,10 +3,13 @@ package br.com.painchaud.model;
 import java.io.Serializable;
 import java.sql.Date;
 
+import javax.validation.constraints.AssertTrue;
+
 public class Venda implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	private int id;
+	@AssertTrue
 	private Date dataVenda;
 
 	public Venda() {

@@ -58,3 +58,10 @@ custom-button:hover {
     background-color: #CD8E10;
     box-shadow: 2px 2px 6px 0px rgba(128, 128, 128, 0.6);
 }
+
+custom-input > input { 
+    width: 100%;
+    border: none;
+    margin-bottom: 15px;
+    border-bottom: 1px solid black;
+}
