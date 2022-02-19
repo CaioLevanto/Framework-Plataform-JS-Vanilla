@@ -27,7 +27,6 @@ class customContainerCRUDElement extends HTMLElement {
         let border = document.createElement('div');
         border.className = "border-custom";
         section.appendChild(border);
-
         
         let sectionRight = document.createElement('div');
         sectionRight.className = "section-custom-right";

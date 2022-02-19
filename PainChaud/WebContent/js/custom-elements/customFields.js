@@ -3,6 +3,10 @@ export function createElementsFields(array, isReturn) {
     sectionGrid.className = 'data-fields';
 
     for (let obj in array) {
+        if (obj == 'Ação') {
+            continue
+        }
+
         let contentGrid = document.createElement('div');
         contentGrid.className = 'separator';
         let fieldType = array[obj];

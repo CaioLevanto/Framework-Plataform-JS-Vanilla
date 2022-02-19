@@ -5,13 +5,16 @@ export function createGridElement(col, value) {
     body.id = 'data-grid';
 
     body.appendChild(func._createSearchByColumns(col));
-
-    let separatorBody = document.createElement('div');
-    separatorBody.className = 'custom-border-action';
-    body.appendChild(separatorBody);
-
     body.appendChild(func._createGridHeader(col));
-    body.appendChild(func._createGridBody(value));
+
+    let containerGrid = document.createElement('div');
+    containerGrid.id = 'container-grid';
+
+    for (let grid in value) {
+        containerGrid.appendChild(func._createGridBody(value[grid], grid));
+    }
+    
+    body.appendChild(containerGrid);
 
     return body;
 }
@@ -23,7 +26,7 @@ class allFunctions {
 
     _createSearchByColumns(col) { 
         let contentSearch = document.createElement('div');
-        contentSearch
+        contentSearch.id = 'search-grid';
 
         let search = document.createElement('custom-input');
         search.setAttribute('type', 'search');
@@ -31,11 +34,23 @@ class allFunctions {
         contentSearch.appendChild(search);
 
         let byCol = document.createElement('select');
-        byCol.id = 'search-columns-grid';
+        byCol.className = 'custom-select';
+
+        let i = 0;
+        let option = document.createElement('option');
+        option.id = i;
+        option.text = 'Selecione';
+        byCol.appendChild(option);
 
         for (let row in col) {
+            if (col[row] == 'password' || row == 'AÃ§Ã£o') {
+                continue
+            }
+
+            i++;
             let option = document.createElement('option');
             option.value = row;
+            option.id = i;
             option.text = row;
             byCol.appendChild(option);
         }
@@ -49,6 +64,10 @@ class allFunctions {
         gHeader.id = 'custom-header-grid';
 
         for (let row in col) {
+            if (col[row] == 'password') {
+                continue
+            }
+
             let item = document.createElement('div');
             item.className = 'custom-item-header';
 
@@ -62,16 +81,59 @@ class allFunctions {
         return gHeader;
     }
 
-    _createGridBody(val) {
-        return document.createElement('div');
+    _createGridBody(val, i) {
+        let valueLine = val.values;
+        let actionLine = val.action;
+
+        let line = document.createElement('div');
+        line.id = 'line-grid-' + Number.parseInt(i);
+        line.className = 'line-grid-custom';
+
+        for (let l in valueLine) {
+            if (l == '0') {
+                continue
+            }
+
+            let separatorLine = document.createElement('div');
+            separatorLine.className = 'separator-grid';
+
+            let pLine = document.createElement('p');
+            pLine.textContent = valueLine[l];
+
+            separatorLine.appendChild(pLine);
+            line.appendChild(separatorLine);
+        }
+
+        let divAction = document.createElement('div');
+        divAction.id = 'act-line';
+
+        if (!actionLine.length) {
+            let actionNull = document.createElement('i');
+            actionNull.textContent = 'null';
+            actionNull.className = 'act-null';
+            divAction.appendChild(actionNull);
+        }
+
+        for (let a in actionLine) {
+            let action = document.createElement('i');
+            action.className = this._getAction(actionLine[Number.parseInt(a)]);
+            divAction.appendChild(action);
+        }
+
+        line.appendChild(divAction);
+        
+        return line;
+    }
+
+    _getAction(act) {
+        let classNameIcon = "fa-solid fa-";
+        if (act == 'Editar') {
+            return classNameIcon + "pencil";
+        } else if (act == 'Deletar') {
+            return classNameIcon + "trash-can";
+        } else if (act == 'Visualizar') {
+            return classNameIcon + "eye";
+        }
     }
 
 }
-
-//Usuario: NOME, EMAIL, FUNÇÃO
-
-//barra de pesquisa + campo de busca
-
-//borda de separação
-
-//criação da grid
