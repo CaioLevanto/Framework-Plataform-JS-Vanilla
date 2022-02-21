@@ -1,27 +1,31 @@
-export function createGridElement(col, value) {
-    let func = new allFunctions();
-    
-    let body = document.createElement('div');
-    body.id = 'data-grid';
-
-    body.appendChild(func._createSearchByColumns(col));
-    body.appendChild(func._createGridHeader(col));
-
-    let containerGrid = document.createElement('div');
-    containerGrid.id = 'container-grid';
-
-    for (let grid in value) {
-        containerGrid.appendChild(func._createGridBody(value[grid], grid));
-    }
-    
-    body.appendChild(containerGrid);
-
-    return body;
-}
-
-class allFunctions {
+export default class createGrid {
     
     constructor() {
+    }
+
+    createGridElement(col, value, hasHeader) {        
+        let body = document.createElement('div');
+        body.id = 'data-grid';
+    
+        if (col) {
+            if (hasHeader) {
+                body.appendChild(this._createSearchByColumns(col));
+                body.appendChild(this._createGridHeader(col));
+            }
+        }
+    
+        let containerGrid = document.createElement('div');
+        containerGrid.id = 'container-grid';
+    
+        if (value) {
+            for (let grid in value) {
+                containerGrid.appendChild(this._createGridBody(value[grid], grid));
+            }
+        }
+        
+        body.appendChild(containerGrid);
+    
+        return body;
     }
 
     _createSearchByColumns(col) { 
@@ -37,11 +41,6 @@ class allFunctions {
         byCol.className = 'custom-select';
 
         let i = 0;
-        let option = document.createElement('option');
-        option.id = i;
-        option.text = 'Selecione';
-        byCol.appendChild(option);
-
         for (let row in col) {
             if (col[row] == 'password' || row == 'Ação') {
                 continue

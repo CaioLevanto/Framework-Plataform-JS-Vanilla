@@ -1,4 +1,8 @@
-var test = '[{"name": "usuario", "icon": "fa-solid fa-user-plus", "url": "index.html", "type": "crud"}, {"name": "produtos", "icon": "fa-solid fa-cart-plus", "url": "index.html", "type": "view"}, {"name": "Sair", "icon": "fa-solid fa-right-from-bracket", "action": "logout", "type": "close"}]';
+var test = [
+    {"name": "usuario", "icon": "fa-solid fa-user-plus", "url": "index.html", "type": "crud"}, 
+    {"name": "produtos", "icon": "fa-solid fa-cart-plus", "url": "index.html", "type": "view"}, 
+    {"name": "Sair", "icon": "fa-solid fa-right-from-bracket", "action": "logout", "type": "close"}
+];
 
 class customRouterElement extends HTMLElement {
 
@@ -7,7 +11,7 @@ class customRouterElement extends HTMLElement {
     }
 
     connectedCallback() {
-        this.createValues(JSON.parse(test));
+        this.createValues(test);
     }
 
     createValues(columns) {

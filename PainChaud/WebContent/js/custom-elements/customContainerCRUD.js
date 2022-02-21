@@ -1,8 +1,4 @@
-import * as User from './pages/userPage.js';
-
-const typePage = {
-    "user": {1: User.getFields(), 2: User.getGrid()}
-}
+import Factory from './pages/PageFactory.js';
 
 class customContainerCRUDElement extends HTMLElement {
 
@@ -21,7 +17,7 @@ class customContainerCRUDElement extends HTMLElement {
         let sectionLeft = document.createElement('div');
         sectionLeft.className = "section-custom-left";
         
-        sectionLeft.appendChild(typePage['user'][1]);
+        sectionLeft.appendChild(Factory.getPage('User').getFields());
         section.appendChild(sectionLeft);
 
         let border = document.createElement('div');
@@ -31,7 +27,7 @@ class customContainerCRUDElement extends HTMLElement {
         let sectionRight = document.createElement('div');
         sectionRight.className = "section-custom-right";
         
-        sectionRight.appendChild(typePage['user'][2]);
+        sectionRight.appendChild(Factory.getPage('User').getGrid());
         section.appendChild(sectionRight);
 
         this.append(section);

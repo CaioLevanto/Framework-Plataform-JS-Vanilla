@@ -1,4 +1,4 @@
-export function doAjax(async, pathname, url, type, field, params) {
+export default function doAjax({async, pathname, url, type, field, params}) {
     $.ajax({
         url: '/Painchaud/rest/' + pathname + url,
         async: async,
@@ -12,4 +12,4 @@ export function doAjax(async, pathname, url, type, field, params) {
         success: function (d) { return d },
         error: function (e) { return e }
     });
-}
+};
