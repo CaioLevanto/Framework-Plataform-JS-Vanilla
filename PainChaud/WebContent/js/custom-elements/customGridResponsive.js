@@ -1,31 +1,61 @@
+var vlFinded = [ 
+    {"values": [0, "Caio", "caio.cdmatos@gmail.com", "Administrador" ],"action": [] }, 
+    {"values": [1, "Debora", "debooraa7x@gmail.com", "Caixa" ], "action": ["Editar", "Deletar"] }, 
+    {"values": [2, "Erick", "erick.ruan@gmail.com", "Balcão" ], "action": ["Editar", "Deletar"] }
+];
+
 export default class createGrid {
     
+    static columnsPreDefine = {
+        'Name': 'string',
+        'Email': 'email',
+        'Fun\u00e7\u00e3o': [ 'Selecione', 'Caixa', 'Balc\u00e3o' ],
+        'Senha': 'password',
+        'Confirmar Senha': 'password',
+        'Ação': 'Action'
+    }
+
     constructor() {
     }
 
-    createGridElement(col, value, hasHeader) {        
+    createGridElement(col, value, hasSearch, hasHeader, hasCol) {        
         let body = document.createElement('div');
         body.id = 'data-grid';
     
         if (col) {
-            if (hasHeader) {
-                body.appendChild(this._createSearchByColumns(col));
-                body.appendChild(this._createGridHeader(col));
+            if (!hasCol) {
+                if (hasSearch) {
+                    body.appendChild(this._createSearchByColumns(col));
+                }
+                if (hasHeader) {
+                    body.appendChild(this._createGridHeader(col));
+                }
             }
         }
-    
+
         let containerGrid = document.createElement('div');
         containerGrid.id = 'container-grid';
-    
-        if (value) {
-            for (let grid in value) {
-                containerGrid.appendChild(this._createGridBody(value[grid], grid));
-            }
-        }
+        this.createContainerGrid(containerGrid, value, col);
         
         body.appendChild(containerGrid);
     
         return body;
+    }
+
+    createContainerGrid(containerGrid, value, col) {
+        if (value) {
+            let allColumns = [];
+            allColumns.push('id');
+            for (let i in col) {
+                if (col[i] != 'password' && col[i] != 'Action') {
+                    allColumns.push(i);
+                }
+            };
+
+            for (let grid in value) {
+                containerGrid.appendChild(this._createGridBody(value[grid], allColumns));
+            }
+        }
     }
 
     _createSearchByColumns(col) { 
@@ -35,21 +65,31 @@ export default class createGrid {
         let search = document.createElement('custom-input');
         search.setAttribute('type', 'search');
         search.id = 'search-header';
+
+        search.addEventListener('keypress', function(e) {
+            $('.line-grid-custom').remove();
+            //busca pelo key
+
+            new createGrid().createContainerGrid($('#container-grid')[0], vlFinded, createGrid.columnsPreDefine, true, true);
+        });
+
+        search.addEventListener('change', function(e) {
+            //atualizar grid pelo key
+            
+        });
+
         contentSearch.appendChild(search);
 
         let byCol = document.createElement('select');
         byCol.className = 'custom-select';
 
-        let i = 0;
         for (let row in col) {
             if (col[row] == 'password' || row == 'Ação') {
                 continue
             }
 
-            i++;
             let option = document.createElement('option');
             option.value = row;
-            option.id = i;
             option.text = row;
             byCol.appendChild(option);
         }
@@ -69,6 +109,7 @@ export default class createGrid {
 
             let item = document.createElement('div');
             item.className = 'custom-item-header';
+            item.id = row;
 
             let itemName = document.createElement('p');
             itemName.textContent = row;
@@ -80,21 +121,22 @@ export default class createGrid {
         return gHeader;
     }
 
-    _createGridBody(val, i) {
+    _createGridBody(val, col) {
         let valueLine = val.values;
         let actionLine = val.action;
 
         let line = document.createElement('div');
-        line.id = 'line-grid-' + Number.parseInt(i);
         line.className = 'line-grid-custom';
 
         for (let l in valueLine) {
             if (l == '0') {
-                continue
+                line.id = 'line-grid-' + Number.parseInt(valueLine[l]);
+                continue;
             }
 
             let separatorLine = document.createElement('div');
             separatorLine.className = 'separator-grid';
+            separatorLine.id = col[l];
 
             let pLine = document.createElement('p');
             pLine.textContent = valueLine[l];
@@ -116,6 +158,13 @@ export default class createGrid {
         for (let a in actionLine) {
             let action = document.createElement('i');
             action.className = this._getAction(actionLine[Number.parseInt(a)]);
+
+            if (actionLine[a] == 'Editar') {
+                action.onclick = function() {
+                    console.log(this.parentElement.parentElement.id);
+                };
+            }
+
             divAction.appendChild(action);
         }
 
@@ -134,5 +183,4 @@ export default class createGrid {
             return classNameIcon + "eye";
         }
     }
-
 }

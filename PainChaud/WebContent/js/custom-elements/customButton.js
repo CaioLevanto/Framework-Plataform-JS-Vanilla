@@ -24,6 +24,10 @@ class customButtonElement extends HTMLElement {
         text.textContent = this.title;
         text.id = 'text-custom-button';
 
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            document.forms["form"].submit();
+        });
         button.appendChild(text);
         return this.append(button);
     }

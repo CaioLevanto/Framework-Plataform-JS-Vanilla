@@ -2,6 +2,10 @@ export function createElementsFields(array, isReturn) {
     let sectionGrid = document.createElement('div');
     sectionGrid.className = 'data-fields';
 
+    let form = document.createElement('form');
+    form.id = 'form-fields';
+    form.name = 'form';
+    
     for (let obj in array) {
         if (obj == 'Ação') {
             continue
@@ -16,16 +20,24 @@ export function createElementsFields(array, isReturn) {
             let labelSelect = document.createElement('label');
             labelSelect.className = 'custom-label';
             labelSelect.textContent = obj;
-            sectionGrid.appendChild(labelSelect);
-
+            form.appendChild(labelSelect);
+            
             fieldInput = document.createElement('select');
             fieldInput.className = 'custom-select';
-            fieldInput.id = obj.toLowerCase();
+
+            let nameSelect = obj.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+            fieldInput.id = nameSelect;
+            fieldInput.name = nameSelect;
 
             for (let opt in fieldType) {
                 let options = document.createElement('option');
-                options.id = opt;
+                
+                if (opt == '0') {
+                    options.setAttribute('selected', 'selected');
+                }
+
                 options.value = opt;
+                options.id = fieldType[opt];
                 options.text = fieldType[opt];
                 fieldInput.appendChild(options);
             }
@@ -42,12 +54,12 @@ export function createElementsFields(array, isReturn) {
 
         fieldInput.title = obj;
         contentGrid.appendChild(fieldInput);
-        sectionGrid.appendChild(contentGrid);
+        form.appendChild(contentGrid);
     }
     
     let borderSeparator = document.createElement('div');
     borderSeparator.id = 'custom-border-action';
-    sectionGrid.appendChild(borderSeparator);
+    form.appendChild(borderSeparator);
 
     if (isReturn) {
         
@@ -58,6 +70,7 @@ export function createElementsFields(array, isReturn) {
         let btnSave = document.createElement('custom-button');
         btnSave.className = 'custom-buttom-save';
         btnSave.title = 'Cadastrar';
+        btnSave.type = 'submit';
         btnSave.setAttribute('icon', 'fa-solid fa-floppy-disk');
         btnSave.id = 1;
         contentBtn.appendChild(btnSave);
@@ -69,8 +82,10 @@ export function createElementsFields(array, isReturn) {
         btnCancel.id = 2;
         contentBtn.appendChild(btnCancel);
 
-        sectionGrid.appendChild(contentBtn);
+        form.appendChild(contentBtn);
     }
+
+    sectionGrid.appendChild(form);
 
     return sectionGrid;
 }

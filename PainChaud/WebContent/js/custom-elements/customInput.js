@@ -34,6 +34,7 @@ class customInputElement extends HTMLElement {
             input.setAttribute("type", type);
         }
         input.className = "custom-input-" + this.id;
+        input.name = this.title.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "");
         this.append(input);
     }
 

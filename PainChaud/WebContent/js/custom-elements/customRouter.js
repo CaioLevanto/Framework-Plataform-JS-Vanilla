@@ -1,8 +1,26 @@
 var test = [
-    {"name": "usuario", "icon": "fa-solid fa-user-plus", "url": "index.html", "type": "crud"}, 
-    {"name": "produtos", "icon": "fa-solid fa-cart-plus", "url": "index.html", "type": "view"}, 
+    {"name": "usuario", "icon": "fa-solid fa-user-plus", "url": "User", "type": "crud"}, 
+    {"name": "produtos", "icon": "fa-solid fa-cart-plus", "url": "Product", "type": "view"},
+    {"name": "relatorio", "icon": "fa-solid fa-chart-line", "url": "Report", "type": "view"}, 
     {"name": "Sair", "icon": "fa-solid fa-right-from-bracket", "action": "logout", "type": "close"}
 ];
+
+var test2 = [ {0:[
+    {"name": "usuario", "icon": "fa-solid fa-user-plus", "url": "User", "type": "crud"}, 
+    {"name": "produtos", "icon": "fa-solid fa-cart-plus", "url": "Product", "type": "view"},
+    {"name": "relatorio", "icon": "fa-solid fa-chart-line", "url": "Report", "type": "view"}, 
+    {"name": "Sair", "icon": "fa-solid fa-right-from-bracket", "action": "logout", "type": "close"}
+]}, {1: [ 
+    {"name": "usuario", "icon": "fa-solid fa-user-plus", "url": "User", "type": "crud"}, 
+    {"name": "produtos", "icon": "fa-solid fa-cart-plus", "url": "Product", "type": "view"},
+    {"name": "relatorio", "icon": "fa-solid fa-chart-line", "url": "Report", "type": "view"}, 
+    {"name": "Sair", "icon": "fa-solid fa-right-from-bracket", "action": "logout", "type": "close"} 
+]}, {2: [
+    {"name": "usuario", "icon": "fa-solid fa-user-plus", "url": "User", "type": "crud"}, 
+    {"name": "produtos", "icon": "fa-solid fa-cart-plus", "url": "Product", "type": "view"},
+    {"name": "relatorio", "icon": "fa-solid fa-chart-line", "url": "Report", "type": "view"}, 
+    {"name": "Sair", "icon": "fa-solid fa-right-from-bracket", "action": "logout", "type": "close"}
+]}];
 
 class customRouterElement extends HTMLElement {
 
@@ -66,8 +84,8 @@ class customRouterElement extends HTMLElement {
 
         option.onclick = function() {
             if (_removeSelected())
-                _createContainer(false, this);
                 this.classList.add("selected");
+                _createContainer(false, this);
         }
 
         option.appendChild(expandName);
