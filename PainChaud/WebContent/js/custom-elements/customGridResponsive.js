@@ -18,31 +18,31 @@ export default class createGrid {
     constructor() {
     }
 
-    createGridElement(col, value, hasSearch, hasHeader, hasCol) {        
+    createGridElement({col, value, hasSearch, hasHeader, hasCol, fieldEdit, notHeader}) {        
         let body = document.createElement('div');
         body.id = 'data-grid';
     
         if (col) {
             if (!hasCol) {
                 if (hasSearch) {
-                    body.appendChild(this._createSearchByColumns(col));
+                    body.appendChild(this._createSearchByColumns(col, notHeader));
                 }
                 if (hasHeader) {
-                    body.appendChild(this._createGridHeader(col));
+                    body.appendChild(this._createGridHeader(col, notHeader));
                 }
             }
         }
 
         let containerGrid = document.createElement('div');
         containerGrid.id = 'container-grid';
-        this.createContainerGrid(containerGrid, value, col);
+        this.createContainerGrid(containerGrid, value, col, fieldEdit,);
         
         body.appendChild(containerGrid);
     
         return body;
     }
 
-    createContainerGrid(containerGrid, value, col) {
+    createContainerGrid(containerGrid, value, col, fieldEdit) {
         if (value) {
             let allColumns = [];
             allColumns.push('id');
@@ -53,12 +53,12 @@ export default class createGrid {
             };
 
             for (let grid in value) {
-                containerGrid.appendChild(this._createGridBody(value[grid], allColumns));
+                containerGrid.appendChild(this._createGridBody(value[grid], allColumns, fieldEdit));
             }
         }
     }
 
-    _createSearchByColumns(col) { 
+    _createSearchByColumns(col, notHeader) { 
         let contentSearch = document.createElement('div');
         contentSearch.id = 'search-grid';
 
@@ -88,6 +88,12 @@ export default class createGrid {
                 continue
             }
 
+            if (notHeader) {
+                if (notHeader.includes(row)) {
+                    continue
+                }
+            }
+
             let option = document.createElement('option');
             option.value = row;
             option.text = row;
@@ -98,13 +104,19 @@ export default class createGrid {
         return contentSearch;
     }
  
-    _createGridHeader(col) {
+    _createGridHeader(col, notHeader) {
         let gHeader = document.createElement('div');
         gHeader.id = 'custom-header-grid';
 
         for (let row in col) {
             if (col[row] == 'password') {
                 continue
+            }
+
+            if (notHeader) {
+                if (notHeader.includes(row)) {
+                    continue
+                }
             }
 
             let item = document.createElement('div');
@@ -121,7 +133,7 @@ export default class createGrid {
         return gHeader;
     }
 
-    _createGridBody(val, col) {
+    _createGridBody(val, col, fieldEdit) {
         let valueLine = val.values;
         let actionLine = val.action;
 
@@ -138,10 +150,33 @@ export default class createGrid {
             separatorLine.className = 'separator-grid';
             separatorLine.id = col[l];
 
-            let pLine = document.createElement('p');
-            pLine.textContent = valueLine[l];
+            if (fieldEdit?.includes(col[l])) {
+                let itemField = document.createElement('input');
+                itemField.id = 'qtd-item-' + l;
+                itemField.className = 'qtd-field-item';
+                itemField.title = 'Quantidade';
+                itemField.type = 'Number';
+                itemField.max = '999';
+                itemField.min = '1';
+                itemField.onblur = function(e) {
+                    let field = e.target;
 
-            separatorLine.appendChild(pLine);
+                    if (field.value > field.max) {
+                        field.value = 1;
+                        alert('Campo ' + field.name + ' excedeu quantidade maxima');
+                    } else if (field.value < field.min) {
+                        field.value = 1;
+                        alert('Campo ' + field.name + ' excedeu quantidade minima');
+                    }
+                }
+                itemField.value = Number.parseInt(valueLine[l]);
+                separatorLine.appendChild(itemField);
+            } else {
+                let pLine = document.createElement('p');
+                pLine.textContent = valueLine[l];
+                separatorLine.appendChild(pLine);
+            }
+
             line.appendChild(separatorLine);
         }
 

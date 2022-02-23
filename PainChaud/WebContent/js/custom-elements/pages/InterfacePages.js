@@ -7,7 +7,11 @@ export default class InterfacePages {
     getFields() {
         throw new Error('Not implemented Field');
     }
-        
+    
+    getGrid(hasSearch) {
+        throw new Error('Not implemented Grid');
+    }
+
     getGrid() {
         throw new Error('Not implemented Grid');
     }

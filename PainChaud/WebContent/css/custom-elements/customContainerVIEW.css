@@ -8,8 +8,8 @@
 
 #section-custom-header {
     width: 100%;
-    height: 12vh;
-    padding: 20px 20px 0px 20px;
+    height: 10vh;
+    padding: 20px 20px 5px 20px;
 }
 
 #section-custom-main {
@@ -17,4 +17,19 @@
     width: 100%;
     height: 100%;
     padding: 0 10px 10px;
+}
+
+/* #custom-input-search {
+    margin-right: 10px;
+} */
+
+#header-container-dates {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+#header-container-dates .custom-label {
+    font-size: 16px;
 }

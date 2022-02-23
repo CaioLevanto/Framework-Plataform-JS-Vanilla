@@ -2,19 +2,15 @@ package br.com.painchaud.model;
 
 import java.io.Serializable;
 
-import javax.validation.constraints.AssertFalse;
-
 import br.com.painchaud.enumtype.FuncaoEnum;
 
 public class Usuario implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
-	@AssertFalse
 	private int id;
 	private String nome;
 	private String email;
 	private FuncaoEnum funcao;
-	@AssertFalse
 	private String senha;
 
 	public Usuario() {

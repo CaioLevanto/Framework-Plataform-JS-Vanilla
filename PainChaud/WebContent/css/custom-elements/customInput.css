@@ -5,6 +5,7 @@ custom-input > input,
     font-size: 18px;
     padding: 4px 0px 4px 4px;
     width: 100%;
+    height: 100%;
 }
 
 #custom-input-search {
@@ -14,4 +15,17 @@ custom-input > input,
 .custom-label { 
     font-weight: 300;
     font-size: 21px;
+}
+
+#header-container-dates {
+    float: right;
+}
+
+custom-input > input[type=date] {
+    width: 200px;
+    margin-left: 5px;
+}
+
+#header-container-dates > custom-input {
+    margin-left: 15px;
 }

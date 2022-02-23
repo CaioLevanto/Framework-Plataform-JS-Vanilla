@@ -50,11 +50,19 @@ export default class UserPage extends InterfacePages {
     }
 
     getFields() {
-        return Field.createElementsFields(UserPage.fields, false);
+        return Field.createElementsFields({
+            col: UserPage.fields,
+            hiddenField: []
+        });
     }
 
     getGrid() {
-        return this.grid.createGridElement(UserPage.fields, vl, true, true, false);
+        return this.grid.createGridElement({
+            col: UserPage.fields, 
+            value: vl,
+            hasSearch: true,
+            hasHeader: true
+        });
     }
 
 };

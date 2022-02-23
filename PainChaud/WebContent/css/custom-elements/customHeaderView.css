@@ -1,0 +1,14 @@
+#header-container-search > .custom-select {
+    width: 15%;
+    float: right;
+    margin-left: 10px;
+}
+
+#section-custom-header #custom-input-search {
+    width: 30%;
+}
+
+#header-container-search {
+    width: 100%;
+    height: 100%;
+}

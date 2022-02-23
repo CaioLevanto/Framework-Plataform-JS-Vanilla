@@ -11,7 +11,10 @@ class customContainerVIEWElement extends HTMLElement {
     }
 
     createElement() {
-        let url = $('.custom-option.selected')[0].getAttribute('url');
+        let opt = $('.custom-option.selected')[0];
+        let url = opt.getAttribute('url');
+        let type = opt.getAttribute('custom-type'); 
+        const crud = url + "-" + type;
 
         let section = document.createElement('div');
         section.id = "section-custom-view";
@@ -19,20 +22,26 @@ class customContainerVIEWElement extends HTMLElement {
         if (url == 'Report') {
             let sectionReport = document.createElement('div');
 
-            sectionReport.appendChild(Factory.getPage(url).getReport());
+            if (Factory.hasPage(crud)) {
+                sectionReport.appendChild(Factory.getPage(crud).getReport());
+            }
 
             section.appendChild(sectionReport);
         } else {
             let sectionHeader = document.createElement('div');
             sectionHeader.id = "section-custom-header";
-    
-            sectionHeader.appendChild(Factory.getPage(url).getHeader());
+            
+            if (Factory.hasPage(crud)) {
+                sectionHeader.appendChild(Factory.getPage(crud).getHeader());
+            }
             section.appendChild(sectionHeader);
     
             let sectionMain = document.createElement('div');
             sectionMain.id = "section-custom-main";
-    
-            sectionMain.appendChild(Factory.getPage(url).getGrid());
+            
+            if (Factory.hasPage(crud)) {
+                sectionMain.appendChild(Factory.getPage(crud).getGrid());
+            }
             section.appendChild(sectionMain);
         }
 

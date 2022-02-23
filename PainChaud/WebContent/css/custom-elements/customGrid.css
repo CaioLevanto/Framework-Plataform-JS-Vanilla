@@ -50,10 +50,12 @@
 
 #search-header {
     width: 75%;
+    height: 100%;
 }
 
 #search-grid > .custom-select {
     width: 24% !important;
+    height: 100%;
 }
 
 .line-grid-custom {
@@ -62,7 +64,7 @@
     height: 50px;
     align-items: center;
     margin-top: 10px;
-    border: 1px solid grey;
+    border: 1px solid rgba(128, 128, 128, 0.6);
     border-radius: 0.3rem;
     user-select: none;
     font-size: 20px;
@@ -83,11 +85,17 @@
     margin: 0 20px 0 20px;
 }
 
+.custom-item-header {
+    width: 100%;
+    height: 100%;
+    text-align: center;
+}
 
-
-
-
-
-#section-custom-header #custom-input-search {
-    width: 30%;
+.qtd-field-item {
+    text-align: center;
+    color: rgb(58, 58, 58);
+    outline: none;
+    font-size: 18px;
+    padding: 4px 0px 4px 4px;
+    width: 100%;
 }

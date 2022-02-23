@@ -1,4 +1,4 @@
-export function createElementsFields(array, isReturn) {
+export function createElementsFields({col, hiddenField, isReturn}) {
     let sectionGrid = document.createElement('div');
     sectionGrid.className = 'data-fields';
 
@@ -6,14 +6,20 @@ export function createElementsFields(array, isReturn) {
     form.id = 'form-fields';
     form.name = 'form';
     
-    for (let obj in array) {
+    for (let obj in col) {
         if (obj == 'Ação') {
             continue
         }
 
+        if (hiddenField) {
+            if (hiddenField.includes(obj)) {
+                continue
+            }
+        }
+
         let contentGrid = document.createElement('div');
         contentGrid.className = 'separator';
-        let fieldType = array[obj];
+        let fieldType = col[obj];
         let fieldInput;
 
         if (Array.isArray(fieldType)) {

@@ -65,3 +65,7 @@ custom-input > input {
     margin-bottom: 15px;
     border-bottom: 1px solid black;
 }
+
+custom-input > input {
+    height: 35px !important;
+}

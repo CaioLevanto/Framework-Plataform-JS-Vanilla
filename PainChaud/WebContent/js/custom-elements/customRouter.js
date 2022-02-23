@@ -1,26 +1,24 @@
-var test = [
-    {"name": "usuario", "icon": "fa-solid fa-user-plus", "url": "User", "type": "crud"}, 
-    {"name": "produtos", "icon": "fa-solid fa-cart-plus", "url": "Product", "type": "view"},
-    {"name": "relatorio", "icon": "fa-solid fa-chart-line", "url": "Report", "type": "view"}, 
+var test2 = [ [
+    //Administrador
+    {"name": "Usuarios", "icon": "fa-solid fa-user-plus", "url": "User", "type": "crud"}, 
+    {"name": "Vendas", "icon": "fa-solid fa-cash-register", "url": "Sale", "type": "view"},
+    {"name": "Produtos", "icon": "fa-solid fa-cart-plus", "url": "Product", "type": "crud"},
+    {"name": "Retatorio", "icon": "fa-solid fa-chart-line", "url": "Report", "type": "view"}, 
     {"name": "Sair", "icon": "fa-solid fa-right-from-bracket", "action": "logout", "type": "close"}
-];
-
-var test2 = [ {0:[
-    {"name": "usuario", "icon": "fa-solid fa-user-plus", "url": "User", "type": "crud"}, 
-    {"name": "produtos", "icon": "fa-solid fa-cart-plus", "url": "Product", "type": "view"},
-    {"name": "relatorio", "icon": "fa-solid fa-chart-line", "url": "Report", "type": "view"}, 
-    {"name": "Sair", "icon": "fa-solid fa-right-from-bracket", "action": "logout", "type": "close"}
-]}, {1: [ 
-    {"name": "usuario", "icon": "fa-solid fa-user-plus", "url": "User", "type": "crud"}, 
-    {"name": "produtos", "icon": "fa-solid fa-cart-plus", "url": "Product", "type": "view"},
-    {"name": "relatorio", "icon": "fa-solid fa-chart-line", "url": "Report", "type": "view"}, 
+], [ 
+    //Venda
+    {"name": "Venda", "icon": "fa-solid fa-user-plus", "url": "Sale", "type": "crud"}, 
+    {"name": "Produtos", "icon": "fa-solid fa-cart-plus", "url": "Product", "type": "view"},
     {"name": "Sair", "icon": "fa-solid fa-right-from-bracket", "action": "logout", "type": "close"} 
-]}, {2: [
-    {"name": "usuario", "icon": "fa-solid fa-user-plus", "url": "User", "type": "crud"}, 
-    {"name": "produtos", "icon": "fa-solid fa-cart-plus", "url": "Product", "type": "view"},
-    {"name": "relatorio", "icon": "fa-solid fa-chart-line", "url": "Report", "type": "view"}, 
+], [
+    //Balcão
+    {"name": "Comanda", "icon": "fa-solid fa-user-plus", "url": "Comanda", "type": "crud"}, 
+    {"name": "Produtos", "icon": "fa-solid fa-cart-plus", "url": "Product", "type": "view"},
     {"name": "Sair", "icon": "fa-solid fa-right-from-bracket", "action": "logout", "type": "close"}
-]}];
+], [
+    //Caso não haja permissão
+    {"name": "Sair", "icon": "fa-solid fa-right-from-bracket", "action": "logout", "type": "close"}
+] ];
 
 class customRouterElement extends HTMLElement {
 
@@ -29,7 +27,7 @@ class customRouterElement extends HTMLElement {
     }
 
     connectedCallback() {
-        this.createValues(test);
+        this.createValues(test2[1]);
     }
 
     createValues(columns) {
@@ -51,10 +49,6 @@ class customRouterElement extends HTMLElement {
         
         if (action) {
             className += ' logout';
-        }
-        if (!i) {
-            className += ' selected';
-            _createContainer(attr['type'], this);
         }
 
         option.className = className;
