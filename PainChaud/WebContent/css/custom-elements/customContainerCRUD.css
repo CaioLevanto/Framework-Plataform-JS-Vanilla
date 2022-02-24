@@ -1,4 +1,4 @@
-.section-custom-element {
+#section-custom-element {
     display: flex;
     align-items: center;
 }
@@ -13,7 +13,7 @@
     padding: 15px;
 }
 
-.section-custom-element > div {
+#section-custom-element > div {
     height: calc(100vh - 15vh);
 }
 

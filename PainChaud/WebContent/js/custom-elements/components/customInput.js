@@ -1,3 +1,5 @@
+// import Grid from './customGridResponsive.js';
+
 class customInputElement extends HTMLElement {
 
     constructor() {
@@ -30,13 +32,23 @@ class customInputElement extends HTMLElement {
             label.className = 'custom-label';
             this.append(label);
         }
+
+        if (hasType == 'Add') {
+            var addBtn = document.createElement('custom-button');
+            addBtn.id = 'btn-add-' + this.id;
+            addBtn.setAttribute('icon', 'fa-solid fa-plus');
+
+            hasType == 'Number';
+        }
     
         let input = document.createElement('input');
         
         if (hasType) {
             input.setAttribute("type", hasType);
         }
-
+        if (this.hasAttribute('placeholder')) {
+            input.placeholder = this.getAttribute('placeholder');
+        }
         if (this.value) {
             input.value = this.value;
         }
@@ -56,7 +68,7 @@ class customInputElement extends HTMLElement {
                 }).format(number);
             }
         }
-
+        
         if (hasType == 'Number') {
             input.max = '9999';
             input.min = '1';
@@ -76,13 +88,23 @@ class customInputElement extends HTMLElement {
         }
 
         input.className = "custom-input-" + this.id;
-        input.name = this.title.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+        input.name = this.title.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "").replace(":", "");
         this.append(input);
+
+        if (addBtn) {
+            this.append(addBtn);
+        }
     }
 
     _typeCustomSearch() {
         let input = document.createElement('input');
         input.id = "custom-input-search";
+        input.addEventListener('keypress', function(e) {
+            $('.line-grid-custom').remove();
+            //busca pelo key
+
+            // new Grid().createContainerGrid($('#container-grid')[0], vlFinded, createGrid.columnsPreDefine, true, true);
+        });
 
         if (this.hasAttribute('title')) {
             input.placeholder = this.getAttribute('title');

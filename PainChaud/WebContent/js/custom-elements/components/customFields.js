@@ -5,6 +5,9 @@ export function createElementsFields({col, hiddenField, isReturn}) {
     let form = document.createElement('form');
     form.id = 'form-fields';
     form.name = 'form';
+    form.onsubmit = function(e) {
+        return false;
+    }
     
     for (let obj in col) {
         if (obj == 'Ação') {
@@ -67,23 +70,37 @@ export function createElementsFields({col, hiddenField, isReturn}) {
     borderSeparator.id = 'custom-border-action';
     form.appendChild(borderSeparator);
 
+    
+
     if (isReturn) {
-        
+        let contentBtn = document.createElement('div');
+        contentBtn.className = 'content-action-return';
+
+        let btnReturn = document.createElement('custom-button');
+        btnReturn.className = 'custom-buttom-return';
+        btnReturn.title = 'Voltar';
+        btnReturn.id = 1;
+        btnReturn.setAttribute('icon', 'fa-solid fa-turn-down-left');
+        contentBtn.appendChild(btnReturn);
+
+        form.appendChild(contentBtn);
     } else {
         let contentBtn = document.createElement('div');
         contentBtn.className = 'content-action-button';
 
         let btnSave = document.createElement('custom-button');
         btnSave.className = 'custom-buttom-save';
-        btnSave.title = 'Cadastrar';
+        btnSave.title = 'Concluir';
         btnSave.type = 'submit';
-        btnSave.setAttribute('icon', 'fa-solid fa-floppy-disk');
         btnSave.id = 1;
+        btnSave.setAttribute('form', 'form');
+        btnSave.setAttribute('icon', 'fa-solid fa-floppy-disk');
         contentBtn.appendChild(btnSave);
 
         let btnCancel = document.createElement('custom-button');
         btnCancel.className = 'custom-buttom-cancel';
         btnCancel.setAttribute('icon', 'fa-solid fa-ban');
+        btnCancel.setAttribute('type', 'reset');
         btnCancel.title = 'Cancelar';
         btnCancel.id = 2;
         contentBtn.appendChild(btnCancel);

@@ -1,5 +1,5 @@
-import InterfacePages from './InterfacePages.js';
-import * as Utils from '../Utils.js';
+import InterfacePages from '../../interface/InterfacePages.js';
+import * as Utils from '../../Utils.js';
 
 export default class ProductPage extends InterfacePages {
 

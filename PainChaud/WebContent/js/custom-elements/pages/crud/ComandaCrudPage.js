@@ -1,7 +1,7 @@
-import Grid from '../customGridResponsive.js';
-import * as Field from '../customFields.js';
-import InterfacePages from './InterfacePages.js';
-import * as Utils from '../Utils.js';
+import Grid from '../../components/customGridResponsive.js';
+import * as Field from '../../components/customFields.js';
+import InterfacePages from '../../interface/InterfacePages.js';
+import * as Utils from '../../Utils.js';
 
 var vl = [ 
     {"values": [0, "Coxinha", "1", "R$ 2,50" ],"action": ["Deletar"] }, 
@@ -11,7 +11,7 @@ var vl = [
     {"values": [4, "Bolo de Fuba", "1", "R$ 7,50" ], "action": ["Deletar"] }
 ];
 
-export default class ComandaPage extends InterfacePages {
+export default class ComandaCrudPage extends InterfacePages {
     
     constructor() {
         super();
@@ -28,14 +28,14 @@ export default class ComandaPage extends InterfacePages {
 
     getFields() {
         return Field.createElementsFields({
-            col: ComandaPage.fields,
+            col: ComandaCrudPage.fields,
             hiddenField: ["Valor"]
         });
     }
 
     getGrid() {
         return this.grid.createGridElement({
-           col: ComandaPage.fields, 
+           col: ComandaCrudPage.fields, 
            value: vl, 
            hasSearch: true, 
            hasHeader: true,

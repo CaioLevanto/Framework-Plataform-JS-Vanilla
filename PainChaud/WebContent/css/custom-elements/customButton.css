@@ -35,13 +35,24 @@ i {
     align-items: flex-end;
 }
 
-.content-action-button > custom-button {
+.content-action-return {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.content-action-button > custom-button,
+.content-action-return > custom-button {
     width: 12vw;
     height: 6vh;
     margin-top: 15px;
 }
 
-.content-action-button > custom-button:before {
+.content-action-return > custom-button {
+    margin-left: 5px;
+}
+
+.content-action-button > custom-button:before,
+.content-action-return > custom-button:before {
     display: block;
     position: absolute;
     background: transparent;
@@ -57,11 +68,41 @@ i {
     transition: .2s all ease-in-out;
 }
 
-.content-action-button > custom-button:hover:before {
+.content-action-button > custom-button:hover:before,
+.content-action-return > custom-button:hover:before {
     transform: translateY(8px) scale(.8);
     opacity: .8;
 }
 
-.content-action-button > custom-button:hover {
+.content-action-button > custom-button:hover,
+.content-action-return > custom-button:hover {
     transform: translateY(-5px)
+}
+
+#btn-add-quantidade,
+#btn-add-comanda {
+    float: right;
+    width: 35px;
+    box-shadow: none;
+    height: 35px;
+    border-radius: 6.4rem;
+    letter-spacing: unset;
+    border: 1px solid black;
+    display: block;
+    margin-right: 8px;
+}
+
+.custom-input-quantidade,
+.custom-input-comanda {
+    width: 80%;
+}
+
+#btn-add-quantidade .custom-button-btn-add-quantidade,
+#btn-add-comanda .custom-button-btn-add-comanda {
+    height: 100%;
+}
+
+#btn-add-quantidade .custom-button-btn-add-quantidade > i,
+#btn-add-comanda .custom-button-btn-add-comanda > i {
+    margin: 0;
 }

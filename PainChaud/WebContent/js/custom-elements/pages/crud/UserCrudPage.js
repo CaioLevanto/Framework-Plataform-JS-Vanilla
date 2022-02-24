@@ -1,7 +1,7 @@
-import Grid from '../customGridResponsive.js';
-import * as Field from '../customFields.js';
-import InterfacePages from './InterfacePages.js';
-import * as Utils from '../Utils.js';
+import Grid from '../../components/customGridResponsive.js';
+import * as Field from '../../components/customFields.js';
+import InterfacePages from '../../interface/InterfacePages.js';
+import * as Utils from '../../Utils.js';
 
 var vl = [ 
     {"values": [0, "Caio", "caio.cdmatos@gmail.com", "Administrador" ],"action": [] }, 

@@ -35,7 +35,7 @@ export default class createGrid {
 
         let containerGrid = document.createElement('div');
         containerGrid.id = 'container-grid';
-        this.createContainerGrid(containerGrid, value, col, fieldEdit,);
+        this.createContainerGrid(containerGrid, value, col, fieldEdit);
         
         body.appendChild(containerGrid);
     
@@ -70,7 +70,7 @@ export default class createGrid {
             $('.line-grid-custom').remove();
             //busca pelo key
 
-            new createGrid().createContainerGrid($('#container-grid')[0], vlFinded, createGrid.columnsPreDefine, true, true);
+            new createGrid().createContainerGrid($('#container-grid')[0], vlFinded, createGrid.columnsPreDefine);
         });
 
         search.addEventListener('change', function(e) {
@@ -180,30 +180,32 @@ export default class createGrid {
             line.appendChild(separatorLine);
         }
 
-        let divAction = document.createElement('div');
-        divAction.id = 'act-line';
-
-        if (!actionLine.length) {
-            let actionNull = document.createElement('i');
-            actionNull.textContent = 'null';
-            actionNull.className = 'act-null';
-            divAction.appendChild(actionNull);
-        }
-
-        for (let a in actionLine) {
-            let action = document.createElement('i');
-            action.className = this._getAction(actionLine[Number.parseInt(a)]);
-
-            if (actionLine[a] == 'Editar') {
-                action.onclick = function() {
-                    console.log(this.parentElement.parentElement.id);
-                };
+        if (actionLine) {
+            let divAction = document.createElement('div');
+            divAction.id = 'act-line';
+    
+            if (!actionLine.length) {
+                let actionNull = document.createElement('i');
+                actionNull.textContent = 'null';
+                actionNull.className = 'act-null';
+                divAction.appendChild(actionNull);
             }
-
-            divAction.appendChild(action);
+    
+            for (let a in actionLine) {
+                let action = document.createElement('i');
+                action.className = this._getAction(actionLine[Number.parseInt(a)]);
+    
+                if (actionLine[a] == 'Visualizar') {
+                    action.onclick = function() {
+                        console.log(this.parentElement.parentElement.id);
+                    };
+                }
+    
+                divAction.appendChild(action);
+            }
+    
+            line.appendChild(divAction);
         }
-
-        line.appendChild(divAction);
         
         return line;
     }
