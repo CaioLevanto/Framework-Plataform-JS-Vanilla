@@ -1,4 +1,4 @@
-import Factory from './interface/PageFactory.js';
+import Factory from '../interface/PageFactory.js';
 
 class customContainerVIEWElement extends HTMLElement {
 
@@ -13,52 +13,44 @@ class customContainerVIEWElement extends HTMLElement {
     createElement() {
         let opt = $('.custom-option.selected')[0];
         let url = opt.getAttribute('url');
-        let type = opt.getAttribute('custom-type'); 
-        const crud = url + "-" + type;
+        const crud = url + "-" + "crud";
 
         let section = document.createElement('div');
-        section.id = "section-custom-view";
+        section.id = "section-custom-element";
 
-        if (url == 'Report') {
-            section.appendChild(this._createReport(crud));
-        } else {
-            section.appendChild(this._createHeader(crud));
-            section.appendChild(this._createGrid(crud));
-        }
+        section.appendChild(this._createField(crud));
+        section.appendChild(this._createBorder());
+        section.appendChild(this._createGrid(crud));
 
         this.append(section);
     }
 
-    _createReport(crud) {
-        let sectionReport = document.createElement('div');
-
-        if (Factory.hasPage(crud)) {
-            sectionReport.appendChild(Factory.getPage(crud).getReport());
-        }
-
-        return sectionReport;
-    }
-
-    _createHeader(crud) {
-        let sectionHeader = document.createElement('div');
-        sectionHeader.id = "section-custom-header";
+    _createField(crud) {
+        let sectionLeft = document.createElement('div');
+        sectionLeft.className = "section-custom-left";
         
         if (Factory.hasPage(crud)) {
-            sectionHeader.appendChild(Factory.getPage(crud).getHeader());
+            sectionLeft.appendChild(Factory.getPage(crud).getFields());
         }
-        return sectionHeader;
+        return sectionLeft;
+    }
+
+    _createBorder() {
+        let border = document.createElement('div');
+        border.className = "border-custom";
+        return border;
     }
 
     _createGrid(crud) {
-        let sectionMain = document.createElement('div');
-        sectionMain.id = "section-custom-main";
+        let sectionRight = document.createElement('div');
+        sectionRight.className = "section-custom-right";
         
         if (Factory.hasPage(crud)) {
-            sectionMain.appendChild(Factory.getPage(crud).getGrid());
+            sectionRight.appendChild(Factory.getPage(crud).getGrid());
         }
-        return sectionMain;
+        return sectionRight;
     }
 
 }
 
-customElements.define("custom-container-view", customContainerVIEWElement);
+customElements.define("custom-inside-crud", customContainerVIEWElement);

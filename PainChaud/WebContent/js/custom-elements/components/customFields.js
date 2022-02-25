@@ -1,12 +1,15 @@
-export function createElementsFields({col, hiddenField, isReturn}) {
+import * as Action from './customActionForm.js';
+
+export function createElementsFields({col, hiddenField, isReturn, hasInside}) {
     let sectionGrid = document.createElement('div');
     sectionGrid.className = 'data-fields';
 
     let form = document.createElement('form');
+    form.setAttribute('return', hasInside ? true : false);
     form.id = 'form-fields';
     form.name = 'form';
-    form.onsubmit = function(e) {
-        return false;
+    form.submit = function(e) {
+        return Action.actionOnSubmit(document.forms['form'].getAttribute('return'));
     }
     
     for (let obj in col) {
@@ -70,10 +73,9 @@ export function createElementsFields({col, hiddenField, isReturn}) {
     borderSeparator.id = 'custom-border-action';
     form.appendChild(borderSeparator);
 
-    
+    let contentBtn = document.createElement('div');
 
     if (isReturn) {
-        let contentBtn = document.createElement('div');
         contentBtn.className = 'content-action-return';
 
         let btnReturn = document.createElement('custom-button');
@@ -81,18 +83,18 @@ export function createElementsFields({col, hiddenField, isReturn}) {
         btnReturn.title = 'Voltar';
         btnReturn.id = 1;
         btnReturn.setAttribute('icon', 'fa-solid fa-turn-down-left');
+        btnReturn.addEventListener('click', function() {
+            Action.actionReturn();
+        });
         contentBtn.appendChild(btnReturn);
-
-        form.appendChild(contentBtn);
     } else {
-        let contentBtn = document.createElement('div');
         contentBtn.className = 'content-action-button';
 
         let btnSave = document.createElement('custom-button');
         btnSave.className = 'custom-buttom-save';
         btnSave.title = 'Concluir';
-        btnSave.type = 'submit';
         btnSave.id = 1;
+        btnSave.setAttribute('type', 'submit');
         btnSave.setAttribute('form', 'form');
         btnSave.setAttribute('icon', 'fa-solid fa-floppy-disk');
         contentBtn.appendChild(btnSave);
@@ -104,10 +106,9 @@ export function createElementsFields({col, hiddenField, isReturn}) {
         btnCancel.title = 'Cancelar';
         btnCancel.id = 2;
         contentBtn.appendChild(btnCancel);
-
-        form.appendChild(contentBtn);
     }
 
+    form.appendChild(contentBtn);
     sectionGrid.appendChild(form);
 
     return sectionGrid;

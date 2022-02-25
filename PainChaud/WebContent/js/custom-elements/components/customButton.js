@@ -21,20 +21,16 @@ class customButtonElement extends HTMLElement {
 
         if (this.getAttribute('type') == 'submit') {
             button.addEventListener('click', function(e) {
-                e.preventDefault();
-                //Realiza validação;
-                document.forms['form'].onsubmit();
-    
                 //Confirma envio;
                 document.forms['form'].submit();
+                e.preventDefault();
             });
         }
         if (this.getAttribute('type') == 'reset') {
             button.addEventListener('click', function(e) {
-                e.preventDefault();
-    
                 //Confirma envio;
                 document.forms['form'].reset();
+                e.preventDefault();
             });
         }
 

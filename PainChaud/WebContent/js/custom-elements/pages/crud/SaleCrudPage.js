@@ -21,8 +21,8 @@ export default class SaleCrudPage extends InterfacePages {
 
     static fields = {
         'Produto': [ "Pao", "Bolacha" ],
-        'Quantidade': 'Add',
-        'Comanda': 'Add',
+        'Quantidade': 'Number,Add',
+        'Comanda': 'Number,Add',
 
         'Data da venda': 'string',
         'Valor': 'string',

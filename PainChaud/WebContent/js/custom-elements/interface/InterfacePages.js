@@ -8,7 +8,7 @@ export default class InterfacePages {
         throw new Error('Not implemented Field');
     }
     
-    getGrid(hasSearch) {
+    getFields(isReturn) {
         throw new Error('Not implemented Grid');
     }
 

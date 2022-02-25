@@ -20,16 +20,17 @@ export default class ComandaCrudPage extends InterfacePages {
     }
 
     static fields = {
-        'Produto': [ "Balcao", "Embalado" ],
-        'Quantidade': 'Number',
+        'Produto': [ "Pao", "Coxinha", "Risoles", "Bolo" ],
+        'Quantidade': 'Number,Add',
         'Valor': 'string',
         'Ação': 'Action'
     }
 
-    getFields() {
+    getFields(isReturn) {
         return Field.createElementsFields({
             col: ComandaCrudPage.fields,
-            hiddenField: ["Valor"]
+            hiddenField: ["Valor"],
+            isReturn: isReturn
         });
     }
 

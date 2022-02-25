@@ -1,4 +1,4 @@
-// import Grid from './customGridResponsive.js';
+import * as Action from './customActionForm.js';
 
 class customInputElement extends HTMLElement {
 
@@ -13,7 +13,7 @@ class customInputElement extends HTMLElement {
 
     createElement() {
         if (this.hasAttribute('type')) {
-            const type = this.getAttribute('type');
+            const type = this.getAttribute('type').split(',');
 
             if (type == 'custom') {
                 this._typeCustomInput();
@@ -33,19 +33,7 @@ class customInputElement extends HTMLElement {
             this.append(label);
         }
 
-        if (hasType == 'Add') {
-            var addBtn = document.createElement('custom-button');
-            addBtn.id = 'btn-add-' + this.id;
-            addBtn.setAttribute('icon', 'fa-solid fa-plus');
-
-            hasType == 'Number';
-        }
-    
         let input = document.createElement('input');
-        
-        if (hasType) {
-            input.setAttribute("type", hasType);
-        }
         if (this.hasAttribute('placeholder')) {
             input.placeholder = this.getAttribute('placeholder');
         }
@@ -53,35 +41,47 @@ class customInputElement extends HTMLElement {
             input.value = this.value;
         }
 
-        if (hasType == 'date') {
-            input.setAttribute('min', this.getAttribute('min'));
-            input.setAttribute('max', this.getAttribute('max'));
-        }
+        for (let i in hasType) {
 
-        if (hasType == 'money') {
-            input.onblur = function (e) {
-                let number = Number.parseInt(e.target.value);
-
-                e.target.value = new Intl.NumberFormat('ja-JP',  {
-                    style: 'currency',
-                    currency: 'BRL',
-                }).format(number);
+            if (hasType[i] == 'date') {
+                input.setAttribute('min', this.getAttribute('min'));
+                input.setAttribute('max', this.getAttribute('max'));
             }
-        }
-        
-        if (hasType == 'Number') {
-            input.max = '9999';
-            input.min = '1';
-            input.onblur = function(e) {
-                let field = e.target;
-
-                if (input.value != "") {
-                    if (field.value > field.max) {
-                        field.value = 1;
-                        alert('Campo ' + field.name + ' excedeu quantidade maxima');
-                    } else if (field.value < field.min) {
-                        field.value = 1;
-                        alert('Campo ' + field.name + ' excedeu quantidade minima');
+            if (hasType[i] == 'money') {
+                input.onblur = function (e) {
+                    let number = Number.parseInt(e.target.value);
+    
+                    e.target.value = new Intl.NumberFormat('ja-JP',  {
+                        style: 'currency',
+                        currency: 'BRL',
+                    }).format(number);
+                }
+            }
+            if (hasType[i] == 'Add') {
+                var addBtn = document.createElement('custom-button');
+                addBtn.id = 'btn-add-' + this.id;
+                addBtn.setAttribute('icon', 'fa-solid fa-plus');
+                addBtn.addEventListener('click', function() {
+                    Action.addItemGrid();
+                });
+            }
+            if (hasType[i] != 'Add') {
+                input.setAttribute("type", hasType[i]);
+            }
+            if (hasType[i] == 'Number') {
+                input.max = '9999';
+                input.min = '1';
+                input.onblur = function(e) {
+                    let field = e.target;
+    
+                    if (input.value != "") {
+                        if (field.value > field.max) {
+                            field.value = 1;
+                            alert('Campo ' + field.name + ' excedeu quantidade maxima');
+                        } else if (field.value < field.min) {
+                            field.value = 1;
+                            alert('Campo ' + field.name + ' excedeu quantidade minima');
+                        }
                     }
                 }
             }
@@ -98,7 +98,13 @@ class customInputElement extends HTMLElement {
 
     _typeCustomSearch() {
         let input = document.createElement('input');
-        input.id = "custom-input-search";
+        
+        if (this.id) {
+            input.id = 'custom-search-' + this.id;
+        } else {
+            input.id = "custom-input-search";
+        }
+
         input.addEventListener('keypress', function(e) {
             $('.line-grid-custom').remove();
             //busca pelo key

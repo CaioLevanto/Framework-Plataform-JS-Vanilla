@@ -3,7 +3,7 @@ custom-button {
     height: 7vh;
     display: flex;
     font-size: 16px;
-    box-shadow: 2px 2px 6px 0px rgba(128, 128, 128, 0.6);
+    box-shadow: 1px 2px 4px 0px rgba(128, 128, 128, 0.6);
     letter-spacing: .05rem;
     border-radius: .3rem;
     position: relative;
@@ -52,7 +52,8 @@ i {
 }
 
 .content-action-button > custom-button:before,
-.content-action-return > custom-button:before {
+.content-action-return > custom-button:before,
+#header-comanda-search > custom-button:before {
     display: block;
     position: absolute;
     background: transparent;
@@ -69,13 +70,15 @@ i {
 }
 
 .content-action-button > custom-button:hover:before,
-.content-action-return > custom-button:hover:before {
+.content-action-return > custom-button:hover:before,
+#header-comanda-search > custom-button:hover:before {
     transform: translateY(8px) scale(.8);
     opacity: .8;
 }
 
 .content-action-button > custom-button:hover,
-.content-action-return > custom-button:hover {
+.content-action-return > custom-button:hover,
+#header-comanda-search > custom-button:hover {
     transform: translateY(-5px)
 }
 

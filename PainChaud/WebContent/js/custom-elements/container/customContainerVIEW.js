@@ -26,6 +26,8 @@ class customContainerVIEWElement extends HTMLElement {
             section.appendChild(this._createGrid(crud));
         }
 
+        this.setAttribute('class', 'container');
+        this.setAttribute('type', 'view');
         this.append(section);
     }
 

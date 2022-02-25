@@ -23,6 +23,8 @@ class customContainerCRUDElement extends HTMLElement {
         section.appendChild(this._createBorder());
         section.appendChild(this._createGrid(crud));
 
+        this.setAttribute('class', 'container');
+        this.setAttribute('type', 'crud');
         this.append(section);
     }
 

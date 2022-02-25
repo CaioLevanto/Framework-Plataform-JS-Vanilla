@@ -8,7 +8,17 @@
     width: 30%;
 }
 
-#header-container-search {
+#header-container-search,
+#header-comanda-search {
     width: 100%;
     height: 100%;
+}
+
+#header-comanda-search {
+    display: flex;
+    justify-content: space-between;
+}
+
+#header-comanda-search #comanda {
+    width: 30%;
 }

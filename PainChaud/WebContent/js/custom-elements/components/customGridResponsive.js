@@ -42,6 +42,18 @@ export default class createGrid {
         return body;
     }
 
+    refreshGrid({col, value, fieldEdit}) {
+        const dataGrid = document.getElementById('data-grid');
+        
+        $('#container-grid').remove();
+
+        let containerGrid = document.createElement('div');
+        containerGrid.id = 'container-grid';
+        this.createContainerGrid(containerGrid, value, col, fieldEdit);
+
+        dataGrid.appendChild(containerGrid);
+    }
+
     createContainerGrid(containerGrid, value, col, fieldEdit) {
         if (value) {
             let allColumns = [];

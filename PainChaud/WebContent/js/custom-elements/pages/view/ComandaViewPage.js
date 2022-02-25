@@ -1,5 +1,6 @@
 import Grid from '../../components/customGridResponsive.js';
 import InterfacePages from '../../interface/InterfacePages.js';
+import * as ComandaEvents from '../events/comanda-events.js';
 import * as Utils from '../../Utils.js';
 
 var vl = [ 
@@ -8,6 +9,10 @@ var vl = [
     {"values": [2, "3" ], "action": ["Editar"] },
     {"values": [3, "4" ],"action": ["Editar"] }, 
     {"values": [4, "5" ], "action": ["Editar"] }
+];
+
+var vlFinded = [ 
+    {"values": [0, "1" ],"action": ["Editar"] }
 ];
 
 export default class ComandaViewPage extends InterfacePages {
@@ -25,13 +30,26 @@ export default class ComandaViewPage extends InterfacePages {
 
     getHeader() {
         let headerSearch = document.createElement('div');
-        headerSearch.id = 'header-container-search';
+        headerSearch.id = 'header-comanda-search';
 
         let btnNew = document.createElement('custom-button');
         btnNew.id = 'new-comanda';
         btnNew.title = "Nova comanda";
+        btnNew.addEventListener('click', function () { ComandaEvents.createNewComanda() });
+        headerSearch.appendChild(btnNew);
 
-        return headerSearch.appendChild(btnNew);
+        let inputSearch = document.createElement('custom-input');
+        inputSearch.setAttribute('type', 'search');
+        inputSearch.id = 'comanda';
+        inputSearch.addEventListener('keypress', function(e) {
+            $('.line-grid-custom').remove();
+            //busca pelo key
+
+            new Grid().createContainerGrid($('#container-grid')[0], vlFinded, ComandaViewPage.fields);
+        });
+        headerSearch.appendChild(inputSearch);
+
+        return headerSearch;
     }
 
     getGrid() {
@@ -44,3 +62,7 @@ export default class ComandaViewPage extends InterfacePages {
     }
 
 };
+
+$('#new-comanda').on('click', function() {
+    alert('oi');
+})
