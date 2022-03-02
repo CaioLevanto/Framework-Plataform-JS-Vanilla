@@ -73,23 +73,34 @@ public class DBStatement extends DBUtil {
 	
 	private void populateParameterStatement(PreparedStatement stmt, List<Object> params) {
 		try {
-			int column = 1;
-			for (Object obj : params) {
-				Class<? extends Object> classObj = obj.getClass();
-				if (classObj.isInstance(String.class)) {
-					stmt.setString(column, obj.toString());
-				} else if (classObj.isInstance(Integer.class)) {
-					stmt.setInt(column, Integer.valueOf(obj.toString()));
-				} else if (classObj.isInstance(Boolean.class)) {
-					stmt.setBoolean(column, Boolean.getBoolean(obj.toString()));
-				} else if (classObj.isInstance(Long.class)) {
-					stmt.setLong(column, Long.valueOf(obj.toString()));
-				} else if (classObj.isInstance(Date.class)) {
-					stmt.setDate(column, Date.valueOf(obj.toString()));
+			int index = 1;
+			for (Object object : params) {
+				if (object == null) {
+					stmt.setNull(index++, Types.NULL);
+				} else if (object instanceof BigDecimal) {
+					stmt.setBigDecimal(index++, (BigDecimal) object);
+				} else if (object instanceof BigInteger) {
+					stmt.setLong(index++, ((BigInteger) object).longValue() );
+				} else if (object instanceof Short) {
+					stmt.setShort(index++, (Short) object);
+				} else if (object instanceof Integer) {
+					stmt.setInt(index++, ((Integer) object).intValue());
+				} else if (object instanceof Long) {
+					stmt.setLong(index++, ((Long) object).longValue());
+				} else if (object instanceof java.util.Date) {
+					stmt.setDate(index++, new java.sql.Date(((java.util.Date) object).getTime()));
+				} else if (object instanceof String || object instanceof Character) {
+					stmt.setString(index++, object.toString());
+				} else if (object instanceof Double) {
+					stmt.setDouble(index++, ((Double) object).doubleValue());
+				} else if (object instanceof Float) {
+					stmt.setFloat(index++, ((Float) object).floatValue());
+				} else if (object instanceof Boolean) {
+					stmt.setBoolean(index++, ((Boolean) object).booleanValue());
 				} else {
-					stmt.setObject(column, obj);
+					stmt.setObject(index++, object);
 				}
-				column++;
+				index++;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

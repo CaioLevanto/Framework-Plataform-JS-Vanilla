@@ -1,12 +1,12 @@
 var test2 = [ [
     //Administrador
     {"name": "Usuarios", "icon": "fa-solid fa-user-plus", "url": "User", "type": "crud"}, 
-    {"name": "Vendas", "icon": "fa-solid fa-cash-register", "url": "Sale", "type": "crud"},
+    {"name": "Vendas", "icon": "fa-solid fa-cash-register", "url": "Sale", "type": "view"},
     {"name": "Produtos", "icon": "fa-solid fa-cart-plus", "url": "Product", "type": "crud"},
     {"name": "Retatorio", "icon": "fa-solid fa-chart-line", "url": "Report", "type": "view"}, 
     {"name": "Sair", "icon": "fa-solid fa-right-from-bracket", "action": "logout", "type": "close"}
 ], [ 
-    //Venda
+    //Caixa
     {"name": "Venda", "icon": "fa-solid fa-user-plus", "url": "Sale", "type": "crud"}, 
     {"name": "Produtos", "icon": "fa-solid fa-cart-plus", "url": "Product", "type": "view"},
     {"name": "Sair", "icon": "fa-solid fa-right-from-bracket", "action": "logout", "type": "close"} 
@@ -27,7 +27,7 @@ class customRouterElement extends HTMLElement {
     }
 
     connectedCallback() {
-        this.createValues(test2[2]);
+        this.createValues(test2[0]);
     }
 
     createValues(columns) {
