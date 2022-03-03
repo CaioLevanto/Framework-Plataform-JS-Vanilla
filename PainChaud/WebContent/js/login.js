@@ -16,3 +16,7 @@ function validateLogin() {
 		return false;
     }
 }
+
+function redictLocation() {
+	window.location.href = window.location.href.replace("#", "") + "pages/";
+}

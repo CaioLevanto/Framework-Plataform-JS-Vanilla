@@ -3,12 +3,12 @@
     align-items: center;
 }
 
-.section-custom-left {
+#section-custom-left {
     width: 38vw;
     padding: 15px;
 }
 
-.section-custom-right {
+#section-custom-right {
     width: 68vw;
     padding: 15px;
 }

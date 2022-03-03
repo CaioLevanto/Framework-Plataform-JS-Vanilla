@@ -1,4 +1,5 @@
 import Factory from '../interface/PageFactory.js';
+import * as Utils from '../Utils.js';
 
 class customContainerVIEWElement extends HTMLElement {
 
@@ -11,19 +12,16 @@ class customContainerVIEWElement extends HTMLElement {
     }
 
     createElement() {
-        let opt = $('.custom-option.selected')[0];
-        let url = opt.getAttribute('url');
-        let type = opt.getAttribute('custom-type'); 
-        const crud = url + "-" + type;
+        const view = Utils.getPageSelected();
 
         let section = document.createElement('div');
         section.id = "section-custom-view";
 
-        if (url == 'Report') {
-            section.appendChild(this._createReport(crud));
+        if (view.split('-').includes('Report')) {
+            section.appendChild(this._createReport(view));
         } else {
-            section.appendChild(this._createHeader(crud));
-            section.appendChild(this._createGrid(crud));
+            section.appendChild(this._createHeader(view));
+            section.appendChild(this._createGrid(view));
         }
 
         this.setAttribute('class', 'container');
@@ -31,32 +29,32 @@ class customContainerVIEWElement extends HTMLElement {
         this.append(section);
     }
 
-    _createReport(crud) {
+    _createReport(view) {
         let sectionReport = document.createElement('div');
 
-        if (Factory.hasPage(crud)) {
-            sectionReport.appendChild(Factory.getPage(crud).getReport());
+        if (Factory.hasPage(view)) {
+            sectionReport.appendChild(Factory.getPage(view).getReport());
         }
 
         return sectionReport;
     }
 
-    _createHeader(crud) {
+    _createHeader(view) {
         let sectionHeader = document.createElement('div');
         sectionHeader.id = "section-custom-header";
         
-        if (Factory.hasPage(crud)) {
-            sectionHeader.appendChild(Factory.getPage(crud).getHeader());
+        if (Factory.hasPage(view)) {
+            sectionHeader.appendChild(Factory.getPage(view).getHeader());
         }
         return sectionHeader;
     }
 
-    _createGrid(crud) {
+    _createGrid(view) {
         let sectionMain = document.createElement('div');
         sectionMain.id = "section-custom-main";
         
-        if (Factory.hasPage(crud)) {
-            sectionMain.appendChild(Factory.getPage(crud).getGrid());
+        if (Factory.hasPage(view)) {
+            sectionMain.appendChild(Factory.getPage(view).getGrid());
         }
         return sectionMain;
     }

@@ -1,39 +1,9 @@
 import Grid from '../../components/customGridResponsive.js';
 import * as Field from '../../components/customFields.js';
 import InterfacePages from '../../interface/InterfacePages.js';
-import * as Utils from '../../Utils.js';
+import * as Function from './functions/UserFunction.js';
 
-var vl = [ 
-    {"values": [0, "Caio", "caio.cdmatos@gmail.com", "Administrador" ],"action": [] }, 
-    {"values": [1, "Debora", "debooraa7x@gmail.com", "Caixa" ], "action": ["Editar", "Deletar"] }, 
-    {"values": [2, "Erick", "erick.ruan@gmail.com", "Balcão" ], "action": ["Editar", "Deletar"] },
-    {"values": [3, "Caio", "caio.cdmatos@gmail.com", "Administrador" ],"action": [] }, 
-    {"values": [4, "Debora", "debooraa7x@gmail.com", "Caixa" ], "action": ["Editar"] }, 
-    {"values": [5, "Erick", "erick.ruan@gmail.com", "Balcão" ], "action": ["Editar", "Deletar"] },
-    {"values": [6, "Caio", "caio.cdmatos@gmail.com", "Administrador" ],"action": [] }, 
-    {"values": [7, "Debora", "debooraa7x@gmail.com", "Caixa" ], "action": ["Editar"] }, 
-    {"values": [8, "Erick", "erick.ruan@gmail.com", "Balcão" ], "action": ["Editar", "Deletar"] },
-    {"values": [9, "Caio", "caio.cdmatos@gmail.com", "Administrador" ],"action": [] }, 
-    {"values": [10, "Debora", "debooraa7x@gmail.com", "Caixa" ], "action": ["Editar"] }, 
-    {"values": [11, "Erick", "erick.ruan@gmail.com", "Balcão" ], "action": ["Editar", "Deletar"] },
-    {"values": [12, "Caio", "caio.cdmatos@gmail.com", "Administrador" ],"action": [] }, 
-    {"values": [13, "Debora", "debooraa7x@gmail.com", "Caixa" ], "action": ["Editar"] }, 
-    {"values": [14, "Erick", "erick.ruan@gmail.com", "Balcão" ], "action": ["Editar", "Deletar"] },
-    {"values": [15, "Caio", "caio.cdmatos@gmail.com", "Administrador" ],"action": [] }, 
-    {"values": [16, "Debora", "debooraa7x@gmail.com", "Caixa" ], "action": ["Editar", "Deletar"] }, 
-    {"values": [17, "Erick", "erick.ruan@gmail.com", "Balcão" ], "action": ["Editar", "Deletar"] },
-    {"values": [18, "Caio", "caio.cdmatos@gmail.com", "Administrador" ],"action": [] }, 
-    {"values": [19, "Debora", "debooraa7x@gmail.com", "Caixa" ], "action": ["Editar"] }, 
-    {"values": [20, "Erick", "erick.ruan@gmail.com", "Balcão" ], "action": ["Editar", "Deletar"] },
-    {"values": [21, "Caio", "caio.cdmatos@gmail.com", "Administrador" ],"action": [] }, 
-    {"values": [22, "Debora", "debooraa7x@gmail.com", "Caixa" ], "action": ["Editar", "Deletar"] }, 
-    {"values": [23, "Erick", "erick.ruan@gmail.com", "Balcão" ], "action": ["Editar", "Deletar"] },
-    {"values": [24, "Caio", "caio.cdmatos@gmail.com", "Administrador" ],"action": [] }, 
-    {"values": [25, "Debora", "debooraa7x@gmail.com", "Caixa" ], "action": ["Editar"] }, 
-    {"values": [26, "Erick", "erick.ruan@gmail.com", "Balcão" ], "action": ["Editar", "Deletar"] }
-];
-
-export default class UserPage extends InterfacePages {
+export default class UserCrudPage extends InterfacePages {
     
     constructor() {
         super();
@@ -42,27 +12,36 @@ export default class UserPage extends InterfacePages {
     }
 
     static fields = {
-        'Name': 'string',
-        'Email': 'email',
+        'Name': 'custom',
+        'Email': 'custom',
         'Fun\u00e7\u00e3o': [ 'Selecione', 'Caixa', 'Balc\u00e3o' ],
-        'Senha': 'password',
+        'Senha': 'custom',
         'Ação': 'Action'
     }
 
     getFields() {
         return Field.createElementsFields({
-            col: UserPage.fields,
+            col: UserCrudPage.fields,
             hiddenField: []
         });
     }
 
     getGrid() {
         return this.grid.createGridElement({
-            col: UserPage.fields, 
-            value: vl,
+            col: UserCrudPage.fields, 
+            value: Function._findAllUsers(),
             hasSearch: true,
-            hasHeader: true
+            hasHeader: true,
+            notHeader: ['Senha']
         });
+    }
+
+    _isDelete(id) {
+        return Function._removeUser(id);
+    }
+
+    _isUpdate(obj) {
+        return Function._updateUser(obj);
     }
 
 };

@@ -108,6 +108,7 @@ export function createElementsFields({col, hiddenField, isReturn, hasInside}) {
         contentBtn.appendChild(btnCancel);
     }
 
+    form.autocomplete = 'false';
     form.appendChild(contentBtn);
     sectionGrid.appendChild(form);
 

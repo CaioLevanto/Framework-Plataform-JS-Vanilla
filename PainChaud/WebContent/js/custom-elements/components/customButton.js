@@ -19,6 +19,10 @@ class customButtonElement extends HTMLElement {
             button.appendChild(i);
         }
 
+        if (this.onclick) {
+            button.onclick = this.onclick;
+        }
+
         if (this.getAttribute('type') == 'submit') {
             button.addEventListener('click', function(e) {
                 //Confirma envio;

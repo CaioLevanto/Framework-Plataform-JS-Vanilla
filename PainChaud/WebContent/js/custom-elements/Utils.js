@@ -13,3 +13,8 @@ export default function doAjax({async, pathname, url, type, field, params}) {
         error: function (e) { return e }
     });
 };
+
+export function getPageSelected() {
+    const opt = $('.custom-option.selected')[0];
+    return (opt.getAttribute('url') + '-' + opt.getAttribute('custom-type'));
+}

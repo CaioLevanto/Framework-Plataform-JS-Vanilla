@@ -34,6 +34,8 @@ class customInputElement extends HTMLElement {
         }
 
         let input = document.createElement('input');
+        input.setAttribute('autocomplete','false');
+        
         if (this.hasAttribute('placeholder')) {
             input.placeholder = this.getAttribute('placeholder');
         }

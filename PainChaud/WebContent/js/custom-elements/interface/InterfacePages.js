@@ -9,7 +9,7 @@ export default class InterfacePages {
     }
     
     getFields(isReturn) {
-        throw new Error('Not implemented Grid');
+        throw new Error('Not implemented Field');
     }
 
     getGrid() {
@@ -17,7 +17,19 @@ export default class InterfacePages {
     }
 
     getReport() {
-        throw new Error('Not implemented Grid');
+        throw new Error('Not implemented Report');
+    }
+
+    _isDelete(id) {
+        throw new Error('Not implemented function Delete by option');
+    }
+
+    _isUpdate(obj) {
+        throw new Error('Not implemented function Update by option');
+    }
+
+    _findById(id) {
+        throw new Error('Not implemented function Find by Id');
     }
 
 };

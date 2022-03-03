@@ -27,7 +27,7 @@ class customContainerVIEWElement extends HTMLElement {
 
     _createField(crud) {
         let sectionLeft = document.createElement('div');
-        sectionLeft.className = "section-custom-left";
+        sectionLeft.id = "section-custom-left";
         
         if (Factory.hasPage(crud)) {
             sectionLeft.appendChild(Factory.getPage(crud).getFields());
@@ -43,7 +43,7 @@ class customContainerVIEWElement extends HTMLElement {
 
     _createGrid(crud) {
         let sectionRight = document.createElement('div');
-        sectionRight.className = "section-custom-right";
+        sectionRight.id = "section-custom-right";
         
         if (Factory.hasPage(crud)) {
             sectionRight.appendChild(Factory.getPage(crud).getGrid());

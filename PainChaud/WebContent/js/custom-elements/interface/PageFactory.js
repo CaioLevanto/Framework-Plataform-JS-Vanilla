@@ -1,4 +1,4 @@
-import UserPage from '../pages/crud/UserCrudPage.js';
+import UserCrudPage from '../pages/crud/UserCrudPage.js';
 import ProductCrudPage from '../pages/crud/ProductCrudPage.js';
 import ProductViewPage from '../pages/view/ProductViewPage.js';
 import ReportPage from '../pages/view/ReportPages.js';
@@ -11,7 +11,7 @@ import ComandaViewPage from '../pages/view/ComandaViewPage.js';
 export default class PageFactory {
     
     static pages = {
-        "User-crud": UserPage,
+        "User-crud": UserCrudPage,
         "Sale-crud": SaleCrudPage,
         "Sale-view": SaleViewPage,
         "Product-crud": ProductCrudPage,

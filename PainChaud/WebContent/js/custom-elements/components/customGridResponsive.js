@@ -1,3 +1,6 @@
+import Factory from '../interface/PageFactory.js';
+import * as Utils from '../Utils.js';
+
 var vlFinded = [ 
     {"values": [0, "Caio", "caio.cdmatos@gmail.com", "Administrador" ],"action": [] }, 
     {"values": [1, "Debora", "debooraa7x@gmail.com", "Caixa" ], "action": ["Editar", "Deletar"] }, 
@@ -204,13 +207,28 @@ export default class createGrid {
             }
     
             for (let a in actionLine) {
+                const nameAction = actionLine[Number.parseInt(a)];
+
                 let action = document.createElement('i');
-                action.className = this._getAction(actionLine[Number.parseInt(a)]);
-    
-                if (actionLine[a] == 'Visualizar') {
+                action.className = this._getAction(nameAction);
+
+                if (nameAction == "Deletar") {
                     action.onclick = function() {
-                        console.log(this.parentElement.parentElement.id);
+                        const lineId = this.parentElement.parentElement.id;
+    
+                        if (Factory.getPage(Utils.getPageSelected())._isDelete(lineId.replace("line-grid-", "")))
+                            $('#' + lineId).remove();
                     };
+                }
+                if (nameAction == "Editar") {
+                    action.onclick = function() {
+                        // const children = $("#" + this.parentElement.parentElement.id)[0].childNodes;
+                        const field = $(".data-fields  .separator >");
+
+                        for (let i = 0; i < field.length; i++) {
+                            console.log(document.forms['form'][field[i].id.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "")]);
+                        }
+                    }
                 }
     
                 divAction.appendChild(action);

@@ -1,4 +1,5 @@
 import Factory from '../interface/PageFactory.js';
+import * as Utils from '../Utils.js';
 
 export function actionReturn() {
     $('custom-inside-crud').remove();
@@ -9,17 +10,20 @@ export function actionSubmit(hasInside) {
     alert('submit');
 
     if (hasInside) {
-        const selected = $('.custom-option.selected')[0];
-        const url = selected.getAttribute('url');
-        const container = $('.container')[0];
-        const type = container.getAttribute('type')
-        const crud = url + '-' + type;
+        const opt = Utils.getPageSelected();
 
         actionReturn();
 
         $('#data-grid').remove();
-        let section = document.getElementById('section-custom-main');
-        section.appendChild(Factory.getPage(crud).getGrid());
+        let section;
+
+        if (opt.split('-').includes('view')) {
+            section = document.getElementById('section-custom-main');
+        } else {
+            section = document.getElementById('section-custom-right');
+        }
+
+        section.appendChild(Factory.getPage(opt).getGrid());
     }
 }
 
@@ -27,17 +31,20 @@ export function actionOnSubmit(hasInside) {
     // alert('onSubmit');
 
     if (hasInside) {
-        const selected = $('.custom-option.selected')[0];
-        const url = selected.getAttribute('url');
-        const container = $('.container')[0];
-        const type = container.getAttribute('type')
-        const crud = url + '-' + type;
-        
+        const opt = Utils.getPageSelected();
+
         actionReturn();
-        
+    
         $('#data-grid').remove();
-        let section = document.getElementById('section-custom-main');
-        section.appendChild(Factory.getPage(crud).getGrid());
+        let section;
+
+        if (opt.split('-').includes('view')) {
+            section = document.getElementById('section-custom-main');
+        } else {
+            section = document.getElementById('section-custom-right');
+        }
+
+        section.appendChild(Factory.getPage(Utils.getPageSelected()).getGrid());
     }
 }
 

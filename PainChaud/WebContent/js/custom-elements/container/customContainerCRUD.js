@@ -1,4 +1,5 @@
 import Factory from '../interface/PageFactory.js';
+import * as Utils from '../Utils.js';
 
 class customContainerCRUDElement extends HTMLElement {
 
@@ -11,10 +12,7 @@ class customContainerCRUDElement extends HTMLElement {
     }
 
     createElement() {
-        let opt = $('.custom-option.selected')[0];
-        let url = opt.getAttribute('url');
-        let type = opt.getAttribute('custom-type');
-        const crud = url + "-" + type;
+        const crud = Utils.getPageSelected();
 
         let section = document.createElement('div');
         section.id = "section-custom-element";
@@ -30,7 +28,7 @@ class customContainerCRUDElement extends HTMLElement {
 
     _createField(crud) {
         let sectionLeft = document.createElement('div');
-        sectionLeft.className = "section-custom-left";
+        sectionLeft.id = "section-custom-left";
         
         if (Factory.hasPage(crud)) {
             sectionLeft.appendChild(Factory.getPage(crud).getFields());
@@ -46,7 +44,7 @@ class customContainerCRUDElement extends HTMLElement {
 
     _createGrid(crud) {
         let sectionRight = document.createElement('div');
-        sectionRight.className = "section-custom-right";
+        sectionRight.id = "section-custom-right";
         
         if (Factory.hasPage(crud)) {
             sectionRight.appendChild(Factory.getPage(crud).getGrid());

@@ -44,4 +44,8 @@ export default class ComandaCrudPage extends InterfacePages {
         });
     }
 
+    // _hasDelete(id) {
+    //     return 
+    // }
+
 };
