@@ -14,7 +14,7 @@ export default class UserCrudPage extends InterfacePages {
     static fields = {
         'Name': 'custom',
         'Email': 'custom',
-        'Fun\u00e7\u00e3o': [ 'Selecione', 'Caixa', 'Balc\u00e3o' ],
+        'Funcao': [ 'Selecione', 'Caixa', 'Balcao' ],
         'Senha': 'custom',
         'Ação': 'Action'
     }
@@ -29,7 +29,7 @@ export default class UserCrudPage extends InterfacePages {
     getGrid() {
         return this.grid.createGridElement({
             col: UserCrudPage.fields, 
-            value: Function._findAllUsers(),
+            value: Function._findAll(),
             hasSearch: true,
             hasHeader: true,
             notHeader: ['Senha']
@@ -37,11 +37,15 @@ export default class UserCrudPage extends InterfacePages {
     }
 
     _isDelete(id) {
-        return Function._removeUser(id);
+        return true;
     }
 
     _isUpdate(obj) {
-        return Function._updateUser(obj);
+        return true;
+    }
+
+    _findById(id) {
+        return true;
     }
 
 };

@@ -5,7 +5,8 @@ export function createElementsFields({col, hiddenField, isReturn, hasInside}) {
     sectionGrid.className = 'data-fields';
 
     let form = document.createElement('form');
-    form.setAttribute('return', hasInside ? true : false);
+    form.setAttribute('return', !!hasInside);
+    form.setAttribute('data-id', '');
     form.id = 'form-fields';
     form.name = 'form';
     form.submit = function(e) {
@@ -108,7 +109,7 @@ export function createElementsFields({col, hiddenField, isReturn, hasInside}) {
         contentBtn.appendChild(btnCancel);
     }
 
-    form.autocomplete = 'false';
+    form.autocomplete = 'off';
     form.appendChild(contentBtn);
     sectionGrid.appendChild(form);
 

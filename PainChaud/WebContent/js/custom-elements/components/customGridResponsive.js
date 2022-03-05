@@ -7,6 +7,15 @@ var vlFinded = [
     {"values": [2, "Erick", "erick.ruan@gmail.com", "Balcão" ], "action": ["Editar", "Deletar"] }
 ];
 
+var vl = [ 
+    {"values": { 
+        'id': 0, 
+        'Name': "Caio", 
+        'Email': "caio.cdmatos@gmail.com", 
+        'Funcao': "Administrador" 
+    },"action": [] }
+];
+
 export default class createGrid {
     
     static columnsPreDefine = {
@@ -38,7 +47,7 @@ export default class createGrid {
 
         let containerGrid = document.createElement('div');
         containerGrid.id = 'container-grid';
-        this.createContainerGrid(containerGrid, value, col, fieldEdit);
+        this.createContainerGrid(containerGrid, value, col, fieldEdit, notHeader);
         
         body.appendChild(containerGrid);
     
@@ -57,14 +66,33 @@ export default class createGrid {
         dataGrid.appendChild(containerGrid);
     }
 
-    createContainerGrid(containerGrid, value, col, fieldEdit) {
+    insertItem({col, value}) {
+        const dataGrid = document.getElementById('data-grid');
+
+
+    }
+
+    createContainerGrid(containerGrid, value, col, fieldEdit, notHeader) {
         if (value) {
-            let allColumns = [];
-            allColumns.push('id');
+            let allColumns = {};
+            
+            allColumns['id'] = true;
             for (let i in col) {
-                if (col[i] != 'password' && col[i] != 'Action') {
-                    allColumns.push(i);
+                if (notHeader) {
+                    if (notHeader.includes(i)) {
+                        allColumns[i] = false;
+                        continue
+                    }
                 }
+
+                if (col[i] == 'password' && col[i] == 'Action') {
+                    allColumns[i] = false;
+                    continue
+                }
+
+                
+
+                allColumns[i] = true;
             };
 
             for (let grid in value) {
@@ -156,33 +184,50 @@ export default class createGrid {
         line.className = 'line-grid-custom';
 
         for (let l in valueLine) {
-            if (l == '0') {
+            if (!col[l]) {
+                continue
+            }
+
+            if (l == 'id') {
                 line.id = 'line-grid-' + Number.parseInt(valueLine[l]);
                 continue;
             }
 
             let separatorLine = document.createElement('div');
             separatorLine.className = 'separator-grid';
-            separatorLine.id = col[l];
+            separatorLine.id = l;
+            if (l == "Valor") {
+                const removeCurrency = valueLine[l].replace('R$ ', '');
+                separatorLine.value = parseFloat(removeCurrency.replace(',', '.')).toFixed(2);
+            }
 
-            if (fieldEdit?.includes(col[l])) {
+            if (fieldEdit?.includes(l)) {
                 let itemField = document.createElement('input');
-                itemField.id = 'qtd-item-' + l;
+                itemField.id = 'qtd-item-' + l  ;
                 itemField.className = 'qtd-field-item';
                 itemField.title = 'Quantidade';
                 itemField.type = 'Number';
                 itemField.max = '999';
                 itemField.min = '1';
+                if (valueLine["Tipo"]) {
+                    itemField.setAttribute('unit-type', valueLine["Tipo"]);
+                }
                 itemField.onblur = function(e) {
                     let field = e.target;
 
                     if (field.value > field.max) {
                         field.value = 1;
                         alert('Campo ' + field.name + ' excedeu quantidade maxima');
-                    } else if (field.value < field.min) {
+                    } else if (field.value < field.min && field.getAttribute('unit-type') == '0') {
                         field.value = 1;
                         alert('Campo ' + field.name + ' excedeu quantidade minima');
                     }
+
+                    const value = $("#" + field.parentElement.parentElement.id + " > #Valor");
+                    const qtd = parseFloat(field.value);
+                    const vlTotal = (value.val() * qtd).toFixed(2);
+
+                    value[0].childNodes[0].textContent = ("R$ " + vlTotal.toString().replace('.', ','));
                 }
                 itemField.value = Number.parseInt(valueLine[l]);
                 separatorLine.appendChild(itemField);
@@ -228,6 +273,12 @@ export default class createGrid {
                         for (let i = 0; i < field.length; i++) {
                             console.log(document.forms['form'][field[i].id.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "")]);
                         }
+                    }
+                }
+                if (nameAction == "Visualizar") {
+                    action.onclick = function() {
+                    //    Factory.getPage(Utils.getClass() + "inside")
+                        this.parentElement.parentElement.id.replace("line-grid-", "");
                     }
                 }
     

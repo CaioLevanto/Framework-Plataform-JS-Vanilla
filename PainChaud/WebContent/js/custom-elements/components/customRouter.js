@@ -27,7 +27,7 @@ class customRouterElement extends HTMLElement {
     }
 
     connectedCallback() {
-        this.createValues(test2[0]);
+        this.createValues(test2[2]);
     }
 
     createValues(columns) {

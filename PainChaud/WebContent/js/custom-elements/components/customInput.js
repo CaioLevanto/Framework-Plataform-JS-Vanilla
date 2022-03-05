@@ -34,7 +34,7 @@ class customInputElement extends HTMLElement {
         }
 
         let input = document.createElement('input');
-        input.setAttribute('autocomplete','false');
+        input.setAttribute('autocomplete','off');
         
         if (this.hasAttribute('placeholder')) {
             input.placeholder = this.getAttribute('placeholder');
@@ -66,6 +66,10 @@ class customInputElement extends HTMLElement {
                 addBtn.addEventListener('click', function() {
                     Action.addItemGrid();
                 });
+            }
+            //Realiza o bloqueio do input de comanda e insere os produtos da comanda na grid.
+            if (hasType[i] == 'Comanda') {
+
             }
             if (hasType[i] != 'Add') {
                 input.setAttribute("type", hasType[i]);

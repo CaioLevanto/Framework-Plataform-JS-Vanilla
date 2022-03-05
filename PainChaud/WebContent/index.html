@@ -23,11 +23,11 @@
 			<img src="img/logo.png" alt="Logo Pain chaud">
 		</div>
 		<div class="right-content">
-			<form autocomplete="off" name="form" method="POST" action="#" onsubmit="return validateLogin()">
+			<form name="form" method="POST" action="#" onsubmit="return validateLogin()" autocomplete="off">
 				<div id="login-content">
 					<div class="content-objects">
-						<custom-input id="user" type="email" title="Login:"></custom-input>
-						<custom-input id="password" type="password" title="Senha:"></custom-input>
+						<custom-input id="user" type="email" title="Login:" autocomplete="off"></custom-input>
+						<custom-input id="password" type="password" title="Senha:" autocomplete="off"></custom-input>
 					</div>
 					<div class="content-objects">
 						<custom-button icon="fa-solid fa-arrow-right-to-bracket" id="login" type="submit" onclick="redictLocation()" form="formLogin" title="Entrar"></custom-button>

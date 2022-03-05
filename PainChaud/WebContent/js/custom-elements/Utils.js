@@ -1,4 +1,4 @@
-export default function doAjax({async, pathname, url, type, field, params}) {
+export function doAjax({async, pathname, url, type, field, params}) {
     $.ajax({
         url: '/Painchaud/rest/' + pathname + url,
         async: async,
@@ -17,4 +17,8 @@ export default function doAjax({async, pathname, url, type, field, params}) {
 export function getPageSelected() {
     const opt = $('.custom-option.selected')[0];
     return (opt.getAttribute('url') + '-' + opt.getAttribute('custom-type'));
+}
+
+export function getClass() {
+    return $('.custom-option.selected')[0].getAttribute('url');
 }

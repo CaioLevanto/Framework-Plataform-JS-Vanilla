@@ -3,12 +3,34 @@ import * as Field from '../../components/customFields.js';
 import InterfacePages from '../../interface/InterfacePages.js';
 import * as Utils from '../../Utils.js';
 
+
 var vlCrud = [ 
-    {"values": [0, "Coxinha", "Balcao", "Unidade", "R$ 2,50" ],"action": ["Editar", "Deletar"] }, 
-    {"values": [1, "Pastel", "Balcao", "Unidade", "R$ 4,50" ], "action": ["Editar", "Deletar"] }, 
-    {"values": [2, "Cuca", "Embalado", "Unidade", "R$ 10,00" ], "action": ["Editar", "Deletar"] },
-    {"values": [3, "Pao", "Balcao", "Peso", "R$ 4,50" ],"action": ["Editar", "Deletar"] }, 
-    {"values": [4, "Bolo de Fuba", "Embalado", "Unidade", "R$ 7,50" ], "action": ["Editar", "Deletar"] }
+    {
+        "values": { 
+            'id': 0, 
+            'Nome': "Coxinha", 
+            'Local': "Balcao",
+            'Tipo': 'Unidade',
+            'Valor': 'R$ 2,50' 
+        },
+        "action": [
+            "Editar", 
+            "Deletar"
+        ]
+    },
+    {
+        "values": { 
+            'id': 1, 
+            'Nome': "Pao", 
+            'Local': "Balcao",
+            'Tipo': 'Peso',
+            'Valor': 'R$ 4,50' 
+        },
+        "action": [
+            "Editar", 
+            "Deletar"
+        ]
+    }
 ];
 
 export default class ProductCrudPage extends InterfacePages {
@@ -38,8 +60,21 @@ export default class ProductCrudPage extends InterfacePages {
             col: ProductCrudPage.fields,
             value: vlCrud, 
             hasSearch: true, 
-            hasHeader: true
+            hasHeader: true,
+
         });
+    }
+
+    _isDelete(id) {
+        return true;
+    }
+
+    _isUpdate(obj) {
+        return true;
+    }
+
+    _findById(id) {
+        return true;
     }
 
 };

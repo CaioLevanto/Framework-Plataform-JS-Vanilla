@@ -4,15 +4,36 @@ import * as ComandaEvents from '../events/comanda-events.js';
 import * as Utils from '../../Utils.js';
 
 var vl = [ 
-    {"values": [0, "1" ],"action": ["Editar"] }, 
-    {"values": [1, "2" ], "action": ["Editar"] }, 
-    {"values": [2, "3" ], "action": ["Editar"] },
-    {"values": [3, "4" ],"action": ["Editar"] }, 
-    {"values": [4, "5" ], "action": ["Editar"] }
+    {
+        "values": { 
+            'id': 0, 
+            'Identificacao da comanda': 1
+        },
+        "action": [
+            "Editar"
+        ]
+    },
+    {
+        "values": { 
+            'id': 1, 
+            'Identificacao da comanda': 1
+        },
+        "action": [
+            "Editar"
+        ]
+    }
 ];
 
 var vlFinded = [ 
-    {"values": [0, "1" ],"action": ["Editar"] }
+    {
+        "values": { 
+            'id': 0, 
+            'Identificacao da comanda': 1
+        },
+        "action": [
+            "Editar"
+        ]
+    }
 ];
 
 export default class ComandaViewPage extends InterfacePages {
@@ -59,6 +80,18 @@ export default class ComandaViewPage extends InterfacePages {
            hasSearch: false, 
            hasHeader: true
         });
+    }
+
+    _isDelete(id) {
+        return true;
+    }
+
+    _isUpdate(obj) {
+        return true;
+    }
+
+    _findById(id) {
+        return true;
     }
 
 };

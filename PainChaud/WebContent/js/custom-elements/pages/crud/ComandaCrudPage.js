@@ -4,11 +4,30 @@ import InterfacePages from '../../interface/InterfacePages.js';
 import * as Utils from '../../Utils.js';
 
 var vl = [ 
-    {"values": [0, "Coxinha", "1", "R$ 2,50" ],"action": ["Deletar"] }, 
-    {"values": [1, "Pastel", "1", "R$ 4,50" ], "action": ["Deletar"] }, 
-    {"values": [2, "Cuca", "1", "R$ 10,00" ], "action": ["Deletar"] },
-    {"values": [3, "Pao", "1", "R$ 4,50" ],"action": ["Deletar"] }, 
-    {"values": [4, "Bolo de Fuba", "1", "R$ 7,50" ], "action": ["Deletar"] }
+    {
+        "values": { 
+            'id': 0, 
+            'Produto': "Coxinha", 
+            'Quantidade': "1", 
+            'Tipo': '0',
+            'Valor': 'R$ 2,50'
+        },
+        "action": [
+            "Deletar"
+        ]
+    },
+    {
+        "values": { 
+            'id': 1, 
+            'Produto': "Pao", 
+            'Quantidade': "1", 
+            'Tipo': '1',
+            'Valor': 'R$ 4,50' 
+        },
+        "action": [
+            "Deletar"
+        ]
+    }
 ];
 
 export default class ComandaCrudPage extends InterfacePages {
@@ -44,8 +63,16 @@ export default class ComandaCrudPage extends InterfacePages {
         });
     }
 
-    // _hasDelete(id) {
-    //     return 
-    // }
+    _isDelete(id) {
+        return true;
+    }
+
+    _isUpdate(obj) {
+        return true;
+    }
+
+    _findById(id) {
+        return true;
+    }
 
 };

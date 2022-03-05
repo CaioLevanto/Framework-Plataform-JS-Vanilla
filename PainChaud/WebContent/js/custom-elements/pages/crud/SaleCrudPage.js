@@ -1,14 +1,34 @@
+import InterfacePages from '../../interface/InterfacePages.js'; 
 import Grid from '../../components/customGridResponsive.js';
+import * as Function from './functions/SaleFunction.js';
 import * as Field from '../../components/customFields.js';
-import InterfacePages from '../../interface/InterfacePages.js';
 import * as Utils from '../../Utils.js';
 
-var vlCrud = [ 
-    {"values": [0, "Coxinha", "1", "R$ 2,50" ],"action": ["Deletar"] }, 
-    {"values": [1, "Pastel", "1", "R$ 4,50" ], "action": ["Deletar"] }, 
-    {"values": [2, "Cuca", "1", "R$ 10,00" ], "action": ["Deletar"] },
-    {"values": [3, "Pao", "1", "R$ 4,50" ],"action": ["Deletar"] }, 
-    {"values": [4, "Bolo de Fuba", "1", "R$ 7,50" ], "action": ["Deletar"] }
+
+var vl = [ 
+    {
+        "values": { 
+            'id': 0, 
+            'Produto': "Coxinha", 
+            'Quantidade': "1", 
+            'Valor': 'R$ 2,50',
+            'Tipo': '0' 
+        },
+        "action": [
+            "Deletar"
+        ] 
+    },
+    {   "values": { 
+            'id': 1, 
+            'Produto': "Pao", 
+            'Quantidade': "1", 
+            'Valor': 'R$ 4,50',
+            'Tipo': '1' 
+        },
+        "action": [
+            "Deletar"
+        ] 
+    }
 ];
 
 export default class SaleCrudPage extends InterfacePages {
@@ -22,8 +42,9 @@ export default class SaleCrudPage extends InterfacePages {
     static fields = {
         'Produto': [ "Pao", "Bolacha" ],
         'Quantidade': 'Number,Add',
-        'Comanda': 'Number,Add',
-
+        'Comanda': 'Number,Add,Comanda',
+        
+        'Tipo': 'string',
         'Data da venda': 'string',
         'Valor': 'string',
 
@@ -33,19 +54,31 @@ export default class SaleCrudPage extends InterfacePages {
     getFields() {
         return Field.createElementsFields({
             col: SaleCrudPage.fields, 
-            hiddenField: ['Data da venda', 'Valor'] //Colunas que não deve aparecer nos fields, somente visualizar na grid
+            hiddenField: ['Data da venda', 'Valor', 'Tipo'] //Colunas que não deve aparecer nos fields, somente visualizar na grid
         }); 
     }
 
     getGrid(hasSearch) {
         return this.grid.createGridElement({
             col: SaleCrudPage.fields,
-            value: vlCrud,
+            value: vl,
             hasSearch: true,
             hasHeader: true,
             fieldEdit: ["Quantidade"],
-            notHeader: ['Data da venda', 'Comanda'] //Colunas que não deve aparecer (manipula somente backend)
+            notHeader: ['Data da venda', 'Comanda', 'Tipo'] //Colunas que não deve aparecer (manipula somente backend)
         });
+    }
+
+    _isDelete(id) {
+        return true;
+    }
+
+    _isUpdate(obj) {
+        return true;
+    }
+
+    _findById(id) {
+        return true;
     }
 
 };

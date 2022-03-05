@@ -1,14 +1,34 @@
-import Grid from '../../components/customGridResponsive.js';
 import InterfacePages from '../../interface/InterfacePages.js';
+import Grid from '../../components/customGridResponsive.js';
+import * as Field from '../../components/customFields.js';
 import * as Utils from '../../Utils.js';
 
-var vlCrud = [ 
-    {"values": [0, "10/10/2022", "R$ 18,90" ] }, 
-    {"values": [1, "10/10/2022", "R$ 20,00" ] }, 
-    {"values": [2, "10/10/2022", "R$ 15,00" ] },
-    {"values": [3, "10/10/2022", "R$ 10,00" ] }, 
-    {"values": [4, "10/10/2022", "R$ 5,90" ] }
+var vl = [ 
+    {
+        "values": { 
+            'id': 0, 
+            'Produto': "Coxinha", 
+            'Quantidade': "1",
+            'Valor': 'R$ 2,50' 
+        },
+        "action": [
+            "Deletar"
+        ]
+    },
+    {
+        "values": { 
+            'id': 1, 
+            'Produto': "Pao", 
+            'Quantidade': "1",
+            'Valor': 'R$ 2,50' 
+        },
+        "action": [
+            "Deletar"
+        ]
+    }
 ];
+
+
 
 export default class SaleInsideViewPage extends InterfacePages {
 
@@ -18,32 +38,39 @@ export default class SaleInsideViewPage extends InterfacePages {
         this.grid = new Grid();
     }
 
-    static fieldsCrud = {
-        'Produto': [ "Balcao", "Embalado" ],
-        'Quantidade': 'Number',
-        'Comanda': 'Number',
-
-        'Data da venda': 'string',
+    static fields = {
+        'Produto': [ "Pao", "Coxinha", "Risoles", "Bolo" ],
+        'Quantidade': 'Number,Add',
         'Valor': 'string',
-
         'AÃ§Ã£o': 'Action'
     }
 
     getFields() {
         return Field.createElementsFields({
-            col: SaleInsideViewPage.fieldsCrud, 
-            hiddenField: ['Data da venda', 'Valor'] //Colunas que não deve aparecer nos fields, somente visualizar na grid
+            col: SaleInsideViewPage.fields,
+            hiddenField: ['Produto', 'Quantidade', 'Valor']
         }); 
     }
 
     getGrid(hasSearch) {
         return this.grid.createGridElement({
-            col: SaleInsideViewPage.fieldsCrud,
-            value: vlCrud,
+            col: SaleInsideViewPage.fields,
+            value: vl,
             hasSearch: false,
-            hasHeader: true,
-            notHeader: ['Comanda'] //Colunas que não deve aparecer (manipula somente backend)
+            hasHeader: true
         });
+    }
+
+    _isDelete(id) {
+        return true;
+    }
+
+    _isUpdate(obj) {
+        return true;
+    }
+
+    _findById(id) {
+        return true;
     }
 
 };

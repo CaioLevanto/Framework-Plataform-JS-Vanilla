@@ -2,20 +2,27 @@ import Grid from '../../components/customGridResponsive.js';
 import InterfacePages from '../../interface/InterfacePages.js';
 import * as Utils from '../../Utils.js';
 
-var vlCrud = [ 
-    {"values": [0, "10/10/2022", "R$ 18,90" ],"action": ["Visualizar"] }, 
-    {"values": [1, "10/10/2022", "R$ 20,00" ], "action": ["Visualizar"] }, 
-    {"values": [2, "10/10/2022", "R$ 15,00" ], "action": ["Visualizar"] },
-    {"values": [3, "10/10/2022", "R$ 10,00" ],"action": ["Visualizar"] }, 
-    {"values": [4, "10/10/2022", "R$ 5,90" ], "action": ["Visualizar"] }
-];
-
 var vlView = [ 
-    {"values": [0, "10/10/2022", "R$ 18,90" ],"action": ["Visualizar"] }, 
-    {"values": [1, "10/10/2022", "R$ 20,00" ], "action": ["Visualizar"] }, 
-    {"values": [2, "10/10/2022", "R$ 15,00" ], "action": ["Visualizar"] },
-    {"values": [3, "10/10/2022", "R$ 10,00" ],"action": ["Visualizar"] }, 
-    {"values": [4, "10/10/2022", "R$ 5,90" ], "action": ["Visualizar"] }
+    {
+        "values": { 
+            'id': 0, 
+            'Data da venda': "10/10/2022", 
+            'Valor total': "R$ 18,90"
+        },
+        'action': [
+            "Visualizar"
+        ]
+    },
+    {
+        "values": { 
+            'id': 1, 
+            'Data da venda': "11/10/2022", 
+            'Valor total': "R$ 29,90"
+        },
+        'action': [
+            "Visualizar"
+        ]
+    }
 ];
 
 export default class SaleViewPage extends InterfacePages {
@@ -76,6 +83,18 @@ export default class SaleViewPage extends InterfacePages {
             hasHeader: true,
             notHeader: ['Comanda'] //Colunas que não deve aparecer (manipula somente backend)
         });
+    }
+
+    _isDelete(id) {
+        return true;
+    }
+
+    _isUpdate(obj) {
+        return true;
+    }
+
+    _findById(id) {
+        return true;
     }
 
 };
