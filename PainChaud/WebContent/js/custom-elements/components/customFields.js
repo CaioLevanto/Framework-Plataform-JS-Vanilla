@@ -37,6 +37,15 @@ export function createElementsFields({col, hiddenField, isReturn, hasInside}) {
             
             fieldInput = document.createElement('select');
             fieldInput.className = 'custom-select';
+            fieldInput.addEventListener("change", function() {
+                let optSelected = $(".custom-select > [selected='selected'] ")[0];
+
+                if (optSelected.hasAttributes('selected')) {
+                        optSelected.removeAttribute('selected');
+                }
+
+                $('#' + this.value)[0].setAttribute('selected', 'selected');
+            });
 
             let nameSelect = obj.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "");
             fieldInput.id = nameSelect;
@@ -48,10 +57,17 @@ export function createElementsFields({col, hiddenField, isReturn, hasInside}) {
                 if (opt == '0') {
                     options.setAttribute('selected', 'selected');
                 }
+                if (Array.isArray(fieldType[opt])) {
+                    options.value = fieldType[opt][0];
+                    options.setAttribute('field-value', fieldType[opt][1]);
+                    options.id = fieldType[opt][0];
+                    options.text = fieldType[opt][0];
+                } else {
+                    options.value = opt;
+                    options.id = fieldType[opt];
+                    options.text = fieldType[opt];
+                }
 
-                options.value = opt;
-                options.id = fieldType[opt];
-                options.text = fieldType[opt];
                 fieldInput.appendChild(options);
             }
         } else {

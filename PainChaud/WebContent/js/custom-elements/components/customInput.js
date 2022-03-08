@@ -1,4 +1,5 @@
 import * as Action from './customActionForm.js';
+import * as Utils from '../Utils.js';
 
 class customInputElement extends HTMLElement {
 
@@ -64,7 +65,11 @@ class customInputElement extends HTMLElement {
                 addBtn.id = 'btn-add-' + this.id;
                 addBtn.setAttribute('icon', 'fa-solid fa-plus');
                 addBtn.addEventListener('click', function() {
-                    Action.addItemGrid();
+                    if (Utils.validateFields()) {
+                        let container = $("#section-custom-right #container-grid")[0];
+
+                        container.append(Action.addItemGrid(document.forms['form']), ["Deletar"]);
+                    }
                 });
             }
             //Realiza o bloqueio do input de comanda e insere os produtos da comanda na grid.

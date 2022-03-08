@@ -7,7 +7,7 @@ var vl = [
     {
         "values": { 
             'id': 0, 
-            'Identificacao da comanda': 1
+            'Identificacao da comanda': 0
         },
         "action": [
             "Editar"

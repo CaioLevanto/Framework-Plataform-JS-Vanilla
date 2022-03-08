@@ -68,8 +68,11 @@ export default class SaleViewPage extends InterfacePages {
         end.setAttribute('type', 'date');
         end.title = 'Data Final:';
         end.id = 'date-final';
+        
         end.setAttribute('min', '2022-01-10');
-        end.setAttribute('max', d.getFullYear() + "-0" + (d.getMonth() + 1) + "-" + d.getDate());
+
+        let mounth = (d.getMonth() + 1);
+        end.setAttribute('max', d.getFullYear() + "-" + ((mounth < 10) ? "0" + mounth : mounth) + "-" + d.getDate());
         betweenDate.appendChild(end);
 
         return betweenDate;

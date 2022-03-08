@@ -54,24 +54,6 @@ export default class createGrid {
         return body;
     }
 
-    refreshGrid({col, value, fieldEdit}) {
-        const dataGrid = document.getElementById('data-grid');
-        
-        $('#container-grid').remove();
-
-        let containerGrid = document.createElement('div');
-        containerGrid.id = 'container-grid';
-        this.createContainerGrid(containerGrid, value, col, fieldEdit);
-
-        dataGrid.appendChild(containerGrid);
-    }
-
-    insertItem({col, value}) {
-        const dataGrid = document.getElementById('data-grid');
-
-
-    }
-
     createContainerGrid(containerGrid, value, col, fieldEdit, notHeader) {
         if (value) {
             let allColumns = {};
@@ -89,8 +71,6 @@ export default class createGrid {
                     allColumns[i] = false;
                     continue
                 }
-
-                
 
                 allColumns[i] = true;
             };
@@ -183,19 +163,29 @@ export default class createGrid {
         let line = document.createElement('div');
         line.className = 'line-grid-custom';
 
+        this._createLine_(line, valueLine, col, fieldEdit);
+        this._createIconAction_(line, actionLine);
+        
+        return line;
+    }
+
+    _createLine_(insertLine, valueLine, col, fieldEdit) {
         for (let l in valueLine) {
-            if (!col[l]) {
-                continue
+            if (col) {
+                if (!col[l]) {
+                    continue
+                }
             }
 
             if (l == 'id') {
-                line.id = 'line-grid-' + Number.parseInt(valueLine[l]);
+                insertLine.id = 'line-grid-' + Number.parseInt(valueLine[l]);
                 continue;
             }
 
             let separatorLine = document.createElement('div');
-            separatorLine.className = 'separator-grid';
+            separatorLine.className = 'separator-grid ' + valueLine[l];
             separatorLine.id = l;
+
             if (l == "Valor") {
                 const removeCurrency = valueLine[l].replace('R$ ', '');
                 separatorLine.value = parseFloat(removeCurrency.replace(',', '.')).toFixed(2);
@@ -203,8 +193,9 @@ export default class createGrid {
 
             if (fieldEdit?.includes(l)) {
                 let itemField = document.createElement('input');
-                itemField.id = 'qtd-item-' + l  ;
+                itemField.value = Number.parseInt(valueLine[l]);
                 itemField.className = 'qtd-field-item';
+                itemField.id = 'qtd-item-' + l  ;
                 itemField.title = 'Quantidade';
                 itemField.type = 'Number';
                 itemField.max = '999';
@@ -224,12 +215,12 @@ export default class createGrid {
                     }
 
                     const value = $("#" + field.parentElement.parentElement.id + " > #Valor");
-                    const qtd = parseFloat(field.value);
+                    const qtd = parseFloat(field.value);    
                     const vlTotal = (value.val() * qtd).toFixed(2);
 
                     value[0].childNodes[0].textContent = ("R$ " + vlTotal.toString().replace('.', ','));
                 }
-                itemField.value = Number.parseInt(valueLine[l]);
+                
                 separatorLine.appendChild(itemField);
             } else {
                 let pLine = document.createElement('p');
@@ -237,9 +228,11 @@ export default class createGrid {
                 separatorLine.appendChild(pLine);
             }
 
-            line.appendChild(separatorLine);
+            insertLine.appendChild(separatorLine);
         }
+    }
 
+    _createIconAction_(insertLine, actionLine) {
         if (actionLine) {
             let divAction = document.createElement('div');
             divAction.id = 'act-line';
@@ -271,7 +264,8 @@ export default class createGrid {
                         const field = $(".data-fields  .separator >");
 
                         for (let i = 0; i < field.length; i++) {
-                            console.log(document.forms['form'][field[i].id.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "")]);
+                            console.log(document.forms['form'][field[i].id.toLowerCase()
+                                            .normalize('NFD').replace(/[\u0300-\u036f]/g, "")]);
                         }
                     }
                 }
@@ -284,11 +278,9 @@ export default class createGrid {
     
                 divAction.appendChild(action);
             }
-    
-            line.appendChild(divAction);
+
+            insertLine.appendChild(divAction);
         }
-        
-        return line;
     }
 
     _getAction(act) {

@@ -13,3 +13,7 @@
 .hidden {
     display: none !important;
 }
+
+.hasError {
+    border: 1px solid red !important;
+}

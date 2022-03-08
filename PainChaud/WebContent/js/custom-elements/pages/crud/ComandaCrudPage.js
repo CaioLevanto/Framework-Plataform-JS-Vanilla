@@ -39,7 +39,12 @@ export default class ComandaCrudPage extends InterfacePages {
     }
 
     static fields = {
-        'Produto': [ "Pao", "Coxinha", "Risoles", "Bolo" ],
+        'Produto': [ 
+            ["Pao", "R$ 5,40"], 
+            ["Coxinha", "R$ 2,50"],
+            ["Risoles", "R$ 3,80"],
+            ["Bolo", "R$ 8,20"] 
+        ],
         'Quantidade': 'Number,Add',
         'Valor': 'string',
         'Ação': 'Action'
