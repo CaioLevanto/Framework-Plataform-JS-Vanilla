@@ -32,9 +32,14 @@ class customButtonElement extends HTMLElement {
         }
         if (this.getAttribute('type') == 'reset') {
             button.addEventListener('click', function(e) {
+                e.preventDefault();
                 //Confirma envio;
                 document.forms['form'].reset();
-                e.preventDefault();
+                $('.line-grid-custom').remove();
+
+                let footer = $('#footer-grid')[0];
+                footer.children[0].textContent = 'R$ 0,00';
+                footer.value = 0;
             });
         }
 

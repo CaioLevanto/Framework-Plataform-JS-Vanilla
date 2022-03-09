@@ -49,7 +49,7 @@ export function actionOnSubmit(hasInside) {
     }
 }
 
-export function addItemGrid(obj, actions) {
+export function addItemGrid(obj, listActions) {
     const listFields = $(".data-fields  .separator >");
     const listNames = Utils.getNameHeader();
     
@@ -60,32 +60,44 @@ export function addItemGrid(obj, actions) {
         "action": []
     }
     let value;
+    let qtd;
     
     for (let n in listNames) {
         let name = listNames[n];
         let key = listFields[n];
         let form = obj[name];
-
+        
         if (form) {
+            let title = key.title;
+
             if (key.className == 'custom-select') {
-                let productValue = $("#" + form.value)[0];
+                let productValue = $("#produto > [value='" + form.value + "']")[0];
 
                 if (productValue) {
                     value = productValue.getAttribute('field-value');
                 }
             }
-            vl.values[key.title] = form.value;
+            if (title == 'Quantidade') {
+                qtd = parseInt(form.value);
+            }
+            vl.values[title] = form.value;
         }
 
-        if (n == 'acao') {
-            for (let act in actions) {
-                vl.action.push(actions[act]);
+        if (name == 'acao') {
+            for (let act in listActions) {
+                vl.action.push(listActions[act]);
             }
         }
     }
 
     if (value) {
         vl.values['Valor'] = value;
+        
+        let footer = $("#footer-grid")[0];
+        let sumValues = (footer.value + (parseFloat(value.replace('R$ ', '').replace(',', '.')) * qtd));
+        footer.value = sumValues;
+
+        footer.children[0].textContent = 'R$ ' + sumValues.toFixed(2);
     }
 
     return new createGrid()._createGridBody(vl, null, ["Quantidade"]);

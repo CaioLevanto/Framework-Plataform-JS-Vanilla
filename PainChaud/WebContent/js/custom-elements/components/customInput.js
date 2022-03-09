@@ -68,7 +68,13 @@ class customInputElement extends HTMLElement {
                     if (Utils.validateFields()) {
                         let container = $("#section-custom-right #container-grid")[0];
 
-                        container.append(Action.addItemGrid(document.forms['form']), ["Deletar"]);
+                        let form = document.forms['form'];
+                        let action = ["Deletar"];
+                        let item = Action.addItemGrid(form, action);
+
+                        container.append(item);
+
+                        document.forms['form'].reset();
                     }
                 });
             }
@@ -84,7 +90,7 @@ class customInputElement extends HTMLElement {
                 input.min = '1';
                 input.onblur = function(e) {
                     let field = e.target;
-    
+                    
                     if (input.value != "") {
                         if (field.value > field.max) {
                             field.value = 1;

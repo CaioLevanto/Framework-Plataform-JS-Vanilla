@@ -16,8 +16,10 @@ var vl = [
     },"action": [] }
 ];
 
+var valueFooter;
+
 export default class createGrid {
-    
+
     static columnsPreDefine = {
         'Name': 'string',
         'Email': 'email',
@@ -34,51 +36,72 @@ export default class createGrid {
         let body = document.createElement('div');
         body.id = 'data-grid';
     
-        if (col) {
-            if (!hasCol) {
-                if (hasSearch) {
-                    body.appendChild(this._createSearchByColumns(col, notHeader));
-                }
-                if (hasHeader) {
-                    body.appendChild(this._createGridHeader(col, notHeader));
-                }
+        if (col && !hasCol) {
+            if (hasSearch) {
+                body.appendChild(this._createSearchByColumns(col, notHeader));
+            }
+            if (hasHeader) {
+                body.appendChild(this._createGridHeader(col, notHeader));
             }
         }
 
         let containerGrid = document.createElement('div');
         containerGrid.id = 'container-grid';
+
+        valueFooter = 0;
         this.createContainerGrid(containerGrid, value, col, fieldEdit, notHeader);
-        
         body.appendChild(containerGrid);
+
+        if (Utils.getPageSelected().includes('crud') || $("custom-inside-crud").length) {
+            let footerGrid = document.createElement('div');
+            
+            let valueFixed = valueFooter.toFixed(2);
+            footerGrid.id = 'footer-grid';
+            footerGrid.value = valueFooter;
+    
+            let pFooter = document.createElement('p');
+            pFooter.textContent = 'R$ ' + valueFixed;
+            
+            footerGrid.appendChild(pFooter);
+            body.appendChild(footerGrid);
+        }
     
         return body;
     }
 
     createContainerGrid(containerGrid, value, col, fieldEdit, notHeader) {
         if (value) {
-            let allColumns = {};
-            
-            allColumns['id'] = true;
-            for (let i in col) {
-                if (notHeader) {
-                    if (notHeader.includes(i)) {
-                        allColumns[i] = false;
-                        continue
-                    }
-                }
+            for (let grid in value) {
+                containerGrid.appendChild(this._createGridBody(value[grid], this.getAllColumns(col, notHeader), fieldEdit));
+            }
+        }
+    }
 
-                if (col[i] == 'password' && col[i] == 'Action') {
+    createFooterGrid() {
+
+    }
+
+    getAllColumns(col, notHeader) {
+        let allColumns = {};
+            
+        allColumns['id'] = true;
+        for (let i in col) {
+            if (notHeader) {
+                if (notHeader.includes(i)) {
                     allColumns[i] = false;
                     continue
                 }
-
-                allColumns[i] = true;
-            };
-
-            for (let grid in value) {
-                containerGrid.appendChild(this._createGridBody(value[grid], allColumns, fieldEdit));
             }
-        }
+
+            if (col[i] == 'password' && col[i] == 'Action') {
+                allColumns[i] = false;
+                continue
+            }
+
+            allColumns[i] = true;
+        };
+
+        return allColumns;
     }
 
     _createSearchByColumns(col, notHeader) { 
@@ -170,6 +193,8 @@ export default class createGrid {
     }
 
     _createLine_(insertLine, valueLine, col, fieldEdit) {
+        let qtd;
+
         for (let l in valueLine) {
             if (col) {
                 if (!col[l]) {
@@ -178,7 +203,26 @@ export default class createGrid {
             }
 
             if (l == 'id') {
-                insertLine.id = 'line-grid-' + Number.parseInt(valueLine[l]);
+                let lineId;
+
+                if (valueLine[l] == 'new') {
+                    let id = 0
+
+                    while (!lineId) {
+                        let line = $("#line-grid-new-" + id);
+
+                        if (line.length == 0) {
+                            lineId = 'line-grid-new-' + id;
+                            break
+                        }
+
+                        id++;
+                    }
+                } else {
+                    lineId = 'line-grid-' + valueLine[l];
+                }
+
+                insertLine.id = lineId;
                 continue;
             }
 
@@ -186,9 +230,19 @@ export default class createGrid {
             separatorLine.className = 'separator-grid ' + valueLine[l];
             separatorLine.id = l;
 
+            if (l == 'Quantidade') {
+                qtd = valueLine[l];
+            }
             if (l == "Valor") {
                 const removeCurrency = valueLine[l].replace('R$ ', '');
-                separatorLine.value = parseFloat(removeCurrency.replace(',', '.')).toFixed(2);
+                let valFloat = parseFloat(removeCurrency.replace(',', '.'));
+                separatorLine.value = valFloat.toFixed(2);
+
+                if (qtd) {
+                    valueLine[l] = 'R$ ' + (valFloat * qtd).toFixed(2);
+                }
+
+                valueFooter = (valueFooter + valFloat); 
             }
 
             if (fieldEdit?.includes(l)) {
@@ -216,8 +270,17 @@ export default class createGrid {
 
                     const value = $("#" + field.parentElement.parentElement.id + " > #Valor");
                     const qtd = parseFloat(field.value);    
+
+
                     const vlTotal = (value.val() * qtd).toFixed(2);
 
+                    let footer = $('#footer-grid')[0];
+                    footer.value = ((footer.value - parseFloat(
+                        value[0].textContent.replace('R$ ', '').replace(',', '.'))) + 
+                            parseFloat(vlTotal));
+                    
+                    
+                    footer.children[0].textContent = 'R$ ' + footer.value.toFixed(2);
                     value[0].childNodes[0].textContent = ("R$ " + vlTotal.toString().replace('.', ','));
                 }
                 
@@ -252,10 +315,20 @@ export default class createGrid {
 
                 if (nameAction == "Deletar") {
                     action.onclick = function() {
-                        const lineId = this.parentElement.parentElement.id;
+                        const line = this.parentElement.parentElement;
     
-                        if (Factory.getPage(Utils.getPageSelected())._isDelete(lineId.replace("line-grid-", "")))
-                            $('#' + lineId).remove();
+                        if (Factory.getPage(Utils.getPageSelected())._isDelete(line.id.replace("line-grid-", ""))) {
+                            let valLine = $("#" + line.id + " #Valor");
+
+                            if (valLine.length) {
+                                let removeVal = parseFloat(valLine[0].textContent.replace('R$ ', '').replace(',', '.'));
+
+                                let footer = $('#footer-grid')[0];
+                                footer.value = (footer.value - removeVal);
+                                footer.children[0].textContent = 'R$ ' + footer.value.toFixed(2);
+                            }
+                            line.remove();
+                        }
                     };
                 }
                 if (nameAction == "Editar") {

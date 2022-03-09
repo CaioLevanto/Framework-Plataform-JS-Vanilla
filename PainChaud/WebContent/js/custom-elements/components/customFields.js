@@ -44,7 +44,7 @@ export function createElementsFields({col, hiddenField, isReturn, hasInside}) {
                         optSelected.removeAttribute('selected');
                 }
 
-                $('#' + this.value)[0].setAttribute('selected', 'selected');
+                $("#produto > [value='" + this.value + "']")[0].setAttribute('selected', 'selected');
             });
 
             let nameSelect = obj.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "");
@@ -59,7 +59,8 @@ export function createElementsFields({col, hiddenField, isReturn, hasInside}) {
                 }
                 if (Array.isArray(fieldType[opt])) {
                     options.value = fieldType[opt][0];
-                    options.setAttribute('field-value', fieldType[opt][1]);
+                    options.setAttribute('field-type', fieldType[opt][1]);
+                    options.setAttribute('field-value', fieldType[opt][2]);
                     options.id = fieldType[opt][0];
                     options.text = fieldType[opt][0];
                 } else {
@@ -71,6 +72,14 @@ export function createElementsFields({col, hiddenField, isReturn, hasInside}) {
                 fieldInput.appendChild(options);
             }
         } else {
+            if (obj == 'Comanda') {
+                contentGrid.className += (' ' + obj);
+
+                let borderTop = document.createElement('div');
+                borderTop.id = 'border-separator-comanda';
+                contentGrid.appendChild(borderTop);
+            }
+
             fieldInput = document.createElement('custom-input');
             fieldInput.id = obj.toLowerCase();
 

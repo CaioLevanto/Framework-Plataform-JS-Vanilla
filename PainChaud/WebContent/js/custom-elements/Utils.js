@@ -74,7 +74,7 @@ export function hasItemInCart(product) {
         let errors = $("#container-grid .hasError"); 
         
         if (errors.length) {
-                errors.removeClass('hassError');
+                errors.removeClass('hasError');
         }
 
         return true;

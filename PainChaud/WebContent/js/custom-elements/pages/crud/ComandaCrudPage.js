@@ -4,30 +4,30 @@ import InterfacePages from '../../interface/InterfacePages.js';
 import * as Utils from '../../Utils.js';
 
 var vl = [ 
-    {
-        "values": { 
-            'id': 0, 
-            'Produto': "Coxinha", 
-            'Quantidade': "1", 
-            'Tipo': '0',
-            'Valor': 'R$ 2,50'
-        },
-        "action": [
-            "Deletar"
-        ]
-    },
-    {
-        "values": { 
-            'id': 1, 
-            'Produto': "Pao", 
-            'Quantidade': "1", 
-            'Tipo': '1',
-            'Valor': 'R$ 4,50' 
-        },
-        "action": [
-            "Deletar"
-        ]
-    }
+    // {
+    //     "values": { 
+    //         'id': 0, 
+    //         'Produto': "Coxinha", 
+    //         'Quantidade': "1", 
+    //         'Tipo': '0',
+    //         'Valor': 'R$ 2,50'
+    //     },
+    //     "action": [
+    //         "Deletar"
+    //     ]
+    // },
+    // {
+    //     "values": { 
+    //         'id': 1, 
+    //         'Produto': "Pao", 
+    //         'Quantidade': "1", 
+    //         'Tipo': '1',
+    //         'Valor': 'R$ 4,50' 
+    //     },
+    //     "action": [
+    //         "Deletar"
+    //     ]
+    // }
 ];
 
 export default class ComandaCrudPage extends InterfacePages {
@@ -40,10 +40,10 @@ export default class ComandaCrudPage extends InterfacePages {
 
     static fields = {
         'Produto': [ 
-            ["Pao", "R$ 5,40"], 
-            ["Coxinha", "R$ 2,50"],
-            ["Risoles", "R$ 3,80"],
-            ["Bolo", "R$ 8,20"] 
+            ["Pao", "1", "R$ 5,40"], 
+            ["Coxinha", "0", "R$ 2,50"],
+            ["Risoles", "0", "R$ 3,80"],
+            ["Bolo", "0", "R$ 8,20"] 
         ],
         'Quantidade': 'Number,Add',
         'Valor': 'string',

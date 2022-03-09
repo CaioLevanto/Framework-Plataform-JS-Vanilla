@@ -6,29 +6,6 @@ import * as Utils from '../../Utils.js';
 
 
 var vl = [ 
-    {
-        "values": { 
-            'id': 0, 
-            'Produto': "Coxinha", 
-            'Quantidade': "1", 
-            'Valor': 'R$ 2,50',
-            'Tipo': '0' 
-        },
-        "action": [
-            "Deletar"
-        ] 
-    },
-    {   "values": { 
-            'id': 1, 
-            'Produto': "Pao", 
-            'Quantidade': "1", 
-            'Valor': 'R$ 4,50',
-            'Tipo': '1' 
-        },
-        "action": [
-            "Deletar"
-        ] 
-    }
 ];
 
 export default class SaleCrudPage extends InterfacePages {
@@ -40,7 +17,11 @@ export default class SaleCrudPage extends InterfacePages {
     }
 
     static fields = {
-        'Produto': [ "Pao", "Bolacha" ],
+        'Produto': [ 
+            ["Leite", "0", "R$ 4,60"], 
+            ["Cuca de Banana", "0", "R$ 8,50"],
+            ["Cuca de Chocolate", "0", "R$ 12,00"]
+        ],
         'Quantidade': 'Number,Add',
         'Comanda': 'Number,Add,Comanda',
         
