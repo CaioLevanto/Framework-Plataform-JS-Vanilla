@@ -68,6 +68,10 @@ export default class ComandaCrudPage extends InterfacePages {
         });
     }
 
+    _onSubmit(obj) {
+        return true;
+    }
+
     _isDelete(id) {
         return true;
     }

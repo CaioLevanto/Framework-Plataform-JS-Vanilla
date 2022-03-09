@@ -1,7 +1,7 @@
-import InterfacePages from '../../interface/InterfacePages.js';
-import Grid from '../../components/customGridResponsive.js';
-import * as Field from '../../components/customFields.js';
-import * as Utils from '../../Utils.js';
+import InterfacePages from '../../../interface/InterfacePages.js';
+import Grid from '../../../components/customGridResponsive.js';
+import * as Field from '../../../components/customFields.js';
+import * as Utils from '../../../Utils.js';
 
 var vl = [ 
     {

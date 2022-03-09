@@ -20,6 +20,10 @@ export default class InterfacePages {
         throw new Error('Not implemented Report');
     }
 
+    _onSubmit(obj) {
+        throw new Error('Not implemented function Submit by option');
+    }
+    
     _isDelete(id) {
         throw new Error('Not implemented function Delete by option');
     }
@@ -31,5 +35,6 @@ export default class InterfacePages {
     _findById(id) {
         throw new Error('Not implemented function Find by Id');
     }
+
 
 };

@@ -35,7 +35,7 @@ export default class SaleCrudPage extends InterfacePages {
     getFields() {
         return Field.createElementsFields({
             col: SaleCrudPage.fields, 
-            hiddenField: ['Data da venda', 'Valor', 'Tipo'] //Colunas que não deve aparecer nos fields, somente visualizar na grid
+            hiddenField: ['Data da venda', 'Valor', 'Tipo'] //Colunas que nï¿½o deve aparecer nos fields, somente visualizar na grid
         }); 
     }
 
@@ -46,8 +46,12 @@ export default class SaleCrudPage extends InterfacePages {
             hasSearch: true,
             hasHeader: true,
             fieldEdit: ["Quantidade"],
-            notHeader: ['Data da venda', 'Comanda', 'Tipo'] //Colunas que não deve aparecer (manipula somente backend)
+            notHeader: ['Data da venda', 'Comanda', 'Tipo'] //Colunas que nï¿½o deve aparecer (manipula somente backend)
         });
+    }
+
+    _onSubmit(obj) {
+        return true;
     }
 
     _isDelete(id) {

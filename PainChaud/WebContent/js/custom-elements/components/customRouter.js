@@ -1,7 +1,7 @@
 var test2 = [ [
     //Administrador
     {"name": "Usuarios", "icon": "fa-solid fa-user-plus", "url": "User", "type": "crud"}, 
-    {"name": "Vendas", "icon": "fa-solid fa-cash-register", "url": "Sale", "type": "view"},
+    {"name": "Vendas", "icon": "fa-solid fa-cash-register", "url": "Sale", "type": "crud"},
     {"name": "Produtos", "icon": "fa-solid fa-cart-plus", "url": "Product", "type": "crud"},
     {"name": "Retatorio", "icon": "fa-solid fa-chart-line", "url": "Report", "type": "view"}, 
     {"name": "Sair", "icon": "fa-solid fa-right-from-bracket", "action": "logout", "type": "close"}
@@ -11,12 +11,12 @@ var test2 = [ [
     {"name": "Produtos", "icon": "fa-solid fa-cart-plus", "url": "Product", "type": "view"},
     {"name": "Sair", "icon": "fa-solid fa-right-from-bracket", "action": "logout", "type": "close"} 
 ], [
-    //Balcão
+    //Balcï¿½o
     {"name": "Comanda", "icon": "fa-solid fa-user-plus", "url": "Comanda", "type": "view"}, 
     {"name": "Produtos", "icon": "fa-solid fa-cart-plus", "url": "Product", "type": "view"},
     {"name": "Sair", "icon": "fa-solid fa-right-from-bracket", "action": "logout", "type": "close"}
 ], [
-    //Caso não haja permissão
+    //Caso nï¿½o haja permissï¿½o
     {"name": "Sair", "icon": "fa-solid fa-right-from-bracket", "action": "logout", "type": "close"}
 ] ];
 

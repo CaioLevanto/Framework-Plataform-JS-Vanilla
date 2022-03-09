@@ -8,7 +8,7 @@ var vlCrud = [
     {
         "values": { 
             'id': 0, 
-            'Nome': "Coxinha", 
+            'Descrição': "Coxinha", 
             'Local': "Balcao",
             'Tipo': 'Unidade',
             'Valor': 'R$ 2,50' 
@@ -21,7 +21,7 @@ var vlCrud = [
     {
         "values": { 
             'id': 1, 
-            'Nome': "Pao", 
+            'Descrição': "Pao", 
             'Local': "Balcao",
             'Tipo': 'Peso',
             'Valor': 'R$ 4,50' 
@@ -42,7 +42,7 @@ export default class ProductCrudPage extends InterfacePages {
     }
 
     static fields = {
-        'Nome': 'string',
+        'Descrição': 'string',
         'Local': [ 'Balcao', 'Embalado' ],
         'Tipo': [ 'Unidade', 'Peso' ],
         'Valor': 'money',
@@ -63,6 +63,10 @@ export default class ProductCrudPage extends InterfacePages {
             hasHeader: true,
 
         });
+    }
+
+    _onSubmit(obj) {
+        return true;
     }
 
     _isDelete(id) {

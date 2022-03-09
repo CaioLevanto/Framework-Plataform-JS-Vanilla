@@ -90,9 +90,9 @@ i {
 #btn-add-quantidade,
 #btn-add-comanda {
     float: right;
-    width: 35px;
+    width: 30px;
     box-shadow: none;
-    height: 35px;
+    height: 30px;
     border-radius: 6.4rem;
     letter-spacing: unset;
     border: 1px solid black;
@@ -102,7 +102,7 @@ i {
 
 .custom-input-quantidade,
 .custom-input-comanda {
-    width: 84%;
+    width: 87%;
 }
 
 #btn-add-quantidade .custom-button-btn-add-quantidade,

@@ -4,7 +4,7 @@ import ProductViewPage from '../pages/view/ProductViewPage.js';
 import ReportPage from '../pages/view/ReportPages.js';
 import SaleCrudPage from '../pages/crud/SaleCrudPage.js';
 import SaleViewPage from '../pages/view/SaleViewPage.js';
-import SaleInsideViewPage from '../pages/view/SaleInsideViewPage.js';
+import SaleInsideViewPage from '../pages/view/inside/SaleInsideViewPage.js';
 import ComandaCrudPage from '../pages/crud/ComandaCrudPage.js';
 import ComandaViewPage from '../pages/view/ComandaViewPage.js';
 
