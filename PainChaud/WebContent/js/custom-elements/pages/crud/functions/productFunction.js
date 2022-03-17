@@ -1,31 +1,33 @@
 import { doAjax } from '../../../Utils.js';
-const pathName = 'user';
+const pathName = 'product';
 
-export function findAll() {
-    return [
+export function findAll(id) {
+    return [ 
         {
             "values": { 
                 'id': 0, 
-                'Name': "Debora", 
-                'Email': "debooraa7x@gmail.com", 
-                'Funcao': 'Caixa'
+                'Nome': "Coxinha", 
+                'Local': "Balcao",
+                'Tipo': 'Unidade',
+                'Valor': 'R$ 2,50' 
             },
             "action": [
                 "Editar", 
                 "Deletar"
-            ] 
+            ]
         },
-        {   "values": { 
+        {
+            "values": { 
                 'id': 1, 
-                'Name': "Erick", 
-                'Email': "erick.ruan@gmail.com", 
-                'Funcao': 'Balcao',
-                'Senha': '0' 
+                'Nome': "Pao", 
+                'Local': "Balcao",
+                'Tipo': 'Peso',
+                'Valor': 'R$ 4,50' 
             },
             "action": [
                 "Editar", 
                 "Deletar"
-            ] 
+            ]
         }
     ];
 }

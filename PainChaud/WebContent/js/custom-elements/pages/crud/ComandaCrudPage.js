@@ -1,34 +1,7 @@
+import { findAll, findById, isDelete, isInsert, isUpdate } from './functions/comandaFunction.js';
+import InterfacePages from '../../interface/InterfacePages.js';
 import Grid from '../../components/customGridResponsive.js';
 import * as Field from '../../components/customFields.js';
-import InterfacePages from '../../interface/InterfacePages.js';
-import * as Utils from '../../Utils.js';
-
-var vl = [ 
-    // {
-    //     "values": { 
-    //         'id': 0, 
-    //         'Produto': "Coxinha", 
-    //         'Quantidade': "1", 
-    //         'Tipo': '0',
-    //         'Valor': 'R$ 2,50'
-    //     },
-    //     "action": [
-    //         "Deletar"
-    //     ]
-    // },
-    // {
-    //     "values": { 
-    //         'id': 1, 
-    //         'Produto': "Pao", 
-    //         'Quantidade': "1", 
-    //         'Tipo': '1',
-    //         'Valor': 'R$ 4,50' 
-    //     },
-    //     "action": [
-    //         "Deletar"
-    //     ]
-    // }
-];
 
 export default class ComandaCrudPage extends InterfacePages {
     
@@ -40,10 +13,10 @@ export default class ComandaCrudPage extends InterfacePages {
 
     static fields = {
         'Produto': [ 
-            ["Pao", "1", "R$ 5,40"], 
-            ["Coxinha", "0", "R$ 2,50"],
-            ["Risoles", "0", "R$ 3,80"],
-            ["Bolo", "0", "R$ 8,20"] 
+            ["Pao", "1", 5.40], //Alterar o R$ e trocar virgula por .
+            ["Coxinha", "0", 2.50],
+            ["Risoles", "0", 3.80],
+            ["Bolo", "0", 8.20] 
         ],
         'Quantidade': 'Number,Add',
         'Valor': 'string',
@@ -54,30 +27,37 @@ export default class ComandaCrudPage extends InterfacePages {
         return Field.createElementsFields({
             col: ComandaCrudPage.fields,
             hiddenField: ["Valor"],
-            isReturn: isReturn
+            isReturn: isReturn,
+            clearGrid: true
         });
     }
 
     getGrid() {
         return this.grid.createGridElement({
            col: ComandaCrudPage.fields, 
-           value: vl, 
+           value: findAll(), 
            hasSearch: true, 
            hasHeader: true,
-           fieldEdit: ["Quantidade"]
+           fieldEdit: ["Quantidade"],
+           hasFooter: true,
+           findDB: false
         });
     }
 
-    _isDelete(id) {
-        return true;
+    isDelete(id) {
+        return isDelete(id);
     }
 
-    _isUpdate(obj) {
-        return true;
+    isUpdate(obj) {
+        return isUpdate(obj);
     }
 
-    _findById(id) {
-        return true;
+    isInsert(obj) {
+        return isInsert(obj);
+    }
+
+    findById(id) {
+        return findById(id);
     }
 
 };

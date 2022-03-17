@@ -2,33 +2,7 @@ import InterfacePages from '../../interface/InterfacePages.js';
 import Grid from '../../components/customGridResponsive.js';
 import * as Field from '../../components/customFields.js';
 import * as Utils from '../../Utils.js';
-
-var vl = [ 
-    {
-        "values": { 
-            'id': 0, 
-            'Produto': "Coxinha", 
-            'Quantidade': "1",
-            'Valor': 'R$ 2,50' 
-        },
-        "action": [
-            "Deletar"
-        ]
-    },
-    {
-        "values": { 
-            'id': 1, 
-            'Produto': "Pao", 
-            'Quantidade': "1",
-            'Valor': 'R$ 2,50' 
-        },
-        "action": [
-            "Deletar"
-        ]
-    }
-];
-
-
+import { findAllInside } from './functions/saleFunction.js';
 
 export default class SaleInsideViewPage extends InterfacePages {
 
@@ -55,21 +29,26 @@ export default class SaleInsideViewPage extends InterfacePages {
     getGrid(hasSearch) {
         return this.grid.createGridElement({
             col: SaleInsideViewPage.fields,
-            value: vl,
+            value: findAllInside(0),
             hasSearch: false,
-            hasHeader: true
+            hasHeader: true,
+            findDB: true
         });
     }
 
-    _isDelete(id) {
+    isDelete(id) {
         return true;
     }
 
-    _isUpdate(obj) {
+    isUpdate(obj) {
         return true;
     }
 
-    _findById(id) {
+    findById(id) {
+        return true;
+    }
+
+    findSearch(value, column) {
         return true;
     }
 

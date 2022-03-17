@@ -21,7 +21,7 @@ class customContainerVIEWElement extends HTMLElement {
             section.appendChild(this._createReport(view));
         } else {
             section.appendChild(this._createHeader(view));
-            section.appendChild(this._createGrid(view));
+            section.appendChild(this.createGrid(view));
         }
 
         this.setAttribute('class', 'container');
@@ -49,7 +49,7 @@ class customContainerVIEWElement extends HTMLElement {
         return sectionHeader;
     }
 
-    _createGrid(view) {
+    createGrid(view) {
         let sectionMain = document.createElement('div');
         sectionMain.id = "section-custom-main";
         

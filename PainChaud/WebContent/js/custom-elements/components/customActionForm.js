@@ -1,5 +1,5 @@
 import Factory from '../interface/PageFactory.js';
-import * as Utils from '../Utils.js';
+import { validateFields, getPageSelected } from '../Utils.js';
 import createGrid from './customGridResponsive.js';
 
 export function actionReturn() {
@@ -7,46 +7,39 @@ export function actionReturn() {
     $('custom-container-view').show()
 }
 
-export function actionSubmit(hasInside) {
-    alert('submit');
-
-    if (hasInside) {
-        const opt = Utils.getPageSelected();
-
-        actionReturn();
-
-        $('#data-grid').remove();
-        let section;
-
-        if (opt.split('-').includes('view')) {
-            section = document.getElementById('section-custom-main');
-        } else {
-            section = document.getElementById('section-custom-right');
+export function actionOnSubmit(form) {
+    let allFields = $('#form-fields > .separator >');
+    let validReturn = false;
+    
+    if (validateFields()) {
+        if (Factory.getPage(getPageSelected()).isInsert(createObjectForm(allFields))) {
+            if (form.getAttribute('return') == 'true') {
+                actionReturn();
+            }
+            
+            $('#data-grid').remove();
+            document.getElementById(getPageSelected().split('-').includes('view') ? 
+                'section-custom-main' : 'section-custom-right').appendChild(
+                    Factory.getPage(getPageSelected()).getGrid());
+    
+            validReturn = true;
         }
-
-        section.appendChild(Factory.getPage(opt).getGrid());
     }
+
+    return validReturn;
 }
 
-export function actionOnSubmit(hasInside) {
-    // alert('onSubmit');
+function createObjectForm(list) {
+    let form = document.forms['form'];
+    let obj = {};
 
-    if (hasInside) {
-        const opt = Utils.getPageSelected();
+    for (let i = 0; i < list.length; i++) {
+        let line = list[i];
 
-        actionReturn();
-    
-        $('#data-grid').remove();
-        let section;
-
-        if (opt.split('-').includes('view')) {
-            section = document.getElementById('section-custom-main');
-        } else {
-            section = document.getElementById('section-custom-right');
-        }
-
-        section.appendChild(Factory.getPage(Utils.getPageSelected()).getGrid());
+        obj[line.title] = form[line.id].value;
     }
+
+    console.log(JSON.stringify(obj));
 }
 
 export function addItemGrid(obj, listActions) {
@@ -74,7 +67,7 @@ export function addItemGrid(obj, listActions) {
                 let productValue = $("#produto > [value='" + form.value + "']")[0];
 
                 if (productValue) {
-                    value = productValue.getAttribute('field-value');
+                    value = parseFloat(productValue.getAttribute('field-value'));
                 }
             }
             if (title == 'Quantidade') {
@@ -91,14 +84,14 @@ export function addItemGrid(obj, listActions) {
     }
 
     if (value) {
-        vl.values['Valor'] = value;
+        vl.values['Valor'] = ("R$ " + value.toFixed(2).replace('.', ','));
         
         let footer = $("#footer-grid")[0];
-        let sumValues = (footer.value + (parseFloat(value.replace('R$ ', '').replace(',', '.')) * qtd));
+        let sumValues = (footer.value + (value * qtd));
         footer.value = sumValues;
 
-        footer.children[0].textContent = 'R$ ' + sumValues.toFixed(2);
+        footer.children[1].textContent = 'R$ ' + sumValues.toFixed(2);
     }
 
-    return new createGrid()._createGridBody(vl, null, ["Quantidade"]);
+    return new createGrid().createGridBody(vl, null, ["Quantidade"]);
 }

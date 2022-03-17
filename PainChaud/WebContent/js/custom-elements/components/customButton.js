@@ -19,28 +19,36 @@ class customButtonElement extends HTMLElement {
             button.appendChild(i);
         }
 
+        switch (this.getAttribute('type')) {
+            case 'submit':
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+
+                    document.forms['form'].submit();
+                });
+            break;
+
+            case 'reset':
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+
+                    document.forms['form'].reset();
+                    
+                    if ($('.' + this.className)[0].parentElement.getAttribute('clear-grid') == 'true') {
+                        $('.line-grid-custom').remove();
+                        
+                        let footer = $('#footer-grid')[0];
+                        
+                        if (footer)
+                                footer.children[1].textContent = 'R$ 0,00';
+                                footer.value = 0;
+                    }
+                });
+            break;
+        }
+
         if (this.onclick) {
             button.onclick = this.onclick;
-        }
-
-        if (this.getAttribute('type') == 'submit') {
-            button.addEventListener('click', function(e) {
-                //Confirma envio;
-                document.forms['form'].submit();
-                e.preventDefault();
-            });
-        }
-        if (this.getAttribute('type') == 'reset') {
-            button.addEventListener('click', function(e) {
-                e.preventDefault();
-                //Confirma envio;
-                document.forms['form'].reset();
-                $('.line-grid-custom').remove();
-
-                let footer = $('#footer-grid')[0];
-                footer.children[0].textContent = 'R$ 0,00';
-                footer.value = 0;
-            });
         }
 
         if (this.title) {
@@ -51,7 +59,6 @@ class customButtonElement extends HTMLElement {
         }
         return this.append(button);
     }
-
 }
 
 customElements.define('custom-button', customButtonElement);

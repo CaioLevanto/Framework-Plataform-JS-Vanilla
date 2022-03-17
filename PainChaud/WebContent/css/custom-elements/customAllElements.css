@@ -17,3 +17,7 @@
 .hasError {
     border: 1px solid red !important;
 }
+
+#form-fields {
+    height: 100%;
+}

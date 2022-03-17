@@ -1,7 +1,7 @@
+import { findAll, findById, isDelete, isInsert, isUpdate } from './functions/userFunction.js';
 import Grid from '../../components/customGridResponsive.js';
 import * as Field from '../../components/customFields.js';
 import InterfacePages from '../../interface/InterfacePages.js';
-import * as Function from './functions/UserFunction.js';
 
 export default class UserCrudPage extends InterfacePages {
     
@@ -29,23 +29,28 @@ export default class UserCrudPage extends InterfacePages {
     getGrid() {
         return this.grid.createGridElement({
             col: UserCrudPage.fields, 
-            value: Function._findAll(),
+            value: findAll(),
             hasSearch: true,
             hasHeader: true,
-            notHeader: ['Senha']
+            notHeader: ['Senha'],
+            findDB: false
         });
     }
 
-    _isDelete(id) {
-        return true;
+    isDelete(id) {
+        return isDelete(id);
     }
 
-    _isUpdate(obj) {
-        return true;
+    isUpdate(obj) {
+        return isUpdate(obj);
     }
 
-    _findById(id) {
-        return true;
+    isInsert(obj) {
+        return isInsert(obj);
+    }
+
+    findById(id) {
+        return findById(id);
     }
 
 };

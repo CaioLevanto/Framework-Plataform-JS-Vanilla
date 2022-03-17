@@ -42,7 +42,8 @@ i {
 
 .content-action-return {
     display: flex;
-    justify-content: flex-start;
+    height: 100%;
+    align-items: flex-end;
 }
 
 .content-action-button > custom-button,
@@ -53,7 +54,7 @@ i {
 }
 
 .content-action-return > custom-button {
-    margin-left: 5px;
+    margin: 0px 0px 10px 10px;
 }
 
 .content-action-button > custom-button:before,

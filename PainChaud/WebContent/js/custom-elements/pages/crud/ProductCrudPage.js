@@ -1,37 +1,7 @@
+import { findAll, findById, isDelete, isInsert, isUpdate } from './functions/productFunction.js';
 import Grid from '../../components/customGridResponsive.js';
 import * as Field from '../../components/customFields.js';
 import InterfacePages from '../../interface/InterfacePages.js';
-import * as Utils from '../../Utils.js';
-
-
-var vlCrud = [ 
-    {
-        "values": { 
-            'id': 0, 
-            'Nome': "Coxinha", 
-            'Local': "Balcao",
-            'Tipo': 'Unidade',
-            'Valor': 'R$ 2,50' 
-        },
-        "action": [
-            "Editar", 
-            "Deletar"
-        ]
-    },
-    {
-        "values": { 
-            'id': 1, 
-            'Nome': "Pao", 
-            'Local': "Balcao",
-            'Tipo': 'Peso',
-            'Valor': 'R$ 4,50' 
-        },
-        "action": [
-            "Editar", 
-            "Deletar"
-        ]
-    }
-];
 
 export default class ProductCrudPage extends InterfacePages {
 
@@ -58,23 +28,27 @@ export default class ProductCrudPage extends InterfacePages {
     getGrid() {
         return this.grid.createGridElement({
             col: ProductCrudPage.fields,
-            value: vlCrud, 
+            value: findAll(0), 
             hasSearch: true, 
             hasHeader: true,
-
+            findDB: false
         });
     }
 
-    _isDelete(id) {
-        return true;
+    isDelete(id) {
+        return isDelete(id);
     }
 
-    _isUpdate(obj) {
-        return true;
+    isUpdate(obj) {
+        return isUpdate(obj);
     }
 
-    _findById(id) {
-        return true;
+    isInsert(obj) {
+        return isInsert(obj);
+    }
+
+    findById(id) {
+        return findById(id);
     }
 
 };

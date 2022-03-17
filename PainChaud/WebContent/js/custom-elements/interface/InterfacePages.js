@@ -20,16 +20,24 @@ export default class InterfacePages {
         throw new Error('Not implemented Report');
     }
 
-    _isDelete(id) {
+    isDelete(id) {
         throw new Error('Not implemented function Delete by option');
     }
 
-    _isUpdate(obj) {
+    isUpdate(obj) {
         throw new Error('Not implemented function Update by option');
     }
 
-    _findById(id) {
+    isInsert(obj) {
+        throw new Error('Not implemented function Update by option');
+    }
+
+    findById(id) {
         throw new Error('Not implemented function Find by Id');
+    }
+
+    findSearch(value, column) {
+        throw new Error('Not implemented function Find serach');
     }
 
 };

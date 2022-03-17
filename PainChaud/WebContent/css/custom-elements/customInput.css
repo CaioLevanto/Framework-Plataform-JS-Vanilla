@@ -29,3 +29,10 @@ custom-input > input[type=date] {
 #header-container-dates > custom-input {
     margin-left: 15px;
 }
+
+.text-atention-error {
+    color: #da3434;
+    font-size: 12px;
+    letter-spacing: 1px;
+    padding-left: 4px;
+}

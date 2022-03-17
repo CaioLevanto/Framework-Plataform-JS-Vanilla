@@ -24,12 +24,12 @@ export function getClass() {
 }
 
 export function validateFields() {
-    const listName = this.getNameHeader();
+    const listName = $('#form-fields > .separator >');
     let hasError = true;
     let fieldError = true;
 
-    for (let i in listName) {
-        let field = document.forms['form'][listName[i]];
+    for (let i = 0; i < listName.length; i++) {
+        let field = document.forms['form'][listName[i].title.toLowerCase()];
 
         if (field) {
             if (field.id == 'produto') {
@@ -45,6 +45,14 @@ export function validateFields() {
                     input.className += ' hasError';
                 } else {
                     field.className  += ' hasError';
+
+                    if (validError("#" + field.parentElement.id + " .text-atention-error")) {
+                        let atention = document.createElement('p');
+                        atention.textContent = "Necessario preencher o campo " + field.name;
+                        atention.className = "text-atention-error";
+                        
+                        $("#" + field.parentElement.id)[0].appendChild(atention);
+                    }
                 }
                 
                 fieldError = false;
@@ -55,13 +63,20 @@ export function validateFields() {
 
     if (fieldError) {
         $('.data-fields .hasError').removeClass('hasError');
+        $('.text-atention-error').remove();
     }
 
     return hasError;
 }
 
+function validError(rel) {
+    let field = $(rel);
+
+    return (field.length ? true : false);
+}
+
 export function hasItemInCart(product) {
-    let cart = $(".line-grid-custom ." + product);
+    let cart = $(".line-grid-custom ." + product.toLowerCase().replaceAll(' ', '-'));
     let qtdErrors = 0;
 
     if (cart.length) {
@@ -92,4 +107,8 @@ export function getNameHeader() {
     }
 
     return names;
+}
+
+export function removeCurrencyFormat(val) {
+    return parseFloat(val.replace('R$ ', '').replace(',', '.'));
 }

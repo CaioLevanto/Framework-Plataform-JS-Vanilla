@@ -1,7 +1,7 @@
 import { doAjax } from '../../../Utils.js';
-const pathName = 'sale';
+const pathName = 'comanda';
 
-export function findAll() {
+export function findAll(id) {
     return [];
 }
 

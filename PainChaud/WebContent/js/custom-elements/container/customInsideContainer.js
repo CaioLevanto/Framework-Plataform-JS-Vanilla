@@ -18,30 +18,30 @@ class customContainerVIEWElement extends HTMLElement {
         let section = document.createElement('div');
         section.id = "section-custom-element";
 
-        section.appendChild(this._createField(crud));
-        section.appendChild(this._createBorder());
-        section.appendChild(this._createGrid(crud));
+        section.appendChild(this.createField(crud, this.getAttribute('return')));
+        section.appendChild(this.createBorder());
+        section.appendChild(this.createGrid(crud));
 
         this.append(section);
     }
 
-    _createField(crud) {
+    createField(crud, hasReturn) {
         let sectionLeft = document.createElement('div');
         sectionLeft.id = "section-custom-left";
         
         if (Factory.hasPage(crud)) {
-            sectionLeft.appendChild(Factory.getPage(crud).getFields());
+            sectionLeft.appendChild(Factory.getPage(crud).getFields(hasReturn ? (hasReturn == 'true') : false));
         }
         return sectionLeft;
     }
 
-    _createBorder() {
+    createBorder() {
         let border = document.createElement('div');
         border.className = "border-custom";
         return border;
     }
 
-    _createGrid(crud) {
+    createGrid(crud) {
         let sectionRight = document.createElement('div');
         sectionRight.id = "section-custom-right";
         

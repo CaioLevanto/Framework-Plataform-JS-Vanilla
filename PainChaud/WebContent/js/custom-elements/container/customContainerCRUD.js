@@ -17,16 +17,16 @@ class customContainerCRUDElement extends HTMLElement {
         let section = document.createElement('div');
         section.id = "section-custom-element";
 
-        section.appendChild(this._createField(crud));
-        section.appendChild(this._createBorder());
-        section.appendChild(this._createGrid(crud));
+        section.appendChild(this.createField(crud));
+        section.appendChild(this.createBorder());
+        section.appendChild(this.createGrid(crud));
 
         this.setAttribute('class', 'container');
         this.setAttribute('type', 'crud');
         this.append(section);
     }
 
-    _createField(crud) {
+    createField(crud) {
         let sectionLeft = document.createElement('div');
         sectionLeft.id = "section-custom-left";
         
@@ -36,13 +36,13 @@ class customContainerCRUDElement extends HTMLElement {
         return sectionLeft;
     }
 
-    _createBorder() {
+    createBorder() {
         let border = document.createElement('div');
         border.className = "border-custom";
         return border;
     }
 
-    _createGrid(crud) {
+    createGrid(crud) {
         let sectionRight = document.createElement('div');
         sectionRight.id = "section-custom-right";
         

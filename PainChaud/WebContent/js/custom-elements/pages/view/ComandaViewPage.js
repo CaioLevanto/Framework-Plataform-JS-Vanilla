@@ -1,40 +1,6 @@
-import Grid from '../../components/customGridResponsive.js';
+import { getHeaderView, findAll, isDelete, isUpdate, findById, findSearch } from './functions/comandaFunction.js';
 import InterfacePages from '../../interface/InterfacePages.js';
-import * as ComandaEvents from '../events/comanda-events.js';
-import * as Utils from '../../Utils.js';
-
-var vl = [ 
-    {
-        "values": { 
-            'id': 0, 
-            'Identificacao da comanda': 0
-        },
-        "action": [
-            "Editar"
-        ]
-    },
-    {
-        "values": { 
-            'id': 1, 
-            'Identificacao da comanda': 1
-        },
-        "action": [
-            "Editar"
-        ]
-    }
-];
-
-var vlFinded = [ 
-    {
-        "values": { 
-            'id': 0, 
-            'Identificacao da comanda': 1
-        },
-        "action": [
-            "Editar"
-        ]
-    }
-];
+import Grid from '../../components/customGridResponsive.js';
 
 export default class ComandaViewPage extends InterfacePages {
     
@@ -50,52 +16,33 @@ export default class ComandaViewPage extends InterfacePages {
     }
 
     getHeader() {
-        let headerSearch = document.createElement('div');
-        headerSearch.id = 'header-comanda-search';
-
-        let btnNew = document.createElement('custom-button');
-        btnNew.id = 'new-comanda';
-        btnNew.title = "Nova comanda";
-        btnNew.addEventListener('click', function () { ComandaEvents.createNewComanda() });
-        headerSearch.appendChild(btnNew);
-
-        let inputSearch = document.createElement('custom-input');
-        inputSearch.setAttribute('type', 'search');
-        inputSearch.id = 'comanda';
-        inputSearch.addEventListener('keypress', function(e) {
-            $('.line-grid-custom').remove();
-            //busca pelo key
-
-            new Grid().createContainerGrid($('#container-grid')[0], vlFinded, ComandaViewPage.fields);
-        });
-        headerSearch.appendChild(inputSearch);
-
-        return headerSearch;
+        return getHeaderView();
     }
 
     getGrid() {
         return this.grid.createGridElement({
            col: ComandaViewPage.fields, 
-           value: vl, 
+           value: findAll(0), 
            hasSearch: false, 
-           hasHeader: true
+           hasHeader: true,
+           findDB: true
         });
     }
 
-    _isDelete(id) {
-        return true;
+    isDelete(id) {
+        return isDelete();
     }
 
-    _isUpdate(obj) {
-        return true;
+    isUpdate(obj) {
+        return isUpdate();
     }
 
-    _findById(id) {
-        return true;
+    findById(id) {
+        return findById();
+    }
+    
+    findSearch(value, column) {
+        return findSearch();
     }
 
 };
-
-$('#new-comanda').on('click', function() {
-    alert('oi');
-})

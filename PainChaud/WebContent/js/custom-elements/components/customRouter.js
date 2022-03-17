@@ -1,24 +1,4 @@
-var test2 = [ [
-    //Administrador
-    {"name": "Usuarios", "icon": "fa-solid fa-user-plus", "url": "User", "type": "crud"}, 
-    {"name": "Vendas", "icon": "fa-solid fa-cash-register", "url": "Sale", "type": "view"},
-    {"name": "Produtos", "icon": "fa-solid fa-cart-plus", "url": "Product", "type": "crud"},
-    {"name": "Retatorio", "icon": "fa-solid fa-chart-line", "url": "Report", "type": "view"}, 
-    {"name": "Sair", "icon": "fa-solid fa-right-from-bracket", "action": "logout", "type": "close"}
-], [ 
-    //Caixa
-    {"name": "Venda", "icon": "fa-solid fa-user-plus", "url": "Sale", "type": "crud"}, 
-    {"name": "Produtos", "icon": "fa-solid fa-cart-plus", "url": "Product", "type": "view"},
-    {"name": "Sair", "icon": "fa-solid fa-right-from-bracket", "action": "logout", "type": "close"} 
-], [
-    //Balcão
-    {"name": "Comanda", "icon": "fa-solid fa-user-plus", "url": "Comanda", "type": "view"}, 
-    {"name": "Produtos", "icon": "fa-solid fa-cart-plus", "url": "Product", "type": "view"},
-    {"name": "Sair", "icon": "fa-solid fa-right-from-bracket", "action": "logout", "type": "close"}
-], [
-    //Caso não haja permissão
-    {"name": "Sair", "icon": "fa-solid fa-right-from-bracket", "action": "logout", "type": "close"}
-] ];
+import { findRoutesByUser } from './functions/routerFunction.js';
 
 class customRouterElement extends HTMLElement {
 
@@ -27,62 +7,83 @@ class customRouterElement extends HTMLElement {
     }
 
     connectedCallback() {
-        this.createValues(test2[0]);
+        this.createValues(findRoutesByUser(0));
     }
 
     createValues(columns) {
-        let i = 0;
+        let id = 0;
 
-        columns.forEach(value => {
-            this.createElement(value, i++);
+        columns.forEach(colValue => {
+            this.createElement(colValue, id++);
         });
     }
 
-    createElement(attr, i) {
+    createElement(listAttributes, id) {
         let option = document.createElement('div');
-        let className = 'custom-option';
-        let customType = attr['type'];
-        let action = attr['action']
-        let name = attr['name'];
-        let icon = attr['icon'];
-        let url = attr['url'];
+        option.className = 'custom-option';
+        option.id = id;
         
-        if (action) {
-            className += ' logout';
-        }
+        let divExpandTitle;
+        
+        for (let attr in listAttributes) {
 
-        option.className = className;
-        option.id = i;
-        
-        if (name) {
-            option.title = name;
-        }
-        if (url) {
-            option.setAttribute('url', url);
-        }
-        
-        option.setAttribute('custom-type', customType);
-        if (icon) {
-            let i = document.createElement('i');
-            i.className = icon;
-            option.appendChild(i);
-        }
+            let values = listAttributes[attr];
 
-        let expandName = document.createElement('div');
-        expandName.className = 'expand-name';
-        if (name) {
-            let p = document.createElement('p');
-            p.textContent = name;
-            expandName.appendChild(p);
+            switch (attr) {
+                case 'name':
+                    option.title = values;
+
+                    divExpandTitle = document.createElement('div');
+                    divExpandTitle.className = 'expand-name';
+                    
+                    let titleExpand = document.createElement('p');
+                    titleExpand.textContent = values;
+                    divExpandTitle.appendChild(titleExpand);
+                    
+                    break;
+                    
+                case 'type':
+                    option.setAttribute('custom-type', values);
+
+                    break;
+
+                case 'action':
+                    option.className += ' logout';
+
+                    break;
+
+                case 'icon':
+                    let iconOption = document.createElement('i');
+                    iconOption.className = values;
+                    option.appendChild(iconOption);
+
+                    break;
+
+                case 'url':
+                    option.setAttribute('url', values);
+
+                    break;
+
+                case 'inside':
+                    option.setAttribute('inside', values);
+
+                    break;
+
+                default:
+                    break;
+            }
         }
 
         option.onclick = function() {
-            if (_removeSelected())
+            if (removeSelected(this))
                 this.classList.add("selected");
-                _createContainer(false, this);
+                createContainer(false, this);
         }
 
-        option.appendChild(expandName);
+        if (divExpandTitle) {
+            option.appendChild(divExpandTitle);
+        }
+        
         this.append(option);
     }
     
@@ -90,7 +91,7 @@ class customRouterElement extends HTMLElement {
 
 customElements.define('custom-router', customRouterElement);
 
-function _createContainer(hasType, option) {
+function createContainer(hasType, option) {
     if (option.hasAttribute("custom-type") || hasType) {
         if (hasType == 'close') {
             $("main >").remove();
@@ -103,7 +104,7 @@ function _createContainer(hasType, option) {
     }
 }
 
-function _removeSelected() {
+function removeSelected(obj) {
     let opt = $(".custom-option");
     let isSelected = true;
     
@@ -111,7 +112,7 @@ function _removeSelected() {
         let listClass = list.classList;
 
         if (listClass.contains("selected")) {
-            if (this.id == list.id) {
+            if (obj.id == list.id) {
                 isSelected = false;
             } else {
                 listClass.remove("selected");

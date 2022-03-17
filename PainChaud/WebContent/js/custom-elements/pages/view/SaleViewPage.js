@@ -1,29 +1,7 @@
+import { findAll, findById, findSearch, getHeaderView, isDelete, isUpdate } from './functions/saleFunction.js';
 import Grid from '../../components/customGridResponsive.js';
 import InterfacePages from '../../interface/InterfacePages.js';
 import * as Utils from '../../Utils.js';
-
-var vlView = [ 
-    {
-        "values": { 
-            'id': 0, 
-            'Data da venda': "10/10/2022", 
-            'Valor total': "R$ 18,90"
-        },
-        'action': [
-            "Visualizar"
-        ]
-    },
-    {
-        "values": { 
-            'id': 1, 
-            'Data da venda': "11/10/2022", 
-            'Valor total': "R$ 29,90"
-        },
-        'action': [
-            "Visualizar"
-        ]
-    }
-];
 
 export default class SaleViewPage extends InterfacePages {
 
@@ -51,53 +29,34 @@ export default class SaleViewPage extends InterfacePages {
     }
 
     getHeader() {
-        const d = new Date();
-
-        let betweenDate = document.createElement('div');
-        betweenDate.id = 'header-container-dates';
-
-        let initial = document.createElement('custom-input');
-        initial.setAttribute('type', 'date');
-        initial.title = 'Data inicial:';
-        initial.id = 'date-initial';
-        initial.setAttribute('min', '2022-01-10');
-        initial.setAttribute('max', d.getFullYear() + "-0" + (d.getMonth() + 1) + "-" + d.getDate());
-        betweenDate.appendChild(initial);
-
-        let end = document.createElement('custom-input');
-        end.setAttribute('type', 'date');
-        end.title = 'Data Final:';
-        end.id = 'date-final';
-        
-        end.setAttribute('min', '2022-01-10');
-
-        let mounth = (d.getMonth() + 1);
-        end.setAttribute('max', d.getFullYear() + "-" + ((mounth < 10) ? "0" + mounth : mounth) + "-" + d.getDate());
-        betweenDate.appendChild(end);
-
-        return betweenDate;
+        return getHeaderView();
     }
 
     getGrid(hasSearch) {
         return this.grid.createGridElement({
             col: SaleViewPage.fieldView,
-            value: vlView,
+            value: findAll(0),
             hasSearch: false,
             hasHeader: true,
-            notHeader: ['Comanda'] //Colunas que não deve aparecer (manipula somente backend)
+            notHeader: ['Comanda'], //Colunas que não deve aparecer (manipula somente backend)
+            findDB: true 
         });
     }
 
-    _isDelete(id) {
-        return true;
+    isDelete(id) {
+        return isDelete(id);
     }
 
-    _isUpdate(obj) {
-        return true;
+    isUpdate(obj) {
+        return isUpdate(obj);
     }
 
-    _findById(id) {
-        return true;
+    findById(id) {
+        return findById(id);
+    }
+
+    findSearch(value, column) {
+        return findSearch(value, column);
     }
 
 };

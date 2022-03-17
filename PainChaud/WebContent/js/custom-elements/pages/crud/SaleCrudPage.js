@@ -1,12 +1,7 @@
+import { findAll, findById, isDelete, isInsert, isUpdate } from './functions/saleFunction.js';
 import InterfacePages from '../../interface/InterfacePages.js'; 
 import Grid from '../../components/customGridResponsive.js';
-import * as Function from './functions/SaleFunction.js';
 import * as Field from '../../components/customFields.js';
-import * as Utils from '../../Utils.js';
-
-
-var vl = [ 
-];
 
 export default class SaleCrudPage extends InterfacePages {
 
@@ -18,12 +13,12 @@ export default class SaleCrudPage extends InterfacePages {
 
     static fields = {
         'Produto': [ 
-            ["Leite", "0", "R$ 4,60"], 
-            ["Cuca de Banana", "0", "R$ 8,50"],
-            ["Cuca de Chocolate", "0", "R$ 12,00"]
+            ["Leite", "0", 4.60], 
+            ["Cuca de Banana", "0", 8.50],
+            ["Cuca de Chocolate", "0", 12.00]
         ],
         'Quantidade': 'Number,Add',
-        'Comanda': 'Number,Add,Comanda',
+        'Comanda': 'Number,Add',
         
         'Tipo': 'string',
         'Data da venda': 'string',
@@ -32,34 +27,42 @@ export default class SaleCrudPage extends InterfacePages {
         'AÃ§Ã£o': 'Action'
     }
 
-    getFields() {
+    getFields(hasReturn) {
         return Field.createElementsFields({
             col: SaleCrudPage.fields, 
-            hiddenField: ['Data da venda', 'Valor', 'Tipo'] //Colunas que não deve aparecer nos fields, somente visualizar na grid
+            hiddenField: ['Data da venda', 'Valor', 'Tipo'], //Colunas que não deve aparecer nos fields, somente visualizar na grid
+            clearGrid: true,
+            isReturn: (hasReturn ? hasReturn : false)
         }); 
     }
 
     getGrid(hasSearch) {
         return this.grid.createGridElement({
             col: SaleCrudPage.fields,
-            value: vl,
+            value: findAll(),
             hasSearch: true,
             hasHeader: true,
             fieldEdit: ["Quantidade"],
-            notHeader: ['Data da venda', 'Comanda', 'Tipo'] //Colunas que não deve aparecer (manipula somente backend)
+            notHeader: ['Data da venda', 'Comanda', 'Tipo'],  //Colunas que não deve aparecer (manipula somente backend)
+            hasFooter: true,
+            findDB: false
         });
     }
 
-    _isDelete(id) {
-        return true;
+    isDelete(id) {
+        return isDelete(id);
     }
 
-    _isUpdate(obj) {
-        return true;
+    isUpdate(obj) {
+        return isUpdate(obj);
     }
 
-    _findById(id) {
-        return true;
+    isInsert(obj) {
+        return isInsert(obj);
+    }
+
+    findById(id) {
+        return findById(id);
     }
 
 };

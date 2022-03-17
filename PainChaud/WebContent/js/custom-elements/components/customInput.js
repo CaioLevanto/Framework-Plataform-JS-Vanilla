@@ -16,18 +16,24 @@ class customInputElement extends HTMLElement {
         if (this.hasAttribute('type')) {
             const type = this.getAttribute('type').split(',');
 
-            if (type == 'custom') {
-                this._typeCustomInput();
-            } else if (type == 'search') {
-                this._typeCustomSearch();
-            } else {
-                this._typeCustomInput(type);
+            switch (type[0]) {
+                case 'custom': 
+                    this.typeCustomInput();
+                break;
+
+                case 'search':
+                    this.typeCustomSearch();
+                break;
+
+                default:
+                    this.typeCustomInput(type);
+                break;
             }
         }
     }
 
-    _typeCustomInput(hasType) {
-        if (!this.hasAttribute('label') || this.getAttribute('label')) {
+    typeCustomInput(hasType) {
+        if (!this.hasAttribute('label') || this.getAttribute('label') != "") {
             let label = document.createElement('label');
             label.textContent = this.title;
             label.className = 'custom-label';
@@ -44,63 +50,76 @@ class customInputElement extends HTMLElement {
             input.value = this.value;
         }
 
+        let addBtn;
         for (let i in hasType) {
 
-            if (hasType[i] == 'date') {
-                input.setAttribute('min', this.getAttribute('min'));
-                input.setAttribute('max', this.getAttribute('max'));
-            }
-            if (hasType[i] == 'money') {
-                input.onblur = function (e) {
-                    let number = Number.parseInt(e.target.value);
-    
-                    e.target.value = new Intl.NumberFormat('ja-JP',  {
-                        style: 'currency',
-                        currency: 'BRL',
-                    }).format(number);
-                }
-            }
-            if (hasType[i] == 'Add') {
-                var addBtn = document.createElement('custom-button');
-                addBtn.id = 'btn-add-' + this.id;
-                addBtn.setAttribute('icon', 'fa-solid fa-plus');
-                addBtn.addEventListener('click', function() {
-                    if (Utils.validateFields()) {
-                        let container = $("#section-custom-right #container-grid")[0];
+            switch (hasType[i].toLowerCase()) {
+                case 'date':
+                    input.setAttribute("type", hasType[i]);
+                    input.setAttribute('min', this.getAttribute('min'));
+                    input.setAttribute('max', this.getAttribute('max'));
+                break;
 
-                        let form = document.forms['form'];
-                        let action = ["Deletar"];
-                        let item = Action.addItemGrid(form, action);
-
-                        container.append(item);
-
-                        document.forms['form'].reset();
+                case 'money':
+                    input.setAttribute("type", hasType[i]);
+                    input.onblur = function (e) {
+                        // let number = Number.parseInt(e.target.value);
+        
+                        // e.target.value = new Intl.NumberFormat('ja-JP',  {
+                        //     style: 'currency',
+                        //     currency: 'BRL',
+                        // }).format(number);
                     }
-                });
-            }
-            //Realiza o bloqueio do input de comanda e insere os produtos da comanda na grid.
-            if (hasType[i] == 'Comanda') {
+                break;
 
-            }
-            if (hasType[i] != 'Add') {
-                input.setAttribute("type", hasType[i]);
-            }
-            if (hasType[i] == 'Number') {
-                input.max = '9999';
-                input.min = '1';
-                input.onblur = function(e) {
-                    let field = e.target;
-                    
-                    if (input.value != "") {
-                        if (field.value > field.max) {
-                            field.value = 1;
-                            alert('Campo ' + field.name + ' excedeu quantidade maxima');
-                        } else if (field.value < field.min) {
-                            field.value = 1;
-                            alert('Campo ' + field.name + ' excedeu quantidade minima');
+                case 'number':
+                    input.setAttribute("type", hasType[i]);
+                    input.max = '9999';
+                    input.min = '1';
+                    input.onblur = function(e) {
+                        let field = e.target;
+                        
+                        if (input.value != "") {
+                            if (field.value > field.max) {
+                                field.value = 1;
+                                alert('Campo ' + field.name + ' excedeu quantidade maxima');
+                            } else if (field.value < field.min) {
+                                field.value = 1;
+                                alert('Campo ' + field.name + ' excedeu quantidade minima');
+                            }
                         }
                     }
-                }
+                break;
+
+                case 'add':
+                    addBtn = document.createElement('custom-button');
+                    addBtn.id = 'btn-add-' + this.id;
+                    addBtn.setAttribute('icon', 'fa-solid fa-plus');
+
+                    if (this.id == 'comanda') {
+                        addBtn.addEventListener('click', () => { alert('oi') });
+                    } else {
+                        addBtn.addEventListener('click', function() {
+                            if (Utils.validateFields()) {
+                                let container = $("#section-custom-right #container-grid")[0];
+        
+                                let form = document.forms['form'];
+                                let action = ["Deletar"];
+                                let item = Action.addItemGrid(form, action);
+        
+                                container.append(item);
+        
+                                document.forms['form'].reset();
+                            }
+
+                            $('#custom-search-header').val('');
+                            $('.line-grid-custom.hidden').removeClass('hidden');
+                        });
+                    }
+                break;
+                
+                default:
+                    break;
             }
         }
 
@@ -113,21 +132,14 @@ class customInputElement extends HTMLElement {
         }
     }
 
-    _typeCustomSearch() {
+    typeCustomSearch() {
         let input = document.createElement('input');
         
         if (this.id) {
-            input.id = 'custom-search-' + this.id;
+            input.id = 'custom-' + this.id;
         } else {
             input.id = "custom-input-search";
         }
-
-        input.addEventListener('keypress', function(e) {
-            $('.line-grid-custom').remove();
-            //busca pelo key
-
-            // new Grid().createContainerGrid($('#container-grid')[0], vlFinded, createGrid.columnsPreDefine, true, true);
-        });
 
         if (this.hasAttribute('title')) {
             input.placeholder = this.getAttribute('title');
@@ -140,7 +152,3 @@ class customInputElement extends HTMLElement {
 }
 
 customElements.define('custom-input', customInputElement);
-
-function localStringToNumber(s) {
-    return Number(String(s).replace(/[^0-9.-]+/g,""));
-}
