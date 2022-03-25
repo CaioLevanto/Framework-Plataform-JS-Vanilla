@@ -1,6 +1,6 @@
+import { formatCharacters, getPageSelected, removeCurrencyFormat } from '../Utils.js';
 import { searchItemByValue } from './functions/gridFunction.js';
 import Factory from '../interface/PageFactory.js';
-import * as Utils from '../Utils.js';
 
 var valueFooter;
 
@@ -109,7 +109,7 @@ export default class createGrid {
                 $('.line-grid-custom').remove();
                 //busca pelo key
                 
-                Factory.getPage(Utils.getPageSelected()).findSearch(e.target.value, $('#search-grid > .custom-select').val());
+                Factory.getPage(getPageSelected()).findSearch(e.target.value, $('#search-grid > .custom-select').val());
             });
         } else {
             searchInput.addEventListener('keyup', function(e) {
@@ -230,11 +230,10 @@ export default class createGrid {
             switch (l) {
                 case 'Quantidade': 
                     qtd = valueLine[l];
-
-                    break;
+                break;
 
                 case 'Valor':
-                    let valFloat =  Utils.removeCurrencyFormat(valueLine[l]);
+                    let valFloat =  removeCurrencyFormat(valueLine[l]);
                     oldValue = valFloat;
                     separatorLine.value = valFloat.toFixed(2);
     
@@ -243,11 +242,7 @@ export default class createGrid {
                     }
     
                     valueFooter = (valueFooter + valFloat); 
-
-                    break;
-
-                default:
-                    break;
+                break;
             }
 
             if (fieldEdit?.includes(l)) {
@@ -280,7 +275,7 @@ export default class createGrid {
                     const vlTotal = (value.val() * qtd).toFixed(2);
 
                     let footer = $('#footer-grid')[0];
-                    footer.value = ((footer.value - Utils.removeCurrencyFormat(value[0].textContent)) + 
+                    footer.value = ((footer.value - removeCurrencyFormat(value[0].textContent)) + 
                             parseFloat(vlTotal));
                     
                     
@@ -295,10 +290,18 @@ export default class createGrid {
                 separatorLine.appendChild(pLine);
             }
             
-            if (l == 'Valor') {
-                fieldsInAttribute[l] = oldValue;
-            } else {    
-                fieldsInAttribute[l] = valueLine[l];
+            switch (l) {
+                case 'Valor':
+                    fieldsInAttribute[l] = oldValue;
+                break;
+
+                case 'Produto':
+                    fieldsInAttribute[l] = $('.custom-select #' + formatCharacters(valueLine[l]))[0].getAttribute('field-id');
+                break;
+
+                default:
+                    fieldsInAttribute[l] = valueLine[l];
+                break;
             }
             insertLine.appendChild(separatorLine);
         }
@@ -327,11 +330,11 @@ export default class createGrid {
                         action.onclick = function() {
                             const line = this.parentElement.parentElement;
         
-                            if (Factory.getPage(Utils.getPageSelected()).isDelete(line.id.replace("line-grid-", ""))) {
+                            if (Factory.getPage(getPageSelected()).isDelete(line.id.replace("line-grid-", ""))) {
                                 let valLine = $("#" + line.id + " #Valor");
     
                                 if (valLine.length) {
-                                    let removeVal = Utils.removeCurrencyFormat(valLine[0].textContent);
+                                    let removeVal = removeCurrencyFormat(valLine[0].textContent);
     
                                     let footer = $('#footer-grid')[0];
                                     footer.value = (footer.value - removeVal);
@@ -345,12 +348,16 @@ export default class createGrid {
 
                     case 'Editar':
                         action.onclick = function() {
-                            // const children = $("#" + this.parentElement.parentElement.id)[0].childNodes;
-                            const field = $(".data-fields  .separator >");
-    
-                            for (let i = 0; i < field.length; i++) {
-                                console.log(document.forms['form'][field[i].id.toLowerCase()
-                                                .normalize('NFD').replace(/[\u0300-\u036f]/g, "")]);
+                            if (getPageSelected('inside') == 'crud') {
+                                $('custom-container-view').hide();
+                            
+                                let inside = document.createElement('custom-inside-crud');
+                                inside.setAttribute('edit', true);
+                                inside.setAttribute('lineId', $("#" + this.parentElement.parentElement.id)[0].id.replace('line-grid-', ''));
+                                
+                                document.querySelector('main').appendChild(inside);
+                            } else {
+                                alert('findById insert in fields');
                             }
                         }
                     break;
@@ -361,6 +368,7 @@ export default class createGrid {
 
                             let inside = document.createElement('custom-inside-crud');
                             inside.setAttribute('return', true);
+                            inside.setAttribute('lineId', $("#" + this.parentElement.parentElement.id)[0].id.replace('line-grid-', ''));
 
                             document.querySelector('main').appendChild(inside);
                         }

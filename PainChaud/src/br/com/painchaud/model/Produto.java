@@ -19,7 +19,7 @@ public class Produto implements Serializable {
 		super();
 	}
 	
-	public Produto(int id, String descricao, LocalEnum local, tipoMedidaEnum tipoMedida, BigDecimal valor) {
+	public Produto(int id, String descricao, Integer local, Integer tipoMedida, BigDecimal valor) {
 		super();
 		
 		this.id = id;

@@ -1,3 +1,5 @@
+import { resetGrid } from "../Utils.js";
+
 class customButtonElement extends HTMLElement {
 
     constructor() {
@@ -35,13 +37,7 @@ class customButtonElement extends HTMLElement {
                     document.forms['form'].reset();
                     
                     if ($('.' + this.className)[0].parentElement.getAttribute('clear-grid') == 'true') {
-                        $('.line-grid-custom').remove();
-                        
-                        let footer = $('#footer-grid')[0];
-                        
-                        if (footer)
-                                footer.children[1].textContent = 'R$ 0,00';
-                                footer.value = 0;
+                        resetGrid();
                     }
                 });
             break;

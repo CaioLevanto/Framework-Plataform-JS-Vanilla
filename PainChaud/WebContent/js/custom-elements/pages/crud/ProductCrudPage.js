@@ -12,7 +12,7 @@ export default class ProductCrudPage extends InterfacePages {
     }
 
     static fields = {
-        'Nome': 'string',
+        'Descricao': 'string',
         'Local': [ 'Balcao', 'Embalado' ],
         'Tipo': [ 'Unidade', 'Peso' ],
         'Valor': 'money',
@@ -34,6 +34,8 @@ export default class ProductCrudPage extends InterfacePages {
             findDB: false
         });
     }
+
+    
 
     isDelete(id) {
         return isDelete(id);

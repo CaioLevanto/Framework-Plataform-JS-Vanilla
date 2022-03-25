@@ -1,3 +1,5 @@
+import { newDialogError } from "./components/functions/dialogFunction.js";
+
 export function doAjax({async, pathname, url, type, field, params}) {
     $.ajax({
         url: '/Painchaud/rest/' + pathname + url,
@@ -9,21 +11,30 @@ export function doAjax({async, pathname, url, type, field, params}) {
             field: field,
             params: params
         }),
-        success: function (d) { return d },
-        error: function (e) { return e }
+        success: function (d) { 
+            return d 
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            return newDialogError(xhr.status)
+        }
     });
 };
 
-export function getPageSelected() {
+export function getPageSelected(attr) {
     const opt = $('.custom-option.selected')[0];
-    return (opt.getAttribute('url') + '-' + opt.getAttribute('custom-type'));
+
+    if (!!attr) {
+        return opt.getAttribute(attr);
+    } else {
+        return (opt.getAttribute('url') + '-' + opt.getAttribute('custom-type'));
+    }
 }
 
 export function getClass() {
     return $('.custom-option.selected')[0].getAttribute('url');
 }
 
-export function validateFields() {
+export function validateFields(validProduct) {
     const listName = $('#form-fields > .separator >');
     let hasError = true;
     let fieldError = true;
@@ -32,29 +43,59 @@ export function validateFields() {
         let field = document.forms['form'][listName[i].title.toLowerCase()];
 
         if (field) {
-            if (field.id == 'produto') {
-                if (!this.hasItemInCart(field.value)) {
-                    hasError = false;
+            let fieldId;
+
+            if (field.parentElement.className == 'separator') {
+                fieldId = field.id;
+            } else {
+                fieldId = field.parentElement.id;
+            }
+
+            if ($("#" + fieldId)[0].getAttribute('optional') == 'true') {
+                    continue;
+            }
+
+            if (validProduct) {
+                if (field.id == 'produto') {
+                    if (!hasItemInCart(field.value)) {
+                        hasError = false;
+                    }
                 }
             }
 
-            if (!field.value || field.value == '') {
+            if (validateHasEmptyOrValue(field)) {
                 if (field.localName == 'custom-input') {
                     let input = $('#' + field.id + " > input")[0];
-    
-                    input.className += ' hasError';
+                    
+                    if (!input.className.includes('hasError'))
+                            input.className += ' hasError';
                 } else {
-                    field.className  += ' hasError';
+                    if (!field.className.includes('hasError'))
+                            field.className  += ' hasError';
+                }
+                
+                let validCustom = $('#' + fieldId)[0];
+                
+                if (validCustom.className.includes('custom-select')) {
+                    let divError = field.parentElement;
 
-                    if (validError("#" + field.parentElement.id + " .text-atention-error")) {
+                    if (divError.children.length == 1) {
                         let atention = document.createElement('p');
                         atention.textContent = "Necessario preencher o campo " + field.name;
                         atention.className = "text-atention-error";
                         
-                        $("#" + field.parentElement.id)[0].appendChild(atention);
+                        divError.appendChild(atention);
+                    }
+                } else {
+                    if ($("#" + fieldId + " .text-atention-error").length == 0) {
+                        let atention = document.createElement('p');
+                        atention.textContent = "Necessario preencher o campo " + field.name;
+                        atention.className = "text-atention-error";
+                        
+                        $("#" + fieldId)[0].appendChild(atention);
                     }
                 }
-                
+
                 fieldError = false;
                 hasError = false;
             }
@@ -69,13 +110,19 @@ export function validateFields() {
     return hasError;
 }
 
-function validError(rel) {
-    let field = $(rel);
+function validateHasEmptyOrValue(val) {
+    let value = val.value;
+    let className;
 
-    return (field.length ? true : false);
+    if (val) {
+            className = val.className;
+    }
+    
+    return (className.includes('custom-select') ? (value == '0' ? true : false) 
+                    : (value == null || value == "" || value == "undefined"));
 }
 
-export function hasItemInCart(product) {
+function hasItemInCart(product) {
     let cart = $(".line-grid-custom ." + product.toLowerCase().replaceAll(' ', '-'));
     let qtdErrors = 0;
 
@@ -98,12 +145,20 @@ export function hasItemInCart(product) {
     return false;
 }
 
+export function validateHasItemGrid() {
+    if (getPageSelected('custom-type') == 'view' && getPageSelected('inside') == 'crud') {
+        return ($("custom-inside-crud .line-grid-custom").length > 0);
+    } else {
+        return ($(".line-grid-custom").length > 0);
+    }
+}
+
 export function getNameHeader() {
     let fieldsNames = $('#section-custom-right .custom-item-header');
     let names = [];
 
     for (let n = 0; n < fieldsNames.length; n++) {
-        names.push(fieldsNames[n].id.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ""));
+        names.push(formatCharacters(fieldsNames[n].id));
     }
 
     return names;
@@ -111,4 +166,18 @@ export function getNameHeader() {
 
 export function removeCurrencyFormat(val) {
     return parseFloat(val.replace('R$ ', '').replace(',', '.'));
+}
+
+export function formatCharacters(chr) {
+    return chr.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "").replaceAll(' ', '-');
+}
+
+export function resetGrid() {
+    $('.line-grid-custom').remove();
+                        
+    let footer = $('#footer-grid')[0];
+    
+    if (footer)
+            footer.children[1].textContent = 'R$ 0,00';
+            footer.value = 0;
 }

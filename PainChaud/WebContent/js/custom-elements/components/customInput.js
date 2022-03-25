@@ -1,5 +1,5 @@
 import * as Action from './customActionForm.js';
-import * as Utils from '../Utils.js';
+import { formatCharacters, validateFields } from '../Utils.js';
 
 class customInputElement extends HTMLElement {
 
@@ -100,7 +100,7 @@ class customInputElement extends HTMLElement {
                         addBtn.addEventListener('click', () => { alert('oi') });
                     } else {
                         addBtn.addEventListener('click', function() {
-                            if (Utils.validateFields()) {
+                            if (validateFields(true)) {
                                 let container = $("#section-custom-right #container-grid")[0];
         
                                 let form = document.forms['form'];
@@ -124,7 +124,7 @@ class customInputElement extends HTMLElement {
         }
 
         input.className = "custom-input-" + this.id;
-        input.name = this.title.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "").replace(":", "");
+        input.name = formatCharacters(this.title);
         this.append(input);
 
         if (addBtn) {

@@ -46,7 +46,11 @@ class customContainerVIEWElement extends HTMLElement {
         sectionRight.id = "section-custom-right";
         
         if (Factory.hasPage(crud)) {
-            sectionRight.appendChild(Factory.getPage(crud).getGrid());
+            if (this.getAttribute('edit') == 'true' || this.getAttribute('return') == 'true') {
+                sectionRight.appendChild(Factory.getPage(crud).getGrid(this.getAttribute('lineId')));
+            } else {
+                sectionRight.appendChild(Factory.getPage(crud).getGrid());
+            }
         }
         return sectionRight;
     }

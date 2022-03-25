@@ -6,7 +6,7 @@ export function findAll(id) {
         {
             "values": { 
                 'id': 0, 
-                'Nome': "Coxinha", 
+                'Descricao': "Coxinha", 
                 'Local': "Balcao",
                 'Tipo': 'Unidade',
                 'Valor': 'R$ 2,50' 
@@ -19,7 +19,7 @@ export function findAll(id) {
         {
             "values": { 
                 'id': 1, 
-                'Nome': "Pao", 
+                'Descricao': "Pao", 
                 'Local': "Balcao",
                 'Tipo': 'Peso',
                 'Valor': 'R$ 4,50' 

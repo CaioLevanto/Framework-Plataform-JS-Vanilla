@@ -16,6 +16,10 @@ export default class InterfacePages {
         throw new Error('Not implemented Grid');
     }
 
+    getGrid(id) {
+        throw new Error('Not implemented Grid');
+    }
+
     getReport() {
         throw new Error('Not implemented Report');
     }

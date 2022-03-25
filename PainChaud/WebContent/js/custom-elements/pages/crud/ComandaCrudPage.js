@@ -13,10 +13,10 @@ export default class ComandaCrudPage extends InterfacePages {
 
     static fields = {
         'Produto': [ 
-            ["Pao", "1", 5.40], //Alterar o R$ e trocar virgula por .
-            ["Coxinha", "0", 2.50],
-            ["Risoles", "0", 3.80],
-            ["Bolo", "0", 8.20] 
+            [0, "Pao", "1", 5.40], //Alterar o R$ e trocar virgula por .
+            [1, "Coxinha", "0", 2.50],
+            [2, "Risoles", "0", 3.80],
+            [3, "Bolo", "0", 8.20] 
         ],
         'Quantidade': 'Number,Add',
         'Valor': 'string',

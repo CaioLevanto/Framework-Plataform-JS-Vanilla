@@ -13,9 +13,9 @@ export default class SaleCrudPage extends InterfacePages {
 
     static fields = {
         'Produto': [ 
-            ["Leite", "0", 4.60], 
-            ["Cuca de Banana", "0", 8.50],
-            ["Cuca de Chocolate", "0", 12.00]
+            [0, "Leite", "0", 4.60], 
+            [1, "Cuca de Banana", "0", 8.50],
+            [2, "Cuca de Chocolate", "0", 12.00]
         ],
         'Quantidade': 'Number,Add',
         'Comanda': 'Number,Add',
@@ -29,7 +29,7 @@ export default class SaleCrudPage extends InterfacePages {
 
     getFields(hasReturn) {
         return Field.createElementsFields({
-            col: SaleCrudPage.fields, 
+            col: SaleCrudPage.fields,
             hiddenField: ['Data da venda', 'Valor', 'Tipo'], //Colunas que não deve aparecer nos fields, somente visualizar na grid
             clearGrid: true,
             isReturn: (hasReturn ? hasReturn : false)
@@ -48,6 +48,8 @@ export default class SaleCrudPage extends InterfacePages {
             findDB: false
         });
     }
+
+    
 
     isDelete(id) {
         return isDelete(id);

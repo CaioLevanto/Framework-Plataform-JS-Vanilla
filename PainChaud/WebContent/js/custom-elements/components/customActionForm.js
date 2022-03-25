@@ -1,32 +1,38 @@
 import Factory from '../interface/PageFactory.js';
-import { validateFields, getPageSelected } from '../Utils.js';
+import { validateFields, getPageSelected, getNameHeader } from '../Utils.js';
 import createGrid from './customGridResponsive.js';
 
-export function actionReturn() {
-    $('custom-inside-crud').remove();
-    $('custom-container-view').show()
+export function actionReturn(inside, container) {
+    $('custom-inside-' + inside).remove();
+    $('custom-container-' + container).show();
+
+    if (inside == 'crud') {
+        $('#data-grid').remove();
+        document.getElementById(getPageSelected('custom-type') == 'view' ? 
+            'section-custom-main' : 'section-custom-right').appendChild(
+                Factory.getPage(getPageSelected()).getGrid());
+    }
 }
 
-export function actionOnSubmit(form) {
-    let allFields = $('#form-fields > .separator >');
-    let validReturn = false;
-    
-    if (validateFields()) {
-        if (Factory.getPage(getPageSelected()).isInsert(createObjectForm(allFields))) {
-            if (form.getAttribute('return') == 'true') {
-                actionReturn();
-            }
-            
-            $('#data-grid').remove();
-            document.getElementById(getPageSelected().split('-').includes('view') ? 
-                'section-custom-main' : 'section-custom-right').appendChild(
-                    Factory.getPage(getPageSelected()).getGrid());
-    
-            validReturn = true;
-        }
-    }
+export function actionOnSubmitFields() {
+    if (validateFields(false))
+        return Factory.getPage(getPageSelected()).isInsert(createObjectForm($('#form-fields > .separator >')))
+}
 
-    return validReturn;
+export function actionOnSubmitGrid() {
+    let lines = $("#section-custom-right .line-grid-custom");
+
+    if (lines.length > 0) {
+        let listValus = new Array();
+    
+        for (let i = 0; i < lines.length; i++) {
+            listValus.push(JSON.parse(lines[i].getAttribute('fields-value')))
+        }
+    
+        console.log(JSON.stringify(listValus));
+        return true;
+    }
+    return false;
 }
 
 function createObjectForm(list) {
@@ -44,7 +50,7 @@ function createObjectForm(list) {
 
 export function addItemGrid(obj, listActions) {
     const listFields = $(".data-fields  .separator >");
-    const listNames = Utils.getNameHeader();
+    const listNames = getNameHeader();
     
     let vl = {
         "values": {
@@ -62,9 +68,10 @@ export function addItemGrid(obj, listActions) {
         
         if (form) {
             let title = key.title;
+            let productValue;
 
             if (key.className == 'custom-select') {
-                let productValue = $("#produto > [value='" + form.value + "']")[0];
+                productValue = $("#produto > [value='" + form.value + "']")[0];
 
                 if (productValue) {
                     value = parseFloat(productValue.getAttribute('field-value'));

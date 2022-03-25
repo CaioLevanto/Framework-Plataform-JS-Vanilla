@@ -37,6 +37,8 @@ export default class UserCrudPage extends InterfacePages {
         });
     }
 
+    
+
     isDelete(id) {
         return isDelete(id);
     }

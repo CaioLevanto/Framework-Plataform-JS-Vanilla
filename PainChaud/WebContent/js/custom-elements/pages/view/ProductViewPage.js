@@ -12,7 +12,7 @@ export default class ProductViewPage extends InterfacePages {
     }
 
     static fields = {
-        'Nome': 'string',
+        'Descricao': 'string',
         'Local': [ 'Balcao', 'Embalado' ],
         'Tipo': [ 'Unidade', 'Peso' ],
         'Valor': 'money'

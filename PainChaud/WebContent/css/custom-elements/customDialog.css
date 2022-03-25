@@ -1,0 +1,72 @@
+#custom-dialog {
+    position: absolute;
+    top: 50%;
+    margin-top: -10%;
+    left: 50%;
+    margin-left: -250px;
+    border-width: 0px;
+    border: none;
+    outline: none;
+    box-shadow: 10px 10px 0px #acacac80;
+    border-radius: 0.4rem;
+}
+
+#custom-dialog.form,
+#custom-dialog.message,
+#custom-dialog.grid,
+#custom-dialog.cancel {
+    width: 38vw;
+    height: 34vh;
+}
+
+#custom-dialog.error {
+    width: 500px;
+    height: 515px;
+    margin-top: -21% !important;
+}
+
+#dialog-header {
+    height: 35px;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #db9c1d;
+    color: #FFF;
+}
+
+#dialog-header > p {
+    margin-left: 10px;
+    user-select: none;
+}
+
+#dialog-header > i:hover {
+    color: red;
+}
+
+#dialog-body {
+    height: calc(100% - 35px);
+    display: flex;
+    flex-direction: column;
+}
+
+#dialog-body > p {
+    margin: 18px;
+    height: 100%;
+    display: flex;
+    font-size: 20px;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+#dialog-body #action-dialog {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px;
+}
+
+#dialog-body > img {
+    width: 500px;
+    padding: 8px;
+}

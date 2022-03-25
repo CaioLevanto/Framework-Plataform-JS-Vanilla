@@ -7,7 +7,7 @@ class customRouterElement extends HTMLElement {
     }
 
     connectedCallback() {
-        this.createValues(findRoutesByUser(0));
+        this.createValues(findRoutesByUser(1));
     }
 
     createValues(columns) {
@@ -66,6 +66,11 @@ class customRouterElement extends HTMLElement {
 
                 case 'inside':
                     option.setAttribute('inside', values);
+
+                    break;
+                
+                case 'save':
+                    option.setAttribute('save-type', values);
 
                     break;
 

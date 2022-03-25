@@ -33,16 +33,7 @@ export function findAll(id) {
         {
             "values": { 
                 'id': 0, 
-                'Nome': "Coxinha", 
-                'Local': "Balcao", 
-                'Tipo': 'Unidade',
-                'Valor': 'R$ 2,50' 
-            }
-        },
-        {
-            "values": { 
-                'id': 0, 
-                'Nome': "Coxinha", 
+                'Descricao': "Coxinha", 
                 'Local': "Balcao", 
                 'Tipo': 'Unidade',
                 'Valor': 'R$ 2,50' 
