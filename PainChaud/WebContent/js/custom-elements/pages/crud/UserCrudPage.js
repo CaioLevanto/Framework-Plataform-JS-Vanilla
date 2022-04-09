@@ -1,4 +1,4 @@
-import { findAll, findById, isDelete, isInsert, isUpdate } from './functions/userFunction.js';
+import { findAll, isEdit, getAction, getHeaderClass, isDelete, isInsert, isUpdate } from './functions/userFunction.js';
 import Grid from '../../components/customGridResponsive.js';
 import * as Field from '../../components/customFields.js';
 import InterfacePages from '../../interface/InterfacePages.js';
@@ -11,13 +11,7 @@ export default class UserCrudPage extends InterfacePages {
         this.grid = new Grid();
     }
 
-    static fields = {
-        'Name': 'custom',
-        'Email': 'custom',
-        'Funcao': [ 'Selecione', 'Caixa', 'Balcao' ],
-        'Senha': 'custom',
-        'Ação': 'Action'
-    }
+    static fields = getHeaderClass();
 
     getFields() {
         return Field.createElementsFields({
@@ -37,7 +31,9 @@ export default class UserCrudPage extends InterfacePages {
         });
     }
 
-    
+    getAction() {
+        return getAction();
+    }
 
     isDelete(id) {
         return isDelete(id);
@@ -51,8 +47,8 @@ export default class UserCrudPage extends InterfacePages {
         return isInsert(obj);
     }
 
-    findById(id) {
-        return findById(id);
+    isEdit(id) {
+        return isEdit(id);
     }
 
 };

@@ -1,4 +1,4 @@
-import { findAll, findById, isDelete, isInsert, isUpdate } from './functions/saleFunction.js';
+import { findAll, isEdit, getAction, isDelete, isInsert, isUpdate } from './functions/saleFunction.js';
 import InterfacePages from '../../interface/InterfacePages.js'; 
 import Grid from '../../components/customGridResponsive.js';
 import * as Field from '../../components/customFields.js';
@@ -24,7 +24,7 @@ export default class SaleCrudPage extends InterfacePages {
         'Data da venda': 'string',
         'Valor': 'string',
 
-        'Ação': 'Action'
+        'Action': 'Action'
     }
 
     getFields(hasReturn) {
@@ -49,7 +49,9 @@ export default class SaleCrudPage extends InterfacePages {
         });
     }
 
-    
+    getAction() {
+        return getAction();
+    }
 
     isDelete(id) {
         return isDelete(id);
@@ -63,8 +65,8 @@ export default class SaleCrudPage extends InterfacePages {
         return isInsert(obj);
     }
 
-    findById(id) {
-        return findById(id);
+    isEdit(id) {
+        return isEdit(id);
     }
 
 };

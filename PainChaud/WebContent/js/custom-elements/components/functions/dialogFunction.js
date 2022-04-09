@@ -27,3 +27,7 @@ export function closeDialog() {
 export function openDialog() {
     document.getElementById('custom-dialog').showModal();
 }
+
+export function hasDialog() {
+    return document.getElementById('custom-dialog');
+}

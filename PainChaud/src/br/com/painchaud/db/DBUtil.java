@@ -9,8 +9,8 @@ public class DBUtil {
 	public Connection getConn() {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
-			conn = java.sql.DriverManager.getConnection("jdbc:mysql://localhost/painchaud?"
-							+ "user=root&password=root&useTimezone=true&serverTimezone=UTC");
+			conn = java.sql.DriverManager.getConnection("jdbc:mysql://localhost/painchauddb?"
+							+ "user=root&password=Debora@2020&useTimezone=true&serverTimezone=UTC");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

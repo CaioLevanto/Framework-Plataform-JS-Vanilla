@@ -1,4 +1,4 @@
-import { findAll, findById, findSearch, getHeaderView, isDelete, isUpdate } from './functions/productFunction.js';
+import { findAll, isEdit, findSearch, getHeaderView, isDelete, isUpdate } from './functions/productFunction.js';
 import Grid from '../../components/customGridResponsive.js';
 import InterfacePages from '../../interface/InterfacePages.js';
 import * as Utils from '../../Utils.js';
@@ -31,6 +31,10 @@ export default class ProductViewPage extends InterfacePages {
             findDB: true
         });
     }
+    
+    getAction() {
+        return getAction();
+    }
 
     isDelete(id) {
         return isDelete(id);
@@ -40,8 +44,8 @@ export default class ProductViewPage extends InterfacePages {
         return isUpdate(obj);
     }
 
-    findById(id) {
-        return findById(id);
+    isEdit(id) {
+        return isEdit(id);
     }
 
     findSearch(value, column) {

@@ -1,23 +1,58 @@
-import { newDialogError } from "./components/functions/dialogFunction.js";
+import { hasDialog, newDialogError } from "./components/functions/dialogFunction.js";
 
-export function doAjax({async, pathname, url, type, field, params}) {
-    $.ajax({
-        url: '/Painchaud/rest/' + pathname + url,
-        async: async,
-        dataType: type,
-        type: type,
-        contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-        data: JSON.stringify({
-            field: field,
-            params: params
-        }),
-        success: function (d) { 
-            return d 
-        },
-        error: function (xhr, ajaxOptions, thrownError) {
-            return newDialogError(xhr.status)
-        }
-    });
+let contentType = 'application/x-www-form-urlencoded; charset=UTF-8';
+
+export function doAjax({async, pathname, url, type, data}) {
+    let hasReturn;
+
+    if (data) {
+        $.ajax({
+            url: '/PainChaud/rest/' + pathname + "/" + url,
+            async: (async != null) ? async : false,
+            type: type,
+            dataType: "json",
+            contentType: contentType,
+            data: data,
+            success: function (val) {
+                if (val == 'true') {
+                    hasReturn = true;
+                } else {
+                    hasReturn = val;
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                if (hasDialog()) {
+                        closeDialog();
+                }
+                newDialogError(xhr.status);
+                return false;
+            }
+        });
+    } else {
+        $.ajax({
+            url: '/PainChaud/rest/' + pathname + "/" + url,
+            async: (async != null) ? async : false,
+            type: type,
+            dataType: "json",
+            contentType: contentType,
+            success: function (val) {
+                if (val == 'true') {
+                    hasReturn = true;
+                } else {
+                    hasReturn = val;
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                if (hasDialog()) {
+                        closeDialog();
+                }
+                newDialogError(xhr.status);
+                return false;
+            }
+        });
+    }
+
+    return hasReturn;
 };
 
 export function getPageSelected(attr) {
@@ -26,6 +61,12 @@ export function getPageSelected(attr) {
     if (!!attr) {
         return opt.getAttribute(attr);
     } else {
+        if (opt.hasAttribute('inside')) {
+            // if () { 
+
+            // }
+        }
+        
         return (opt.getAttribute('url') + '-' + opt.getAttribute('custom-type'));
     }
 }
@@ -35,11 +76,11 @@ export function getClass() {
 }
 
 export function validateFields(validProduct) {
-    const listName = $('#form-fields > .separator >');
+    const listName = getNameFields();
     let hasError = true;
     let fieldError = true;
 
-    for (let i = 0; i < listName.length; i++) {
+    for (let i in listName) {
         let field = document.forms['form'][listName[i].title.toLowerCase()];
 
         if (field) {
@@ -52,7 +93,7 @@ export function validateFields(validProduct) {
             }
 
             if ($("#" + fieldId)[0].getAttribute('optional') == 'true') {
-                    continue;
+                continue;
             }
 
             if (validProduct) {
@@ -103,11 +144,30 @@ export function validateFields(validProduct) {
     }
 
     if (fieldError) {
-        $('.data-fields .hasError').removeClass('hasError');
-        $('.text-atention-error').remove();
+        clearAllErrors();
     }
 
     return hasError;
+}
+
+export function clearAllErrors() {
+    $('.data-fields .hasError').removeClass('hasError');
+    $('.text-atention-error').remove();
+}
+
+export function getNameFields() {
+    const listName = $('#form-fields > .separator >');
+    let fields = new Array();
+
+    for (let i = 0; i < listName.length; i++) {
+        if (listName[i].className == 'text-atention-error') {
+            continue;
+        }
+
+        fields.push(listName[i]);
+    }
+
+    return fields;
 }
 
 function validateHasEmptyOrValue(val) {
@@ -180,4 +240,53 @@ export function resetGrid() {
     if (footer)
             footer.children[1].textContent = 'R$ 0,00';
             footer.value = 0;
+}
+
+export function capitalizeFirstLetter(char) {
+    return char.charAt(0).toUpperCase() + char.slice(1);
+}
+
+export function hasEditingItem(id) {
+    let idEdit = document.forms['form'].getAttribute('data-id');
+
+    if (idEdit == id) {
+        return false;
+    } else {
+        return (idEdit != null && idEdit != undefined && idEdit.length);
+    }
+}
+
+export function populateFormByEdit(entity) {
+    let form = document.forms['form'];
+
+    for (let field in entity) {
+
+        if (field == 'id') {
+            form.setAttribute('data-id', entity[field]);
+            continue;
+        }
+
+        let input = form[field];
+
+        if (field == 'funcao' || field == 'local' || field == 'tipoMedida') {
+            selectReturnValue(entity[field]);
+        }
+
+        input.value = entity[field];
+    }
+}
+
+export function selectReturnValue(opt) {
+    let optSelected = $(".custom-select > [selected='selected'] ")[0];
+    
+    if (optSelected) {
+        if (optSelected.hasAttributes('selected')) {
+                optSelected.removeAttribute('selected');
+        }
+    }
+
+    let customSelect = $(".custom-select > [value='" + opt + "']")[0];
+
+    if (customSelect)
+            customSelect.setAttribute('selected', 'selected');
 }

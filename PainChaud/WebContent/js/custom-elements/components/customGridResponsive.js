@@ -1,6 +1,7 @@
-import { formatCharacters, getPageSelected, removeCurrencyFormat } from '../Utils.js';
-import { searchItemByValue } from './functions/gridFunction.js';
+import { capitalizeFirstLetter, clearAllErrors, formatCharacters, getPageSelected, hasEditingItem, populateFormByEdit, removeCurrencyFormat } from '../Utils.js';
+import { getDescriptionEnum, searchItemByValue } from './functions/gridFunction.js';
 import Factory from '../interface/PageFactory.js';
+import { newDialog } from './functions/dialogFunction.js';
 
 var valueFooter;
 
@@ -9,10 +10,10 @@ export default class createGrid {
     static columnsPreDefine = {
         'Name': 'string',
         'Email': 'email',
-        'Fun\u00e7\u00e3o': [ 'Selecione', 'Caixa', 'Balc\u00e3o' ],
+        'Funcao': [ 'Selecione', 'Caixa', 'Balcao' ],
         'Senha': 'password',
         'Confirmar Senha': 'password',
-        'Ação': 'Action'
+        'Action': 'Action'
     }
 
     constructor() {
@@ -123,7 +124,7 @@ export default class createGrid {
         byCol.className = 'custom-select';
 
         for (let row in col) {
-            if (col[row] == 'password' || row == 'Ação') {
+            if (col[row] == 'password' || row == 'Action') {
                 continue
             }
 
@@ -172,18 +173,15 @@ export default class createGrid {
         return gHeader;
     }
 
-    createGridBody(val, col, fieldEdit) {
-        let valueLine = val.values;
-        let actionLine = val.action;
-
+    createGridBody(value, col, fieldEdit) {
         let line = document.createElement('div');
         line.className = 'line-grid-custom';
 
         let fieldsInAttribute = {};
-        this.createLine(line, valueLine, col, fieldEdit, fieldsInAttribute);
+        this.createLine(line, value, col, fieldEdit, fieldsInAttribute);
         line.setAttribute('fields-value', JSON.stringify(fieldsInAttribute));
 
-        this.createIconAction(line, actionLine);
+        this.createIconAction(line, Factory.getPage(getPageSelected()).getAction());
         
         return line;
     }
@@ -192,64 +190,57 @@ export default class createGrid {
         let oldValue;
         let qtd;
 
-        for (let l in valueLine) {
+        for (let valCol in valueLine) {
+
+            let formatName = valCol;
+
+            if (valCol != 'id')
+                formatName = capitalizeFirstLetter(valCol);
+
             if (col) {
-                if (!col[l]) {
+                if (!col[formatName]) {
                     continue
                 }
             }
 
-            if (l == 'id') {
-                let lineId;
-
-                if (valueLine[l] == 'new') {
-                    let id = 0
-
-                    while (!lineId) {
-                        let line = $("#line-grid-new-" + id);
-
-                        if (!line.length) {
-                            lineId = 'line-grid-new-' + id;
-
-                            break;
-                        }
-                        id++;
-                    }
-                } else {
-                    lineId = 'line-grid-' + valueLine[l];
-                }
-
-                insertLine.id = lineId;
+            if (valCol == 'id') {
+                insertLine.id = 'line-grid-' + valueLine[valCol];
                 continue;
             }
 
             let separatorLine = document.createElement('div');
-            separatorLine.className = 'separator-grid ' + valueLine[l].toString().toLowerCase().replaceAll(' ', '-');
-            separatorLine.id = l;
+            separatorLine.className = 'separator-grid ' + valueLine[valCol].toString().toLowerCase().replaceAll(' ', '-');
+            separatorLine.id = valCol;
 
-            switch (l) {
+            switch (formatName) {
                 case 'Quantidade': 
-                    qtd = valueLine[l];
+                    qtd = valueLine[valCol];
                 break;
 
                 case 'Valor':
-                    let valFloat =  removeCurrencyFormat(valueLine[l]);
+                    let valFloat =  removeCurrencyFormat(valueLine[valCol]);
                     oldValue = valFloat;
                     separatorLine.value = valFloat.toFixed(2);
     
                     if (qtd) {
-                        valueLine[l] = 'R$ ' + (valFloat * qtd).toFixed(2);
+                        valueLine[valCol] = 'R$ ' + (valFloat * qtd).toFixed(2);
                     }
     
                     valueFooter = (valueFooter + valFloat); 
                 break;
+
+                case 'Funcao':
+                case 'Local':
+                case 'TipoMedida':
+                    valueLine[valCol] = getDescriptionEnum(formatName, valueLine[valCol]);
+                break;
             }
 
-            if (fieldEdit?.includes(l)) {
+            if (fieldEdit?.includes(valCol)) {
                 let itemField = document.createElement('input');
-                itemField.value = Number.parseInt(valueLine[l]);
+                itemField.value = Number.parseInt(valueLine[valCol]);
                 itemField.className = 'qtd-field-item';
-                itemField.id = 'qtd-item-' + l  ;
+                itemField.id = 'qtd-item-' + valCol  ;
                 itemField.title = 'Quantidade';
                 itemField.type = 'Number';
                 itemField.max = '999';
@@ -285,22 +276,23 @@ export default class createGrid {
                 
                 separatorLine.appendChild(itemField);
             } else {
+                
                 let pLine = document.createElement('p');
-                pLine.textContent = valueLine[l];
+                pLine.textContent = valueLine[valCol];
                 separatorLine.appendChild(pLine);
             }
             
-            switch (l) {
+            switch (valCol) {
                 case 'Valor':
-                    fieldsInAttribute[l] = oldValue;
+                    fieldsInAttribute[formatName] = oldValue;
                 break;
 
                 case 'Produto':
-                    fieldsInAttribute[l] = $('.custom-select #' + formatCharacters(valueLine[l]))[0].getAttribute('field-id');
+                    fieldsInAttribute[formatName] = $('.custom-select #' + formatCharacters(valueLine[l]))[0].getAttribute('field-id');
                 break;
 
                 default:
-                    fieldsInAttribute[l] = valueLine[l];
+                    fieldsInAttribute[formatName] = valueLine[valCol];
                 break;
             }
             insertLine.appendChild(separatorLine);
@@ -329,6 +321,7 @@ export default class createGrid {
                     case 'Deletar':
                         action.onclick = function() {
                             const line = this.parentElement.parentElement;
+                            clearAllErrors();
         
                             if (Factory.getPage(getPageSelected()).isDelete(line.id.replace("line-grid-", ""))) {
                                 let valLine = $("#" + line.id + " #Valor");
@@ -348,16 +341,27 @@ export default class createGrid {
 
                     case 'Editar':
                         action.onclick = function() {
+                            let line = this.parentElement.parentElement;
+                            let lineId = line.id.replace("line-grid-", "");
+                            clearAllErrors();
+
                             if (getPageSelected('inside') == 'crud') {
                                 $('custom-container-view').hide();
                             
                                 let inside = document.createElement('custom-inside-crud');
                                 inside.setAttribute('edit', true);
-                                inside.setAttribute('lineId', $("#" + this.parentElement.parentElement.id)[0].id.replace('line-grid-', ''));
+                                inside.setAttribute('lineId', lineId);
                                 
                                 document.querySelector('main').appendChild(inside);
                             } else {
-                                alert('findById insert in fields');
+                                if (!hasEditingItem()) {
+                                    populateFormByEdit(Factory.getPage(getPageSelected()).isEdit(lineId)[0]);
+                                } else {
+                                    if (hasEditingItem(lineId)) {
+                                        document.forms['form'].setAttribute('data-id', lineId);
+                                        populateFormByEdit(Factory.getPage(getPageSelected()).isEdit(lineId)[0]);
+                                    }
+                                }
                             }
                         }
                     break;
@@ -365,6 +369,7 @@ export default class createGrid {
                     case 'Visualizar':
                         action.onclick = function() {
                             $('custom-container-view').hide();
+                            clearAllErrors();
 
                             let inside = document.createElement('custom-inside-crud');
                             inside.setAttribute('return', true);

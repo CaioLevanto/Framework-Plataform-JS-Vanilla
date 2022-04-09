@@ -98,6 +98,12 @@ class customDialog extends HTMLElement {
         let btnConfirm = document.createElement('custom-button');
         btnConfirm.setAttribute('type', 'submit');
         btnConfirm.title = 'Confirmar';
+        btnConfirm.addEventListener('click', function() {
+            let forms = document.forms['form'];
+
+            if (forms.getAttribute('data-id') != '')
+                    forms.setAttribute('data-id', '');
+        });
         btnConfirm.id = 'confirm';
         actionDialog.appendChild(btnConfirm);
 
@@ -135,9 +141,16 @@ class customDialog extends HTMLElement {
         btnYes.setAttribute('clear-grid', document.forms['form'].getAttribute('clear-grid'));
         btnYes.setAttribute('type', 'reset');
         btnYes.addEventListener('click', function() {
+            let forms = document.forms['form'];
+
+            if (forms.getAttribute('data-id') != '')
+                    forms.setAttribute('data-id', '');
+
             closeDialog();
 
-            actionReturn(getPageSelected('inside'), getPageSelected('custom-type'));
+            if (getPageSelected('inside') == 'crud') {
+                    actionReturn(getPageSelected('inside'), getPageSelected('custom-type'));
+            }
         });
         btnYes.title = 'Sim';
         btnYes.id = 'sim';

@@ -4,32 +4,29 @@ const pathName = 'product';
 export function findAll(id) {
     return [ 
         {
-            "values": { 
-                'id': 0, 
-                'Descricao': "Coxinha", 
-                'Local': "Balcao",
-                'Tipo': 'Unidade',
-                'Valor': 'R$ 2,50' 
-            },
-            "action": [
-                "Editar", 
-                "Deletar"
-            ]
+            'id': 0, 
+            'Descricao': "Coxinha", 
+            'Local': "Balcao",
+            'Tipo': 'Unidade',
+            'Valor': 'R$ 2,50'
         },
         {
-            "values": { 
-                'id': 1, 
-                'Descricao': "Pao", 
-                'Local': "Balcao",
-                'Tipo': 'Peso',
-                'Valor': 'R$ 4,50' 
-            },
-            "action": [
-                "Editar", 
-                "Deletar"
-            ]
+            'id': 1, 
+            'Descricao': "Pao", 
+            'Local': "Balcao",
+            'Tipo': 'Peso',
+            'Valor': 'R$ 4,50'   
         }
     ];
+}
+
+export function getAction() {
+    return doAjax({
+        pathname: pathName,
+        async: false,
+        type: 'GET',
+        url: 'actionCrud'
+    });;
 }
 
 export function isDelete(id) {
@@ -44,6 +41,6 @@ export function isInsert(obj) {
     return true;
 }
 
-export function findById(id) {
+export function isEdit(id) {
     return true;
 }

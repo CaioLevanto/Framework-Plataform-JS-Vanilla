@@ -37,24 +37,14 @@ export function getHeaderView() {
 export function findAll(id) {
     return [ 
         {
-            "values": { 
-                'id': 0, 
-                'Data da venda': "10/10/2022", 
-                'Valor total': "R$ 18,90"
-            },
-            'action': [
-                "Visualizar"
-            ]
+            'id': 0, 
+            'Data da venda': "10/10/2022", 
+            'Valor total': "R$ 18,90"
         },
         {
-            "values": { 
-                'id': 1, 
-                'Data da venda': "11/10/2022", 
-                'Valor total': "R$ 29,90"
-            },
-            'action': [
-                "Visualizar"
-            ]
+            'id': 1, 
+            'Data da venda': "11/10/2022", 
+            'Valor total': "R$ 29,90"
         }
     ];
 }
@@ -94,7 +84,7 @@ export function isUpdate(obj) {
     return true;
 }
 
-export function findById(id) {
+export function isEdit(id) {
     return true;
 }
 

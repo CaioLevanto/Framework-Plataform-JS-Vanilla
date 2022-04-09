@@ -1,4 +1,4 @@
-import { findAll, findById, isDelete, isInsert, isUpdate } from './functions/productFunction.js';
+import { findAll, isEdit, getAction, isDelete, isInsert, isUpdate } from './functions/productFunction.js';
 import Grid from '../../components/customGridResponsive.js';
 import * as Field from '../../components/customFields.js';
 import InterfacePages from '../../interface/InterfacePages.js';
@@ -16,7 +16,7 @@ export default class ProductCrudPage extends InterfacePages {
         'Local': [ 'Balcao', 'Embalado' ],
         'Tipo': [ 'Unidade', 'Peso' ],
         'Valor': 'money',
-        'Ação': 'Action'
+        'Action': 'Action'
     }
 
     getFields() {
@@ -35,7 +35,9 @@ export default class ProductCrudPage extends InterfacePages {
         });
     }
 
-    
+    getAction() {
+        return getAction();
+    }
 
     isDelete(id) {
         return isDelete(id);
@@ -49,8 +51,8 @@ export default class ProductCrudPage extends InterfacePages {
         return isInsert(obj);
     }
 
-    findById(id) {
-        return findById(id);
+    isEdit(id) {
+        return isEdit(id);
     }
 
 };

@@ -12,8 +12,7 @@ var routes = [ [
         "icon": "fa-solid fa-cash-register", 
         "url": "Sale", 
         "inside": "crud", 
-        "type": "view",
-        "save": "grid"
+        "type": "view"
     },
     {
         "name": "Produtos", 

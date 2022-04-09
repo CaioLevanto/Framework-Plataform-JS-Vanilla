@@ -33,24 +33,23 @@ export function getHeaderView() {
 export function findAll(id) {
     return [ 
         {
-            "values": { 
-                'id': 0, 
-                'Identificacao da comanda': 0
-            },
-            "action": [
-                "Editar"
-            ]
+            'id': 0, 
+            'Identificacao da comanda': 0
         },
         {
-            "values": { 
-                'id': 1, 
-                'Identificacao da comanda': 1
-            },
-            "action": [
-                "Editar"
-            ]
+            'id': 1, 
+            'Identificacao da comanda': 1
         }
     ];
+}
+
+export function getAction() {
+    return doAjax({
+        pathname: pathName,
+        async: false,
+        type: 'GET',
+        url: 'actionView'
+    });
 }
 
 export function isDelete(id) {
@@ -61,7 +60,7 @@ export function isUpdate(obj) {
     return true;
 }
 
-export function findById(id) {
+export function isEdit(id) {
     return true;
 }
 

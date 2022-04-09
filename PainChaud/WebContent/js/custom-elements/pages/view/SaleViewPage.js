@@ -1,4 +1,4 @@
-import { findAll, findById, findSearch, getHeaderView, isDelete, isUpdate } from './functions/saleFunction.js';
+import { findAll, isEdit, findSearch, getHeaderView, isDelete, isUpdate } from './functions/saleFunction.js';
 import Grid from '../../components/customGridResponsive.js';
 import InterfacePages from '../../interface/InterfacePages.js';
 import * as Utils from '../../Utils.js';
@@ -14,7 +14,7 @@ export default class SaleViewPage extends InterfacePages {
     static fieldView = {
         'Data da venda': 'string',
         'Valor total': 'Number',
-        'Ação': 'Action'
+        'Action': 'Action'
     }
 
     static fieldsCrud = {
@@ -25,7 +25,7 @@ export default class SaleViewPage extends InterfacePages {
         'Data da venda': 'string',
         'Valor': 'string',
 
-        'Ação': 'Action'
+        'Action': 'Action'
     }
 
     getHeader() {
@@ -51,8 +51,8 @@ export default class SaleViewPage extends InterfacePages {
         return isUpdate(obj);
     }
 
-    findById(id) {
-        return findById(id);
+    isEdit(id) {
+        return isEdit(id);
     }
 
     findSearch(value, column) {

@@ -16,7 +16,7 @@ export default class SaleInsideViewPage extends InterfacePages {
         'Produto': [ "Pao", "Coxinha", "Risoles", "Bolo" ],
         'Quantidade': 'Number,Add',
         'Valor': 'string',
-        'Ação': 'Action'
+        'Action': 'Action'
     }
 
     getFields() {
@@ -44,7 +44,7 @@ export default class SaleInsideViewPage extends InterfacePages {
         return true;
     }
 
-    findById(id) {
+    isEdit(id) {
         return true;
     }
 

@@ -20,6 +20,10 @@ export default class InterfacePages {
         throw new Error('Not implemented Grid');
     }
 
+    getAction() {
+        throw new Error('Not implemented Grid');
+    }
+
     getReport() {
         throw new Error('Not implemented Report');
     }
@@ -36,7 +40,7 @@ export default class InterfacePages {
         throw new Error('Not implemented function Update by option');
     }
 
-    findById(id) {
+    isEdit(id) {
         throw new Error('Not implemented function Find by Id');
     }
 

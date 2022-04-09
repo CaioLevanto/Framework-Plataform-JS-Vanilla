@@ -1,7 +1,6 @@
+import { resetAllFields, returnSubmit, validateCancel, validateSubmit } from './functions/fieldsFunction.js';
+import { formatCharacters, getPageSelected, selectReturnValue } from '../Utils.js';
 import { actionReturn } from './customActionForm.js';
-import { formatCharacters, getPageSelected } from '../Utils.js';
-import { newDialog } from './functions/dialogFunction.js';
-import { returnSubmit, validateCancel, validateSubmit } from './functions/fieldsFunction.js';
 
 export function createElementsFields({col, hiddenField, isReturn, hasInside, clearGrid}) {
     let sectionGrid = document.createElement('div');
@@ -21,22 +20,23 @@ export function createElementsFields({col, hiddenField, isReturn, hasInside, cle
         contentBtn.className = 'content-action-return';
 
         let btnReturn = document.createElement('custom-button');
-        btnReturn.className = 'custom-buttom-return';
+        btnReturn.id = 'custom-buttom-return';
         btnReturn.title = 'Voltar';
-        btnReturn.id = 1;
         btnReturn.setAttribute('icon', 'fa-solid fa-turn-down-left');
         btnReturn.addEventListener('click', function() {
-            actionReturn(getPageSelected('inside'), 
-                getPageSelected('custom-type'));
+            actionReturn(getPageSelected('inside'), getPageSelected('custom-type'));
         });
         contentBtn.appendChild(btnReturn);
     } else {
         form.submit = function() {
             returnSubmit();
         }
+        form.reset = function() {
+            resetAllFields();
+        }
         
         for (let obj in col) {
-            if (obj == 'Ação') {
+            if (obj == 'Action') {
                 continue
             }
     
@@ -50,7 +50,11 @@ export function createElementsFields({col, hiddenField, isReturn, hasInside, cle
             contentGrid.className = 'separator';
             let fieldType = col[obj];
             let fieldInput;
-    
+            
+            if (fieldType.includes(',')) {
+                    fieldType = new Array(fieldType.split(','))[0];
+            }            
+
             if (Array.isArray(fieldType)) {
                 let labelSelect = document.createElement('label');
                 labelSelect.className = 'custom-label';
@@ -60,15 +64,7 @@ export function createElementsFields({col, hiddenField, isReturn, hasInside, cle
                 fieldInput = document.createElement('select');
                 fieldInput.className = 'custom-select';
                 fieldInput.addEventListener("change", function() {
-                    let optSelected = $(".custom-select > [selected='selected'] ")[0];
-    
-                    if (optSelected) {
-                        if (optSelected.hasAttributes('selected')) {
-                                optSelected.removeAttribute('selected');
-                        }
-                    }
-    
-                    $(".custom-select > [value='" + this.value + "']")[0].setAttribute('selected', 'selected');
+                    selectReturnValue(this.value);
                 });
     
                 let nameSelect = formatCharacters(obj);
@@ -137,6 +133,7 @@ export function createElementsFields({col, hiddenField, isReturn, hasInside, cle
         btnSave.addEventListener('click', function() {
             validateSubmit();
         });
+        btnSave.setAttribute('clear-grid', !!clearGrid);
         btnSave.setAttribute('form', 'form');
         btnSave.setAttribute('icon', 'fa-solid fa-floppy-disk');
         contentBtn.appendChild(btnSave);

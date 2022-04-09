@@ -1,4 +1,4 @@
-import { getHeaderView, findAll, isDelete, isUpdate, findById, findSearch } from './functions/comandaFunction.js';
+import { getHeaderView, findAll, isDelete, isUpdate, isEdit, findSearch, getAction } from './functions/comandaFunction.js';
 import InterfacePages from '../../interface/InterfacePages.js';
 import Grid from '../../components/customGridResponsive.js';
 
@@ -12,7 +12,7 @@ export default class ComandaViewPage extends InterfacePages {
 
     static fields = {
         'Identificacao da comanda': 'string',
-        'Ação': 'Action'
+        'Action': 'Action'
     }
 
     getHeader() {
@@ -29,6 +29,10 @@ export default class ComandaViewPage extends InterfacePages {
         });
     }
 
+    getAction() {
+        return getAction();
+    }
+
     isDelete(id) {
         return isDelete();
     }
@@ -37,8 +41,8 @@ export default class ComandaViewPage extends InterfacePages {
         return isUpdate();
     }
 
-    findById(id) {
-        return findById();
+    isEdit(id) {
+        return isEdit();
     }
     
     findSearch(value, column) {

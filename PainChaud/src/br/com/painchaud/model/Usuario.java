@@ -2,29 +2,40 @@ package br.com.painchaud.model;
 
 import java.io.Serializable;
 
+import javax.validation.Valid;
+import javax.validation.constraints.AssertFalse;
+import javax.validation.constraints.AssertTrue;
+
 import br.com.painchaud.enumtype.FuncaoEnum;
 
 public class Usuario implements Serializable {
 	
+	@AssertFalse
 	private static final long serialVersionUID = 1L;
+	
+	@AssertTrue
 	private int id;
+	
 	private String nome;
+	
 	private String email;
-	private FuncaoEnum funcao;
+	
+	@Valid
+	private int funcao;
+	
 	private String senha;
 
 	public Usuario() {
 		super();
 	}
 	
-	public Usuario(int id, String nome, String email, String senha, FuncaoEnum funcao) {
+	public Usuario(String nome, String email, Integer funcao, String senha) {
 		super();
 		
-		this.id = id;
 		this.nome = nome;
 		this.email = email;
-		this.senha = senha;
 		this.funcao = funcao;
+		this.senha = senha;
 	}
 
 	public int getId() {
@@ -59,11 +70,15 @@ public class Usuario implements Serializable {
 		this.senha = senha;
 	}
 
-	public String getFuncao() {
-		return funcao.getDescricao();
+	public Integer getFuncao() {
+		return funcao;
+	}
+	
+	public FuncaoEnum getFuncaoEnum() {
+		return FuncaoEnum.values()[funcao];
 	}
 
-	public void setFuncao(FuncaoEnum funcao) {
+	public void setFuncao(int funcao) {
 		this.funcao = funcao;
 	}
 	

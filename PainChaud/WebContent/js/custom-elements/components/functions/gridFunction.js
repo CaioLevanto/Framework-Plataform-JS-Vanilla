@@ -1,3 +1,5 @@
+import { doAjax } from "../../Utils.js";
+
 export function searchItemByValue(value) {
     if (value != null && value != "") {
         let val = $('#container-grid #' + $('#search-grid > .custom-select').val()).children();
@@ -25,4 +27,18 @@ export function searchItemByValue(value) {
     } else {
         $('.line-grid-custom.hidden').removeClass('hidden');
     }
+}
+
+export function getDescriptionEnum(field, index) {
+    let fieldEnum = new Object();
+    fieldEnum.field = field;
+    fieldEnum.index = index;
+
+    return doAjax({
+        async: false,
+        pathname: 'utils',
+        type: 'POST',
+        url: 'enum',
+        data: JSON.stringify(fieldEnum)
+    })
 }

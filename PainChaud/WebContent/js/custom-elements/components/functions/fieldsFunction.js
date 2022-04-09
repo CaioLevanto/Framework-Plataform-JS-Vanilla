@@ -1,6 +1,7 @@
-import { getPageSelected, resetGrid, validateFields, validateHasItemGrid } from "../../Utils.js";
+import { getNameFields, getPageSelected, resetGrid, selectReturnValue, validateFields, validateHasItemGrid } from "../../Utils.js";
 import { actionOnSubmitFields, actionOnSubmitGrid, actionReturn } from "../customActionForm.js";
-import { closeDialog, newDialog } from "./dialogFunction.js";
+import { closeDialog, hasDialog, newDialog } from "./dialogFunction.js";
+import Factory from "../../interface/PageFactory.js";
 
 export function validateSubmit() {
     if (getPageSelected('save-type') == 'grid') {
@@ -33,33 +34,76 @@ export function validateCancel() {
 }
 
 export function returnSubmit() {
-    if (getPageSelected('save-type') == 'fields') {
-        if (actionOnSubmitFields()) {
-            closeDialog();
+    switch (getPageSelected('save-type')) {
+        case 'fields':
+            saveFields();
+        break
 
-            if (getPageSelected('inside') == 'crud') {
-                actionReturn(getPageSelected('inside'), getPageSelected('custom-type'));
-            } else {
-                resetGrid();
-            }
+        case 'grid':
+            saveGrid();
+        break;
+    }
+}
+
+function saveFields() {
+    if (actionOnSubmitFields()) {
+        closeDialog();
+        resetForm();
+        
+        if (getPageSelected('inside') == 'crud') {
+            actionReturn(getPageSelected('inside'), getPageSelected('custom-type'));
         } else {
+            $('#data-grid').remove();
+            document.getElementById('section-custom-right').appendChild(Factory.getPage(getPageSelected()).getGrid()); 
+        }
+    } else {
+        if (hasDialog()) {
             closeDialog();
 
             newDialog('message', 'Nao foi possivel salvar a ' + getPageSelected('title').toLowerCase());
         }
-    } else {
-        if (actionOnSubmitGrid()) {
-            closeDialog();
+    }
+}
 
-            if (getPageSelected('inside') == 'crud') {
-                actionReturn(getPageSelected('inside'), getPageSelected('custom-type'));
-            } else {
+function saveGrid() {
+    if (actionOnSubmitGrid()) {
+        closeDialog();
+        resetForm();
+
+        if (getPageSelected('inside') == 'crud') {
+            actionReturn(getPageSelected('inside'), getPageSelected('custom-type'));
+        } else {
+            if (document.forms['form'].getAttribute('clear-grid') == 'true') {
                 resetGrid();
             }
-        } else {
+        }
+    } else {
+        if (hasDialog()) {
             closeDialog();
 
             newDialog('message', 'Nao foi possivel salvar a ' + getPageSelected('title').toLowerCase());
+        }
+    }
+}
+
+function resetForm() {
+    document.forms['form'].reset();
+    $(".custom-select > option[selected='selected']")[0].removeAttribute('selected');
+    $(".custom-select > option[value='0']")[0].setAttribute('selected', 'selected');
+    $(".custom-select").val('0');
+}
+
+export function resetAllFields() {
+    let forms = document.forms['form'];
+    let listFields = getNameFields();
+
+    for (let i in listFields) {
+        let fields = listFields[i];
+
+        if (fields.className == 'custom-select') {
+            selectReturnValue(0);
+        } else {
+            forms[fields.id].value = '';
         }
     }
 }

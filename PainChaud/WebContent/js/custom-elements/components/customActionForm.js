@@ -37,15 +37,25 @@ export function actionOnSubmitGrid() {
 
 function createObjectForm(list) {
     let form = document.forms['form'];
+    let idEdit = form.getAttribute('data-id');
     let obj = {};
+
+    if (idEdit != '')
+        obj['id'] = idEdit;
 
     for (let i = 0; i < list.length; i++) {
         let line = list[i];
 
-        obj[line.title] = form[line.id].value;
+        let value = form[line.id].value;
+
+        if (form[line.id].className.includes('select')) {
+            obj[line.title.toLowerCase()] = parseInt(value);
+        } else {
+            obj[line.title.toLowerCase()] = value;
+        }
     }
 
-    console.log(JSON.stringify(obj));
+    return JSON.stringify(obj);
 }
 
 export function addItemGrid(obj, listActions) {

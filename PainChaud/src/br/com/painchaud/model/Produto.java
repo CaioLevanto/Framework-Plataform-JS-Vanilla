@@ -24,8 +24,8 @@ public class Produto implements Serializable {
 		
 		this.id = id;
 		this.descricao = descricao;
-		this.local = local;
-		this.tipoMedida = tipoMedida;
+		this.local = LocalEnum.values()[local];
+		this.tipoMedida = tipoMedidaEnum.values()[tipoMedida];
 		this.valor = valor;
 	}
 

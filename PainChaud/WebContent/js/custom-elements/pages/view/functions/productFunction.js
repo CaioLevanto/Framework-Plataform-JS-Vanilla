@@ -10,7 +10,7 @@ export function getHeaderView(fields) {
     byCol.className = 'custom-select';
 
     for (let row in fields) {
-        if (fields[row] == 'password' || row == 'Ação') {
+        if (fields[row] == 'password' || row == 'Action') {
             continue
         }
 
@@ -29,17 +29,21 @@ export function getHeaderView(fields) {
 }
 
 export function findAll(id) {
-    return [ 
-        {
-            "values": { 
-                'id': 0, 
-                'Descricao': "Coxinha", 
-                'Local': "Balcao", 
-                'Tipo': 'Unidade',
-                'Valor': 'R$ 2,50' 
-            }
-        }
-    ];
+    return doAjax({
+        pathname: pathName,
+        async: false,
+        type: 'GET',
+        url: 'findAll'
+    });
+}
+
+export function getAction() {
+    return doAjax({
+        pathname: pathName,
+        async: false,
+        type: 'GET',
+        url: 'actionView'
+    });
 }
 
 export function isDelete(id) {
@@ -50,7 +54,7 @@ export function isUpdate(obj) {
     return true;
 }
 
-export function findById(id) {
+export function isEdit(id) {
     return true;
 }
 
